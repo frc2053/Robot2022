@@ -4,28 +4,34 @@
 
 #pragma once
 
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
-#include "commands/ExampleCommand.h"
-#include "subsystems/ExampleSubsystem.h"
+#include "commands/auto/AroundTheField.h"
+#include "Constants.h"
+#include "str/Logger.h"
+#include <frc/filter/SlewRateLimiter.h>
+#include "subsystems/DrivetrainSubsystem.h"
 
-/**
- * This class is where the bulk of the robot should be declared.  Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls).  Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
- */
 class RobotContainer {
- public:
-  RobotContainer();
+   public:
+    RobotContainer();
+    frc2::Command* GetAutonomousCommand();
+    const DrivetrainSubsystem& GetRobotDriveSubsystem() const;
 
-  frc2::Command* GetAutonomousCommand();
+   private:
+    void ConfigureButtonBindings();
 
- private:
-  // The robot's subsystems and commands are defined here...
-  ExampleSubsystem m_subsystem;
-  ExampleCommand m_autonomousCommand;
+    DrivetrainSubsystem drivetrainSubsystem;
 
-  void ConfigureButtonBindings();
+    frc::SendableChooser<frc2::Command*> m_chooser;
+    AroundTheField aroundTheFieldAuto{&drivetrainSubsystem};
+ 
+    frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
+    frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};
+
+    frc::XboxController m_driverController{str::oi::DRIVER_CONTROLLER_PORT};
+
+    str::Logger logger;
 };
