@@ -13,6 +13,7 @@
 #include "str/Logger.h"
 #include <frc/filter/SlewRateLimiter.h>
 #include "subsystems/DrivetrainSubsystem.h"
+#include "subsystems/VisionSubsystem.h"
 
 class RobotContainer {
    public:
@@ -24,6 +25,7 @@ class RobotContainer {
     void ConfigureButtonBindings();
 
     DrivetrainSubsystem drivetrainSubsystem;
+    VisionSubsystem visionSubsystem{&drivetrainSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     AroundTheField aroundTheFieldAuto{&drivetrainSubsystem};

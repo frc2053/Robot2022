@@ -54,11 +54,6 @@ void DrivetrainSubsystem::Periodic() {
                          {leftEncoderVelocity, rightEncoderVelocity},
                          leftEncoderDistance, rightEncoderDistance);
 
-    // poseEstimator.AddVisionMeasurement(
-    //     ExampleVisionSensor::GetEstimatedGlobalPose(
-    //         poseEstimator.GetEstimatedPosition()),
-    //     frc::Timer::GetFPGATimestamp() - 0.3_s);
-
     odom.Update(currentGyroYaw, leftEncoderDistance, rightEncoderDistance);
 
     fieldSim.SetRobotPose(odom.GetPose());
@@ -136,6 +131,10 @@ frc::Pose2d DrivetrainSubsystem::GetPose() {
 
 units::degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
     return gyro.GetYawRate();
+}
+
+void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose, units::millisecond_t latency) {
+    poseEstimator.AddVisionMeasurement(visionPose, frc::Timer::GetFPGATimestamp() - latency);
 }
 
 frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {

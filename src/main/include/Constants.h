@@ -64,4 +64,19 @@ static constexpr auto WHEEL_DIAMETER = 6_in;
 static constexpr double DRIVEBASE_GEARBOX_RATIO = 8.0;
 static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::CIM(2);
 }  // namespace physical_dims
+
+namespace vision_vars {
+static constexpr units::meter_t CAMERA_HEIGHT = 3_ft;
+static constexpr units::meter_t TARGET_HEIGHT_ABOVE_GROUND = 8_ft;
+static constexpr units::meter_t TARGET_HEIGHT = 5_in;
+static constexpr units::meter_t TARGET_WIDTH = 48.447917_in;
+static constexpr units::degree_t CAMERA_PITCH = 20_deg;
+static frc::Pose2d TARGET_POSE = frc::Pose2d(27_ft, 13.5_ft, 0_deg);
+static const frc::Transform2d CAMERA_TO_ROBOT = frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(0_deg));
+static constexpr units::degree_t CAMERA_DIAG_FOV = 74.8_deg;
+static constexpr units::meter_t MAX_LED_RANGE = 20_m;
+static constexpr int GLOWORM_RES_X = 640;
+static constexpr int GLOWORM_REX_Y = 480;
+static constexpr double MIN_TARGET_AREA = 10; //square pixels
+}  // namespace vision_vars
 }  // namespace str

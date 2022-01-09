@@ -12,11 +12,45 @@
     },
     "windows": {
       "/SmartDashboard/Field": {
+        "bottom": 900,
+        "height": 8.229599952697754,
+        "image": "C:\\Users\\willi\\dev\\Robot2022\\2022-field.png",
+        "left": 74,
+        "right": 1774,
+        "top": 50,
+        "traj0": {
+          "arrows": false,
+          "color": [
+            1.0,
+            0.0,
+            0.7352943420410156,
+            255.0
+          ],
+          "style": "Line"
+        },
+        "traj1": {
+          "arrows": false,
+          "color": [
+            0.9411764144897461,
+            0.0,
+            1.0,
+            255.0
+          ],
+          "style": "Line"
+        },
+        "width": 16.459199905395508,
         "window": {
           "visible": true
         }
       },
       "/SmartDashboard/Pose Estimator Field": {
+        "bottom": 900,
+        "height": 8.229599952697754,
+        "image": "C:\\Users\\willi\\dev\\Robot2022\\2022-field.png",
+        "left": 74,
+        "right": 1774,
+        "top": 50,
+        "width": 16.459199905395508,
         "window": {
           "visible": true
         }
@@ -26,6 +60,29 @@
           "visible": true
         }
       }
+    }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      "open": true
+    },
+    "SmartDashboard": {
+      "Field": {
+        "open": true
+      },
+      "Pose Estimator Field": {
+        "open": true
+      },
+      "SendableChooser[0]": {
+        "open": true
+      },
+      "open": true
+    },
+    "photonvision": {
+      "gloworm-cam-sim": {
+        "open": true
+      },
+      "open": true
     }
   }
 }
