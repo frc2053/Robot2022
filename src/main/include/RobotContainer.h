@@ -8,7 +8,7 @@
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
-#include "commands/auto/AroundTheField.h"
+#include "commands/auto/FourBallAuto.h"
 #include "Constants.h"
 #include "str/Logger.h"
 #include <frc/filter/SlewRateLimiter.h>
@@ -28,7 +28,7 @@ class RobotContainer {
     VisionSubsystem visionSubsystem{&drivetrainSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    AroundTheField aroundTheFieldAuto{&drivetrainSubsystem};
+    FourBallAuto fourBallAuto{&drivetrainSubsystem};
  
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};

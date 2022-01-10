@@ -9,7 +9,6 @@
 #include "str/Units.h"
 #include "subsystems/DrivetrainSubsystem.h"
 #include <iostream>
-#include "str/ExampleVisionSensor.h"
 
 DrivetrainSubsystem::DrivetrainSubsystem() {
     gyro.Calibrate();
@@ -135,8 +134,8 @@ units::degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
 
 void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose,
                                                units::second_t latency) {
-    poseEstimator.AddVisionMeasurement(
-        visionPose, frc::Timer::GetFPGATimestamp() - latency);
+    //poseEstimator.AddVisionMeasurement(
+    //    visionPose, frc::Timer::GetFPGATimestamp() - latency);
 }
 
 frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {

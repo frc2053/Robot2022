@@ -20,13 +20,13 @@ class FollowPath
                units::meters_per_second_squared_t maxAccel,
                const frc::Pose2d& startPt,
                const std::vector<frc::Translation2d>& middlePts,
-               const frc::Pose2d& endPt, DrivetrainSubsystem* swerve);
+               const frc::Pose2d& endPt, bool isReverse, DrivetrainSubsystem* swerve);
     units::meters_per_second_t m_maxSpeed;
     units::meters_per_second_squared_t m_maxAccel;
     const frc::Pose2d& m_startPt;
     const std::vector<frc::Translation2d>& m_middlePts;
     const frc::Pose2d& m_endPt;
-
+    bool reverseDriving = false;
    private:
     DrivetrainSubsystem* m_drivetrain;
 };

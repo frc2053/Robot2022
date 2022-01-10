@@ -14,8 +14,8 @@
 namespace str {
 
 namespace auto_consts {
-static constexpr auto K_MAX_SPEED = 3_mps;
-static constexpr auto K_MAX_ACCEL = 3_mps_sq;
+static constexpr auto K_MAX_SPEED = 15.9_fps;
+static constexpr auto K_MAX_ACCEL = 20_fps_sq;
 static constexpr auto K_RAMSETE_B = 2 * 1_rad * 1_rad / (1_m * 1_m);
 static constexpr auto K_RAMSETE_ZETA = 0.7 / 1_rad;
 }  // namespace auto_consts
@@ -59,17 +59,17 @@ static constexpr int OPERATOR_CONTROLLER_PORT = 1;
 }  // namespace oi
 
 namespace physical_dims {
-static constexpr auto TRACK_WIDTH = 0.69_m;
-static constexpr auto WHEEL_DIAMETER = 6_in;
-static constexpr double DRIVEBASE_GEARBOX_RATIO = 8.0;
-static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::CIM(2);
+static constexpr auto TRACK_WIDTH = 27_in;
+static constexpr auto WHEEL_DIAMETER = 4_in;
+static constexpr double DRIVEBASE_GEARBOX_RATIO = 7.0;
+static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::Falcon500(2);
 }  // namespace physical_dims
 
 namespace vision_vars {
 static constexpr units::meter_t CAMERA_HEIGHT = 3_ft;
-static constexpr units::meter_t TARGET_HEIGHT_ABOVE_GROUND = 8_ft;
-static constexpr units::meter_t TARGET_HEIGHT = 5_in;
-static constexpr units::meter_t TARGET_WIDTH = 48.447917_in;
+static constexpr units::meter_t TARGET_HEIGHT_ABOVE_GROUND = 103.619_in;
+static constexpr units::meter_t TARGET_HEIGHT = 2_in;
+static constexpr units::meter_t TARGET_WIDTH = 53_in;
 static constexpr units::degree_t CAMERA_PITCH = 20_deg;
 static frc::Pose2d TARGET_POSE = frc::Pose2d(27_ft, 13.5_ft, 0_deg);
 static const frc::Transform2d CAMERA_TO_ROBOT = frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(0_deg));

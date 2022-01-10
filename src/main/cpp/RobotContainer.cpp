@@ -20,7 +20,7 @@
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
 
-    m_chooser.SetDefaultOption("Around the Field", &aroundTheFieldAuto);
+    m_chooser.SetDefaultOption("Four Ball Auto", &fourBallAuto);
 
     frc::SmartDashboard::PutData(&m_chooser);
 

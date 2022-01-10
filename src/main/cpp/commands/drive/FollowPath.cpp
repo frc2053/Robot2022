@@ -13,13 +13,14 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed,
                        units::meters_per_second_squared_t maxAccel,
                        const frc::Pose2d& startPt,
                        const std::vector<frc::Translation2d>& middlePts,
-                       const frc::Pose2d& endPt,
+                       const frc::Pose2d& endPt, bool isReverse,
                        DrivetrainSubsystem* drivetrain)
     : m_maxSpeed(maxSpeed),
       m_maxAccel(maxAccel),
       m_startPt(startPt),
       m_middlePts(middlePts),
       m_endPt(endPt),
+      reverseDriving(isReverse),
       m_drivetrain(drivetrain) {
     // Create a voltage constraint to ensure we don't accelerate too fast
     frc::DifferentialDriveVoltageConstraint autoVoltageConstraint(
@@ -29,6 +30,8 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed,
 
     // Set up config for trajectory
     frc::TrajectoryConfig config(maxSpeed, maxAccel);
+    //Change direction robot travels
+    config.SetReversed(reverseDriving);
     // Add kinematics to ensure max speed is actually obeyed
     config.SetKinematics(str::drive_pid::DRIVE_KINEMATICS);
     // Apply the voltage constraint

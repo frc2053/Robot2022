@@ -4,7 +4,7 @@
 
 #include "subsystems/VisionSubsystem.h"
 #include <photonlib/PhotonUtils.h>
-#include <iostream>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub)
     : driveSubsystem(driveSub) {
@@ -29,7 +29,11 @@ void VisionSubsystem::Periodic() {
 }
 
 void VisionSubsystem::SimulationPeriodic() {
-    gloworm_sim.ProcessFrame(driveSubsystem->GetPose());
+    auto dt_pose = driveSubsystem->GetPose();
+    frc::SmartDashboard::PutNumber("DT Pose X", dt_pose.X().to<double>());
+    frc::SmartDashboard::PutNumber("DT Pose Y", dt_pose.Y().to<double>());
+    frc::SmartDashboard::PutNumber("DT Pose Rot", dt_pose.Rotation().Degrees().to<double>());
+    gloworm_sim.ProcessFrame(dt_pose);
 }
 
 void VisionSubsystem::ChangeVisionPipeline(int pipeline) {
@@ -49,11 +53,15 @@ units::second_t VisionSubsystem::VisionSubsystem::GetLatency() {
 }
 
 units::degree_t VisionSubsystem::GetYawToTarget() {
-    return units::degree_t(-bestTarget.GetYaw());
+    auto yaw = -bestTarget.GetYaw();
+    frc::SmartDashboard::PutNumber("Best Target Yaw", yaw);
+    return units::degree_t(yaw);
 }
 
 units::degree_t VisionSubsystem::GetPitchToTarget() {
-    return units::degree_t(bestTarget.GetPitch());
+    auto pitch = bestTarget.GetPitch();
+    frc::SmartDashboard::PutNumber("Best Target Pitch", pitch);
+    return units::degree_t(pitch);
 }
 
 units::degree_t VisionSubsystem::GetSkewOfTarget() {
@@ -61,9 +69,11 @@ units::degree_t VisionSubsystem::GetSkewOfTarget() {
 }
 
 units::meter_t VisionSubsystem::GetDistanceToTarget() {
-    return photonlib::PhotonUtils::CalculateDistanceToTarget(
+    auto dist = photonlib::PhotonUtils::CalculateDistanceToTarget(
         str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT,
         str::vision_vars::CAMERA_PITCH, GetPitchToTarget());
+    frc::SmartDashboard::PutNumber("Distance to Target", dist.to<double>());
+    return dist;
 }
 
 frc::Translation2d VisionSubsystem::GetTranslationToTarget() {
@@ -72,9 +82,13 @@ frc::Translation2d VisionSubsystem::GetTranslationToTarget() {
 }
 
 frc::Pose2d VisionSubsystem::GetRobotPose() {
-    return photonlib::PhotonUtils::EstimateFieldToRobot(
+    auto pose = photonlib::PhotonUtils::EstimateFieldToRobot(
         str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT,
         str::vision_vars::CAMERA_PITCH, GetPitchToTarget(), frc::Rotation2d(GetYawToTarget()),
         frc::Rotation2d(driveSubsystem->GetHeading()), str::vision_vars::TARGET_POSE,
         str::vision_vars::CAMERA_TO_ROBOT);
+    frc::SmartDashboard::PutNumber("Vision Estimated Pose X", pose.X().to<double>());
+    frc::SmartDashboard::PutNumber("Vision Estimated Pose Y", pose.Y().to<double>());
+    frc::SmartDashboard::PutNumber("Vision Estimated Pose Rot", pose.Rotation().Degrees().to<double>());
+    return pose;
 }
