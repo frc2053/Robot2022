@@ -31,7 +31,7 @@ namespace drive_pid {
 extern const frc::DifferentialDriveKinematics DRIVE_KINEMATICS;
 extern const frc::LinearSystem<2, 2, 2> DRIVE_TRAIN_PLANT;
 static constexpr double KF = 0.1;
-static constexpr double KP = 1;
+static constexpr double KP = 8.5;
 static constexpr double KI = 0;
 static constexpr double KD = 0;
 static constexpr auto KS = 0.22_V;
@@ -39,7 +39,6 @@ static constexpr auto KV = 1.98 * 1_V / 1_mps;
 static constexpr auto KA = 0.2 * 1_V / 1_mps_sq;
 static constexpr auto KV_ANGULAR = 1.5 * 1_V / 1_mps;
 static constexpr auto KA_ANGULAR = 0.3 * 1_V / 1_mps_sq;
-static constexpr double KP_DRIVE_VEL = 8.5;
 static constexpr double TURN_P = 0.1;
 static constexpr double TURN_I = 0;
 static constexpr double TURN_D = 0;
@@ -62,7 +61,7 @@ namespace physical_dims {
 static constexpr auto TRACK_WIDTH = 27_in;
 static constexpr auto WHEEL_DIAMETER = 4_in;
 static constexpr double DRIVEBASE_GEARBOX_RATIO = 7.0;
-static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::Falcon500(2);
+static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::CIM(2);
 }  // namespace physical_dims
 
 namespace vision_vars {

@@ -8,13 +8,11 @@
 
 VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub)
     : driveSubsystem(driveSub) {
-        gloworm_sim.AddSimVisionTarget(photonlib::SimVisionTarget(
-            str::vision_vars::TARGET_POSE,
-            str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
-            str::vision_vars::TARGET_WIDTH,
-            str::vision_vars::TARGET_HEIGHT
-        ));
-    }
+    gloworm_sim.AddSimVisionTarget(photonlib::SimVisionTarget(
+        str::vision_vars::TARGET_POSE,
+        str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+        str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
+}
 
 // This method will be called once per scheduler run
 void VisionSubsystem::Periodic() {
@@ -30,9 +28,6 @@ void VisionSubsystem::Periodic() {
 
 void VisionSubsystem::SimulationPeriodic() {
     auto dt_pose = driveSubsystem->GetPose();
-    frc::SmartDashboard::PutNumber("DT Pose X", dt_pose.X().to<double>());
-    frc::SmartDashboard::PutNumber("DT Pose Y", dt_pose.Y().to<double>());
-    frc::SmartDashboard::PutNumber("DT Pose Rot", dt_pose.Rotation().Degrees().to<double>());
     gloworm_sim.ProcessFrame(dt_pose);
 }
 
@@ -70,25 +65,25 @@ units::degree_t VisionSubsystem::GetSkewOfTarget() {
 
 units::meter_t VisionSubsystem::GetDistanceToTarget() {
     auto dist = photonlib::PhotonUtils::CalculateDistanceToTarget(
-        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT,
+        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
         str::vision_vars::CAMERA_PITCH, GetPitchToTarget());
-    frc::SmartDashboard::PutNumber("Distance to Target", dist.to<double>());
     return dist;
 }
 
 frc::Translation2d VisionSubsystem::GetTranslationToTarget() {
-    return photonlib::PhotonUtils::EstimateCameraToTargetTranslation(
-        GetDistanceToTarget(), GetYawToTarget());
+    auto translationToTarget =
+        photonlib::PhotonUtils::EstimateCameraToTargetTranslation(
+            GetDistanceToTarget(), GetYawToTarget());
+
+    return translationToTarget;
 }
 
 frc::Pose2d VisionSubsystem::GetRobotPose() {
     auto pose = photonlib::PhotonUtils::EstimateFieldToRobot(
-        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT,
-        str::vision_vars::CAMERA_PITCH, GetPitchToTarget(), frc::Rotation2d(GetYawToTarget()),
-        frc::Rotation2d(driveSubsystem->GetHeading()), str::vision_vars::TARGET_POSE,
-        str::vision_vars::CAMERA_TO_ROBOT);
-    frc::SmartDashboard::PutNumber("Vision Estimated Pose X", pose.X().to<double>());
-    frc::SmartDashboard::PutNumber("Vision Estimated Pose Y", pose.Y().to<double>());
-    frc::SmartDashboard::PutNumber("Vision Estimated Pose Rot", pose.Rotation().Degrees().to<double>());
+        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+        str::vision_vars::CAMERA_PITCH, GetPitchToTarget(),
+        frc::Rotation2d(GetYawToTarget()),
+        frc::Rotation2d(driveSubsystem->GetHeading()),
+        str::vision_vars::TARGET_POSE, str::vision_vars::CAMERA_TO_ROBOT);
     return pose;
 }

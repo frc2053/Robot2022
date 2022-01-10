@@ -116,6 +116,35 @@ void DrivetrainSubsystem::TankDriveVolts(units::volt_t left,
     drive.Feed();
 }
 
+void DrivetrainSubsystem::TankDriveVelocity(units::meters_per_second_t left,
+                                         units::meters_per_second_t right, units::volt_t leftFF, units::volt_t rightFF) {
+    frontLeftTalon.Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, 
+        str::Units::ConvertAngularVelocityToTicksPer100Ms(
+            str::Units::ConvertLinearVelocityToAngularVelocity(
+                left,
+                str::physical_dims::WHEEL_DIAMETER / 2
+            ), 
+            str::encoder_cpr::TALON_FX_ENCODER_CPR, 
+            str::physical_dims::DRIVEBASE_GEARBOX_RATIO
+        ), 
+        ctre::phoenix::motorcontrol::DemandType::DemandType_ArbitraryFeedForward, 
+        (leftFF / 12_V).to<double>()
+    );
+    frontRightTalon.Set(ctre::phoenix::motorcontrol::ControlMode::Velocity, 
+        str::Units::ConvertAngularVelocityToTicksPer100Ms(
+            str::Units::ConvertLinearVelocityToAngularVelocity(
+                right,
+                str::physical_dims::WHEEL_DIAMETER / 2
+            ), 
+            str::encoder_cpr::TALON_FX_ENCODER_CPR, 
+            str::physical_dims::DRIVEBASE_GEARBOX_RATIO
+        ),
+        ctre::phoenix::motorcontrol::DemandType::DemandType_ArbitraryFeedForward, 
+        (rightFF / 12_V).to<double>()
+    );
+    drive.Feed();
+}
+
 units::ampere_t DrivetrainSubsystem::GetCurrentDraw() const {
     return drivetrainSimulator.GetCurrentDraw();
 }
@@ -134,8 +163,8 @@ units::degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
 
 void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose,
                                                units::second_t latency) {
-    //poseEstimator.AddVisionMeasurement(
-    //    visionPose, frc::Timer::GetFPGATimestamp() - latency);
+    poseEstimator.AddVisionMeasurement(
+       visionPose, frc::Timer::GetFPGATimestamp() - latency);
 }
 
 frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {
@@ -163,6 +192,7 @@ void DrivetrainSubsystem::ResetOdom(frc::Pose2d pose) {
     ResetEncoders();
     drivetrainSimulator.SetPose(pose);
     odom.ResetPosition(pose, gyro.GetYaw());
+    poseEstimator.ResetPosition(pose, gyro.GetYaw());
     std::cout << "Reset Odom on drivetrain!\n";
 }
 
@@ -192,6 +222,18 @@ void DrivetrainSubsystem::ConfigureMotors() {
 
     frontRightTalon.ConfigAllSettings(baseConfig);
     rearRightTalon.ConfigAllSettings(baseConfig);
+
+    //Enabled voltage compensation to account for battery draw
+    //This lets us be more consistent with our autos
+    frontLeftTalon.ConfigVoltageCompSaturation(10);
+    frontRightTalon.ConfigVoltageCompSaturation(10);
+    rearLeftTalon.ConfigVoltageCompSaturation(10);
+    rearRightTalon.ConfigVoltageCompSaturation(10);
+
+    frontLeftTalon.EnableVoltageCompensation(true);
+    frontRightTalon.EnableVoltageCompensation(true);
+    rearLeftTalon.EnableVoltageCompensation(true);
+    rearRightTalon.EnableVoltageCompensation(true);
 
     rearLeftTalon.Follow(frontLeftTalon);
     rearLeftTalon.SetInverted(

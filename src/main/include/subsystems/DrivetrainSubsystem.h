@@ -11,6 +11,7 @@
 #include <frc/trajectory/Trajectory.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc/estimator/DifferentialDrivePoseEstimator.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
 
 #include "Constants.h"
 #include "str/IMU.h"
@@ -25,6 +26,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
     void ArcadeDrive(double fwd, double rot);
     void CurvatureDrive(double fwd, double rot, bool quickTurn);
     void TankDriveVolts(units::volt_t left, units::volt_t right);
+    void TankDriveVelocity(units::meters_per_second_t left, units::meters_per_second_t right, units::volt_t leftFF, units::volt_t rightFF);
 
     units::ampere_t GetCurrentDraw() const;
     units::degree_t GetHeading();
@@ -37,7 +39,6 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
     void SetGyroOffset(units::degree_t offset);
 
     void AddVisionMeasurement(frc::Pose2d visionPose, units::second_t latency);
-
    private:
     void ConfigureMotors();
     void ResetEncoders();
