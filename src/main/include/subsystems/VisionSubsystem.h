@@ -24,7 +24,7 @@ class VisionSubsystem : public frc2::SubsystemBase {
     void ChangeVisionPipeline(int pipeline);
     void SetDriverMode(bool driverMode);
     void SetLedMode(photonlib::LEDMode mode);
-    units::millisecond_t GetLatency();
+    units::second_t GetLatency();
     units::degree_t GetYawToTarget();
     units::degree_t GetPitchToTarget();
     units::degree_t GetSkewOfTarget();
@@ -35,7 +35,7 @@ class VisionSubsystem : public frc2::SubsystemBase {
     DrivetrainSubsystem* driveSubsystem;
     photonlib::PhotonCamera gloworm{"gloworm-cam"};
     photonlib::PhotonPipelineResult latestData;
-    units::millisecond_t latency;
+    units::second_t latency;
     wpi::span<const photonlib::PhotonTrackedTarget> targetsFound;
     photonlib::PhotonTrackedTarget bestTarget;
     photonlib::SimVisionSystem gloworm_sim{

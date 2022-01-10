@@ -133,8 +133,10 @@ units::degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
     return gyro.GetYawRate();
 }
 
-void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose, units::millisecond_t latency) {
-    poseEstimator.AddVisionMeasurement(visionPose, frc::Timer::GetFPGATimestamp() - latency);
+void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose,
+                                               units::second_t latency) {
+    poseEstimator.AddVisionMeasurement(
+        visionPose, frc::Timer::GetFPGATimestamp() - latency);
 }
 
 frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {

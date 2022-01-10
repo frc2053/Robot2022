@@ -36,7 +36,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
     void ResetOdom(frc::Pose2d pose);
     void SetGyroOffset(units::degree_t offset);
 
-    void AddVisionMeasurement(frc::Pose2d visionPose, units::millisecond_t latency);
+    void AddVisionMeasurement(frc::Pose2d visionPose, units::second_t latency);
 
    private:
     void ConfigureMotors();

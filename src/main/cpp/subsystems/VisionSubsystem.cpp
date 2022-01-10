@@ -44,7 +44,7 @@ void VisionSubsystem::SetLedMode(photonlib::LEDMode mode) {
     gloworm.SetLEDMode(mode);
 }
 
-units::millisecond_t VisionSubsystem::VisionSubsystem::GetLatency() {
+units::second_t VisionSubsystem::VisionSubsystem::GetLatency() {
     return latency;
 }
 
