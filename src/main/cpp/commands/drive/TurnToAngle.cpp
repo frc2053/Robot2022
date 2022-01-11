@@ -25,6 +25,7 @@ TurnToAngle::TurnToAngle(units::degree_t target, DrivetrainSubsystem* drive)
         str::drive_pid::TURN_TOLERANCE.to<double>(),
         str::drive_pid::TURN_RATE_TOLERANCE.to<double>());
     AddRequirements({drive});
+    SetName("TurnToAngle");
 }
 
 // Returns true when the command should end.

@@ -22,6 +22,8 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed,
       reverseDriving(isReverse),
       m_drivetrain(drivetrain) {
 
+    SetName("FollowPath");
+
     // Set up config for trajectory
     frc::TrajectoryConfig config(maxSpeed, maxAccel);
     //Change direction robot travels

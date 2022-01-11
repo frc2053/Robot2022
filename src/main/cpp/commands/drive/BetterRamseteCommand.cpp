@@ -9,6 +9,7 @@ BetterRamseteCommand::BetterRamseteCommand(frc::Trajectory traj,
                                            DrivetrainSubsystem* driveSub)
     : trajToFollow(traj), m_pose(pose), drivetrainSubsystem(driveSub) {
     AddRequirements(drivetrainSubsystem);
+    SetName("BetterRamseteCommand");
 }
 
 // Called when the command is initially scheduled.

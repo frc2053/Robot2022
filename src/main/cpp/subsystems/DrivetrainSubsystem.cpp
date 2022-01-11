@@ -11,6 +11,7 @@
 #include <iostream>
 
 DrivetrainSubsystem::DrivetrainSubsystem() {
+    SetName("DrivetrainSubsystem");
     gyro.Calibrate();
     gyro.ZeroYaw();
 
@@ -111,8 +112,8 @@ void DrivetrainSubsystem::CurvatureDrive(double fwd, double rot,
 
 void DrivetrainSubsystem::TankDriveVolts(units::volt_t left,
                                          units::volt_t right) {
-    frontLeftTalon.SetVoltage(left);
-    frontRightTalon.SetVoltage(right);
+    frontLeftTalon.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left / 12_V);
+    frontRightTalon.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right / 12_V);
     drive.Feed();
 }
 

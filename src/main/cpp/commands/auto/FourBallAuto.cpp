@@ -13,4 +13,5 @@ FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub)
     AddCommands(frc2::InstantCommand(
                     [this]() { m_drivetrainSub->SetGyroOffset(90_deg); }),
                 std::move(turn1));
+    SetName("FourBallAuto");
 }
