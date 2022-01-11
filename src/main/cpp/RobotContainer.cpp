@@ -16,6 +16,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "commands/drive/TurnToAngle.h"
 #include <frc2/command/ParallelRaceGroup.h>
+#include "commands/drive/TeleopDrive.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -24,13 +25,15 @@ RobotContainer::RobotContainer() {
 
     frc::SmartDashboard::PutData(&m_chooser);
 
-    drivetrainSubsystem.SetDefaultCommand(frc2::RunCommand(
-        [this] {
-            drivetrainSubsystem.CurvatureDrive(
-                -m_driverController.GetLeftY(), m_driverController.GetRightX(),
-                m_driverController.GetRightBumper());
-        },
-        {&drivetrainSubsystem}));
+    TeleopDrive driveCmd =
+        TeleopDrive(
+            [this]() { return -m_driverController.GetLeftY(); },
+            [this]() { return m_driverController.GetRightX(); },
+            [this]() { return m_driverController.GetRightBumper(); },
+            &drivetrainSubsystem
+        );
+
+    drivetrainSubsystem.SetDefaultCommand(driveCmd);
 }
 
 void RobotContainer::ConfigureButtonBindings() {

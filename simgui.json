@@ -3,6 +3,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DrivetrainSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/class frc2::SubsystemBase": "Subsystem",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
@@ -11,6 +12,11 @@
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
     },
     "windows": {
+      "/LiveWindow/Ungrouped/DrivetrainSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 900,
         "height": 8.229599952697754,
@@ -50,6 +56,16 @@
         "left": 74,
         "right": 1774,
         "top": 50,
+        "traj0": {
+          "arrows": false,
+          "color": [
+            0.970588207244873,
+            0.0,
+            1.0,
+            255.0
+          ],
+          "style": "Line"
+        },
         "width": 16.459199905395508,
         "window": {
           "visible": true
@@ -67,6 +83,12 @@
       "open": true
     },
     "SmartDashboard": {
+      "Field": {
+        "open": true
+      },
+      "Pose Estimator Field": {
+        "open": true
+      },
       "open": true
     },
     "photonvision": {
