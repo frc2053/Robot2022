@@ -27,8 +27,8 @@ class TeleopDrive : public frc2::CommandHelper<frc2::CommandBase, TeleopDrive> {
 
     bool IsFinished() override;
 private:
-    DrivetrainSubsystem* drivetrainSub;
     std::function<double()> forwardCmd;
     std::function<double()> rotCmd;
     std::function<bool()> quickTurnCmd;
+    DrivetrainSubsystem* drivetrainSub;
 };

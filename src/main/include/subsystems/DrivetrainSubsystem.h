@@ -10,7 +10,8 @@
 #include <frc/simulation/DifferentialDrivetrainSim.h>
 #include <frc/trajectory/Trajectory.h>
 #include <frc2/command/SubsystemBase.h>
-#include <frc/estimator/DifferentialDrivePoseEstimator.h>
+#include "patch/DifferentialDrivePoseEstimatorPATCH.h"
+//#include <frc/estimator/DifferentialDrivePoseEstimator.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
 
 #include "Constants.h"
@@ -67,7 +68,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
     frc::DifferentialDrive drive{frontLeftTalon, frontRightTalon};
     frc::DifferentialDriveOdometry odom{gyro.GetYaw()};
-    frc::DifferentialDrivePoseEstimator poseEstimator{
+    frc::DifferentialDrivePoseEstimatorPATCH poseEstimator{
         gyro.GetYaw(),
         frc::Pose2d(),
         {0.01, 0.01, 0.01, 0.01, 0.01},

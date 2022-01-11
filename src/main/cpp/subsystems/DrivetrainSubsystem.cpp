@@ -50,6 +50,12 @@ void DrivetrainSubsystem::Periodic() {
                 str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
             str::physical_dims::WHEEL_DIAMETER / 2);
 
+    frc::SmartDashboard::PutNumber("Current Gyro Yaw", currentGyroYaw.Degrees().to<double>());
+    frc::SmartDashboard::PutNumber("LeftEncoderVelocity", leftEncoderVelocity.to<double>());
+    frc::SmartDashboard::PutNumber("LeftEncoderDistance", leftEncoderDistance.to<double>());
+    frc::SmartDashboard::PutNumber("RightEncoderVelocity", rightEncoderVelocity.to<double>());
+    frc::SmartDashboard::PutNumber("RightEncoderDistance", rightEncoderDistance.to<double>());
+
     poseEstimator.Update(currentGyroYaw,
                          {leftEncoderVelocity, rightEncoderVelocity},
                          leftEncoderDistance, rightEncoderDistance);
@@ -57,7 +63,11 @@ void DrivetrainSubsystem::Periodic() {
     odom.Update(currentGyroYaw, leftEncoderDistance, rightEncoderDistance);
 
     fieldSim.SetRobotPose(odom.GetPose());
-    poseEstimatorSim.SetRobotPose(poseEstimator.GetEstimatedPosition());
+    auto pose = poseEstimator.GetEstimatedPosition();
+    frc::SmartDashboard::PutNumber("Pose X", pose.X().to<double>());
+    frc::SmartDashboard::PutNumber("Pose Y", pose.Y().to<double>());
+    frc::SmartDashboard::PutNumber("Pose Rot", pose.Rotation().Degrees().to<double>());
+    poseEstimatorSim.SetRobotPose(pose);
 }
 
 void DrivetrainSubsystem::SimulationPeriodic() {
