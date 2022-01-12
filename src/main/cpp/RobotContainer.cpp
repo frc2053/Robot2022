@@ -37,12 +37,12 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-        .WhenPressed(
-            TurnToAngle{[](){ return 90_deg; }, &drivetrainSubsystem}.WithInterrupt([this]() {
-                return std::abs(m_driverController.GetLeftY()) > .2 ||
-                       std::abs(m_driverController.GetRightX()) > .2;
-            }));
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA).WhenPressed(
+        TurnToAngle(
+            [](){ return units::degree_t(90); }, 
+            &drivetrainSubsystem
+        )
+    );
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

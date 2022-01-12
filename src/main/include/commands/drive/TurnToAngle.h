@@ -11,7 +11,7 @@
 
 class TurnToAngle : public frc2::CommandHelper<frc2::ProfiledPIDCommand<units::radians>, TurnToAngle> {
    public:
-    TurnToAngle(std::function<units::radian_t()> target, DrivetrainSubsystem* drive);
+    TurnToAngle(std::function<units::degree_t()> target, DrivetrainSubsystem* drive);
 
     bool IsFinished() override;
 };

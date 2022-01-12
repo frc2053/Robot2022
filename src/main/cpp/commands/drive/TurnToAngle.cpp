@@ -11,7 +11,7 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-TurnToAngle::TurnToAngle(std::function<units::radian_t()> target, DrivetrainSubsystem* drive)
+TurnToAngle::TurnToAngle(std::function<units::degree_t()> target, DrivetrainSubsystem* drive)
     : CommandHelper(
           frc::ProfiledPIDController<units::radians>(
           str::drive_pid::TURN_P, str::drive_pid::TURN_I, str::drive_pid::TURN_D, {str::drive_pid::MAX_TURN_RATE, str::drive_pid::MAX_TURN_ACCEL}),
