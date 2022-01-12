@@ -5,13 +5,13 @@
 #pragma once
 
 #include <frc2/command/CommandHelper.h>
-#include <frc2/command/PIDCommand.h>
+#include <frc2/command/ProfiledPIDCommand.h>
 #include <units/length.h>
 #include "subsystems/DrivetrainSubsystem.h"
 
-class TurnToAngle : public frc2::CommandHelper<frc2::PIDCommand, TurnToAngle> {
+class TurnToAngle : public frc2::CommandHelper<frc2::ProfiledPIDCommand<units::radians>, TurnToAngle> {
    public:
-    TurnToAngle(units::degree_t targetAngle, DrivetrainSubsystem* drive);
+    TurnToAngle(std::function<units::radian_t()> target, DrivetrainSubsystem* drive);
 
     bool IsFinished() override;
 };
