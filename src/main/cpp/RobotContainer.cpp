@@ -17,6 +17,7 @@
 #include "commands/drive/TurnToAngle.h"
 #include <frc2/command/ParallelRaceGroup.h>
 #include "commands/drive/TeleopDrive.h"
+#include <frc2/command/InstantCommand.h>
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -46,6 +47,14 @@ void RobotContainer::ConfigureButtonBindings() {
                 return std::abs(m_driverController.GetLeftY()) > .2 || std::abs(m_driverController.GetRightX()) > .2; 
             }
         )
+    );
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper).WhenPressed(
+        frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); }, {&shooterSubsystem})
+    );
+    
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper).WhenPressed(
+        frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); }, {&shooterSubsystem})
     );
 }
 

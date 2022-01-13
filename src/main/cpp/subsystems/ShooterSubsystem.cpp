@@ -13,18 +13,14 @@ ShooterSubsystem::ShooterSubsystem() {
 
 // This method will be called once per scheduler run
 void ShooterSubsystem::Periodic() {
-
-    units::radians_per_second_t setpoint = units::revolutions_per_minute_t{frc::SmartDashboard::GetNumber("Shooter Set Speed", 0)};
-
-    loop.SetNextR(Eigen::Vector<double, 1>{setpoint.value()});
-
+    loop.SetNextR(Eigen::Vector<double, 1>{currentShooterSpeedSetpoint.value()});
     units::radians_per_second_t wheelAngularSpeed = GetCurrentShooterSpeed();
     units::meters_per_second_t wheelSurfaceSpeed = GetWheelSurfaceSpeed(wheelAngularSpeed);
     frc::SmartDashboard::PutNumber("Shooter Motor Angular Speed", units::convert<units::rad_per_s, units::rpm>(wheelAngularSpeed).to<double>());
     frc::SmartDashboard::PutNumber("Shooter Motor Surface Speed", units::convert<units::meters_per_second, units::feet_per_second>(wheelSurfaceSpeed).to<double>());
     loop.Correct(Eigen::Vector<double, 1>{wheelAngularSpeed.value()});
     loop.Predict(20_ms);
-    auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(setpoint);
+    auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(currentShooterSpeedSetpoint);
     shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, finalVoltage / 12_V);
 }
 
@@ -39,6 +35,18 @@ void ShooterSubsystem::SimulationPeriodic() {
     shooterSimCollection.SetIntegratedSensorVelocity(simTickVelocity);
     shooterSimCollection.SetStatorCurrent(shooterSim.GetCurrentDraw().to<double>());
     shooterSimCollection.SetBusVoltage(frc::RobotController::GetBatteryVoltage().to<double>());
+}
+
+void ShooterSubsystem::SetShooterSpeed(units::revolutions_per_minute_t setSpeed) {
+   currentShooterSpeedSetpoint = setSpeed;
+}
+
+void ShooterSubsystem::SetShooterSurfaceSpeed(units::feet_per_second_t setSurfaceSpeed) {
+    currentShooterSpeedSetpoint = str::Units::ConvertLinearVelocityToAngularVelocity(setSurfaceSpeed, str::physical_dims::SHOOTER_WHEEL_DIAMETER / 2);
+}
+
+const units::radians_per_second_t ShooterSubsystem::GetShooterSetpoint() const {
+    return currentShooterSpeedSetpoint;
 }
 
 units::radians_per_second_t ShooterSubsystem::GetCurrentShooterSpeed() {

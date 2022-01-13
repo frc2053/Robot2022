@@ -26,6 +26,9 @@ class ShooterSubsystem : public frc2::SubsystemBase {
     units::meters_per_second_t GetWheelSurfaceSpeed(
         units::radians_per_second_t angularSpeed);
     units::ampere_t GetCurrentDraw() const;
+    void SetShooterSpeed(units::revolutions_per_minute_t setSpeed);
+    void SetShooterSurfaceSpeed(units::feet_per_second_t setSurfaceSpeed);
+    const units::radians_per_second_t GetShooterSetpoint() const;
    private:
     void ResetEncoders();
     void ConfigureMotors();
@@ -58,4 +61,5 @@ class ShooterSubsystem : public frc2::SubsystemBase {
                                         controller, observer, 12_V, 20_ms};
     frc::SimpleMotorFeedforward<units::radian> feedforward{
       0_V, str::shooter_pid::KV, str::shooter_pid::KA};
+    units::radians_per_second_t currentShooterSpeedSetpoint;
 };
