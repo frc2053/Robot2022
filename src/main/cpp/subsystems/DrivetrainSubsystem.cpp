@@ -28,27 +28,27 @@ void DrivetrainSubsystem::Periodic() {
             frontLeftTalon.GetSelectedSensorPosition(),
             str::encoder_cpr::TALON_FX_ENCODER_CPR,
             str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::WHEEL_DIAMETER / 2);
+            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
     units::meter_t rightEncoderDistance =
         str::Units::ConvertEncoderTicksToDistance(
             frontRightTalon.GetSelectedSensorPosition(),
             str::encoder_cpr::TALON_FX_ENCODER_CPR,
             str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::WHEEL_DIAMETER / 2);
+            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
     units::meters_per_second_t leftEncoderVelocity =
         str::Units::ConvertAngularVelocityToLinearVelocity(
             str::Units::ConvertTicksPer100MsToAngularVelocity(
                 frontLeftTalon.GetSelectedSensorVelocity(),
                 str::encoder_cpr::TALON_FX_ENCODER_CPR,
                 str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-            str::physical_dims::WHEEL_DIAMETER / 2);
+            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
     units::meters_per_second_t rightEncoderVelocity =
         str::Units::ConvertAngularVelocityToLinearVelocity(
             str::Units::ConvertTicksPer100MsToAngularVelocity(
                 frontRightTalon.GetSelectedSensorVelocity(),
                 str::encoder_cpr::TALON_FX_ENCODER_CPR,
                 str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-            str::physical_dims::WHEEL_DIAMETER / 2);
+            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
 
     frc::SmartDashboard::PutNumber("Current Gyro Yaw", currentGyroYaw.Degrees().to<double>());
     frc::SmartDashboard::PutNumber("LeftEncoderVelocity", leftEncoderVelocity.to<double>());
@@ -81,12 +81,12 @@ void DrivetrainSubsystem::SimulationPeriodic() {
             drivetrainSimulator.GetLeftPosition(),
             str::encoder_cpr::TALON_FX_ENCODER_CPR,
             str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::WHEEL_DIAMETER / 2));
+            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2));
     leftSimCollection.SetIntegratedSensorVelocity(
         str::Units::ConvertAngularVelocityToTicksPer100Ms(
             str::Units::ConvertLinearVelocityToAngularVelocity(
                 drivetrainSimulator.GetLeftVelocity(),
-                str::physical_dims::WHEEL_DIAMETER / 2),
+                str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
             str::encoder_cpr::TALON_FX_ENCODER_CPR,
             str::physical_dims::DRIVEBASE_GEARBOX_RATIO));
     rightSimCollection.SetIntegratedSensorRawPosition(
@@ -94,12 +94,12 @@ void DrivetrainSubsystem::SimulationPeriodic() {
             drivetrainSimulator.GetRightPosition(),
             str::encoder_cpr::TALON_FX_ENCODER_CPR,
             str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::WHEEL_DIAMETER / 2));
+            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2));
     rightSimCollection.SetIntegratedSensorVelocity(
         str::Units::ConvertAngularVelocityToTicksPer100Ms(
             str::Units::ConvertLinearVelocityToAngularVelocity(
                 drivetrainSimulator.GetRightVelocity(),
-                str::physical_dims::WHEEL_DIAMETER / 2),
+                str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
             str::encoder_cpr::TALON_FX_ENCODER_CPR,
             str::physical_dims::DRIVEBASE_GEARBOX_RATIO));
 
@@ -134,7 +134,7 @@ void DrivetrainSubsystem::TankDriveVelocity(units::meters_per_second_t left,
     frontLeftTalon.Set(ctre::phoenix::motorcontrol::ControlMode::Velocity,
                        str::Units::ConvertAngularVelocityToTicksPer100Ms(
                            str::Units::ConvertLinearVelocityToAngularVelocity(
-                               left, str::physical_dims::WHEEL_DIAMETER / 2),
+                               left, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
                            str::encoder_cpr::TALON_FX_ENCODER_CPR,
                            str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
                        ctre::phoenix::motorcontrol::DemandType::
@@ -143,7 +143,7 @@ void DrivetrainSubsystem::TankDriveVelocity(units::meters_per_second_t left,
     frontRightTalon.Set(ctre::phoenix::motorcontrol::ControlMode::Velocity,
                         str::Units::ConvertAngularVelocityToTicksPer100Ms(
                             str::Units::ConvertLinearVelocityToAngularVelocity(
-                                right, str::physical_dims::WHEEL_DIAMETER / 2),
+                                right, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
                             str::encoder_cpr::TALON_FX_ENCODER_CPR,
                             str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
                         ctre::phoenix::motorcontrol::DemandType::
@@ -180,13 +180,13 @@ frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {
                     frontLeftTalon.GetSelectedSensorVelocity(),
                     str::encoder_cpr::TALON_FX_ENCODER_CPR,
                     str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-                str::physical_dims::WHEEL_DIAMETER / 2),
+                str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
             str::Units::ConvertAngularVelocityToLinearVelocity(
                 str::Units::ConvertTicksPer100MsToAngularVelocity(
                     frontRightTalon.GetSelectedSensorVelocity(),
                     str::encoder_cpr::TALON_FX_ENCODER_CPR,
                     str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-                str::physical_dims::WHEEL_DIAMETER / 2)};
+                str::physical_dims::DRIVE_WHEEL_DIAMETER / 2)};
 }
 
 void DrivetrainSubsystem::DrawTrajectory(frc::Trajectory traj) {

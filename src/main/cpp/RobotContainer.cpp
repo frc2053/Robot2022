@@ -56,3 +56,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 const DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem() const {
     return drivetrainSubsystem;
 }
+
+const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
+    return shooterSubsystem;
+}

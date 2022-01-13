@@ -25,6 +25,9 @@ static constexpr int FRONT_LEFT_DRIVEBASE_TALON_ID = 2;
 static constexpr int REAR_LEFT_DRIVEBASE_TALON_ID = 3;
 static constexpr int FRONT_RIGHT_DRIVEBASE_TALON_ID = 4;
 static constexpr int REAR_RIGHT_DRIVEBASE_TALON_ID = 5;
+static constexpr int SHOOTERLEADER_TALON_ID = 6;
+static constexpr int SHOOTERFOLLOWER01_TALON_ID = 7;
+static constexpr int SHOOTERFOLLOWER02_TALON_ID = 8;
 }  // namespace can_ids
 
 namespace drive_pid {
@@ -51,6 +54,12 @@ constexpr auto MAX_TURN_RATE = 100_deg_per_s;
 constexpr auto MAX_TURN_ACCEL = 300_deg_per_s / 1_s;
 }  // namespace drive_pid
 
+namespace shooter_pid {
+extern frc::LinearSystem<1, 1, 1> SHOOTER_PLANT;
+static constexpr auto KV = 0.02_V / 1_rad_per_s;
+static constexpr auto KA = 0.01_V / 1_rad_per_s_sq;
+}  // namespace shooter_pid
+
 namespace encoder_cpr {
 static constexpr int TALON_FX_ENCODER_CPR = 2048;
 static constexpr int CANCODER_ENCODER_CPR = 4096;
@@ -64,9 +73,13 @@ static constexpr int OPERATOR_CONTROLLER_PORT = 1;
 
 namespace physical_dims {
 static constexpr auto TRACK_WIDTH = 27_in;
-static constexpr auto WHEEL_DIAMETER = 4_in;
+static constexpr auto DRIVE_WHEEL_DIAMETER = 4_in;
 static constexpr double DRIVEBASE_GEARBOX_RATIO = 7.0;
 static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::Falcon500(2);
+
+static constexpr auto SHOOTER_GEARBOX = frc::DCMotor::Falcon500(3);
+static constexpr double SHOOTER_GEARBOX_RATIO = 1.0;
+static constexpr auto SHOOTER_WHEEL_DIAMETER = 6_in;
 }  // namespace physical_dims
 
 namespace vision_vars {

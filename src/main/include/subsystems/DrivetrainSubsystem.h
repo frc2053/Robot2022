@@ -63,7 +63,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         str::physical_dims::TRACK_WIDTH,
         str::physical_dims::DRIVEBASE_GEARBOX,
         str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-        str::physical_dims::WHEEL_DIAMETER / 2,
+        str::physical_dims::DRIVE_WHEEL_DIAMETER / 2,
         {0.001, 0.001, 0.0001, 0.1, 0.1, 0.005, 0.005}};
 
     frc::DifferentialDrive drive{frontLeftTalon, frontRightTalon};

@@ -14,18 +14,21 @@
 #include <frc/filter/SlewRateLimiter.h>
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/VisionSubsystem.h"
+#include "subsystems/ShooterSubsystem.h"
 
 class RobotContainer {
    public:
     RobotContainer();
     frc2::Command* GetAutonomousCommand();
     const DrivetrainSubsystem& GetRobotDriveSubsystem() const;
+    const ShooterSubsystem& GetShooterSubsystem() const;
 
    private:
     void ConfigureButtonBindings();
 
     DrivetrainSubsystem drivetrainSubsystem;
     VisionSubsystem visionSubsystem{&drivetrainSubsystem};
+    ShooterSubsystem shooterSubsystem{};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem};
