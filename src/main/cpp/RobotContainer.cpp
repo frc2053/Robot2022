@@ -41,6 +41,10 @@ void RobotContainer::ConfigureButtonBindings() {
         TurnToAngle(
             [](){ return units::degree_t(90); }, 
             &drivetrainSubsystem
+        ).WithInterrupt(
+            [this](){
+                return std::abs(m_driverController.GetLeftY()) > .2 || std::abs(m_driverController.GetRightX()) > .2; 
+            }
         )
     );
 }
