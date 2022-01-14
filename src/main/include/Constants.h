@@ -77,9 +77,9 @@ static constexpr auto DRIVE_WHEEL_DIAMETER = 4_in;
 static constexpr double DRIVEBASE_GEARBOX_RATIO = 7.0;
 static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::Falcon500(2);
 
-static constexpr auto SHOOTER_GEARBOX = frc::DCMotor::Falcon500(3);
-static constexpr double SHOOTER_GEARBOX_RATIO = 1.0;
-static constexpr auto SHOOTER_WHEEL_DIAMETER = 6_in;
+static constexpr auto SHOOTER_GEARBOX = frc::DCMotor::Falcon500(2);
+static constexpr double SHOOTER_GEARBOX_RATIO = 0.5;
+static constexpr auto SHOOTER_WHEEL_DIAMETER = 4_in;
 }  // namespace physical_dims
 
 namespace vision_vars {
