@@ -9,6 +9,7 @@
 ShooterSubsystem::ShooterSubsystem() {
     loop.Reset(Eigen::Vector<double, 1>{});
     frc::SmartDashboard::PutNumber("Shooter Set Speed", 0);
+    ConfigureMotors();
 }
 
 // This method will be called once per scheduler run

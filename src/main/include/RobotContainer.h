@@ -21,14 +21,14 @@ class RobotContainer {
     RobotContainer();
     frc2::Command* GetAutonomousCommand();
     const DrivetrainSubsystem& GetRobotDriveSubsystem() const;
-    //const ShooterSubsystem& GetShooterSubsystem() const;
+    const ShooterSubsystem& GetShooterSubsystem() const;
 
    private:
     void ConfigureButtonBindings();
 
     DrivetrainSubsystem drivetrainSubsystem;
     VisionSubsystem visionSubsystem{&drivetrainSubsystem};
-    //ShooterSubsystem shooterSubsystem{};
+    ShooterSubsystem shooterSubsystem{};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem};

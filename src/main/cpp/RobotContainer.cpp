@@ -49,13 +49,13 @@ void RobotContainer::ConfigureButtonBindings() {
         )
     );
 
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper).WhenPressed(
-    //     frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); }, {&shooterSubsystem})
-    // );
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper).WhenPressed(
+        frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); }, {&shooterSubsystem})
+    );
     
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper).WhenPressed(
-    //     frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); }, {&shooterSubsystem})
-    // );
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper).WhenPressed(
+        frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); }, {&shooterSubsystem})
+    );
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -66,6 +66,6 @@ const DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem() const {
     return drivetrainSubsystem;
 }
 
-// const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
-//     return shooterSubsystem;
-// }
+const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
+    return shooterSubsystem;
+}
