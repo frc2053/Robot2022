@@ -67,6 +67,10 @@ units::ampere_t ShooterSubsystem::GetCurrentDraw() const {
     return shooterSim.GetCurrentDraw();
 }
 
+str::LookupValue ShooterSubsystem::GetAngleAndRPMForGoal(units::meter_t distance) {
+    return lookupTable.Get(distance);
+}
+
 void ShooterSubsystem::ResetEncoders() {
     shooterSimCollection.SetIntegratedSensorRawPosition(0);
     shooterSimCollection.SetIntegratedSensorVelocity(0);
