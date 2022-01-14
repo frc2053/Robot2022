@@ -20,7 +20,6 @@ void VisionSubsystem::Periodic() {
     if (latestData.HasTargets()) {
         targetsFound = latestData.GetTargets();
         bestTarget = latestData.GetBestTarget();
-        auto test = GetTranslationToTarget();
         latency = latestData.GetLatency();
         driveSubsystem->AddVisionMeasurement(GetRobotPose(), latency);
     }

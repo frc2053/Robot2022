@@ -46,7 +46,7 @@ void Robot::TestPeriodic() {}
 void Robot::SimulationPeriodic() {
     auto dt_current = m_container.GetRobotDriveSubsystem().GetCurrentDraw();
     auto shooter_current = m_container.GetShooterSubsystem().GetCurrentDraw();
-    auto loadedVoltage = frc::sim::BatterySim::Calculate({dt_current/*, shooter_current*/});
+    auto loadedVoltage = frc::sim::BatterySim::Calculate({dt_current, shooter_current});
     frc::sim::RoboRioSim::SetVInVoltage(loadedVoltage);
 }
 

@@ -10,7 +10,6 @@
 
 #include "commands/auto/FourBallAuto.h"
 #include "Constants.h"
-#include "str/Logger.h"
 #include <frc/filter/SlewRateLimiter.h>
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/VisionSubsystem.h"
@@ -37,6 +36,4 @@ class RobotContainer {
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};
 
     frc::XboxController m_driverController{str::oi::DRIVER_CONTROLLER_PORT};
-
-    str::Logger logger;
 };
