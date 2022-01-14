@@ -18,6 +18,7 @@
 #include <frc2/command/ParallelRaceGroup.h>
 #include "commands/drive/TeleopDrive.h"
 #include <frc2/command/InstantCommand.h>
+#include "str/Units.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -55,6 +56,34 @@ void RobotContainer::ConfigureButtonBindings() {
     
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper).WhenPressed(
         frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); }, {&shooterSubsystem})
+    );
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX).WhenPressed(
+        frc2::InstantCommand([this] { 
+            shooterSubsystem.SetShooterSurfaceSpeed(
+                str::Units::ConvertAngularVelocityToLinearVelocity(
+                    shooterSubsystem.GetShooterSetpoint(),
+                    str::physical_dims::SHOOTER_WHEEL_DIAMETER / 2
+                ) - 2_fps 
+            ); 
+        }, 
+        {
+            &shooterSubsystem
+        })
+    );
+    
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB).WhenPressed(
+        frc2::InstantCommand([this] { 
+            shooterSubsystem.SetShooterSurfaceSpeed(
+                str::Units::ConvertAngularVelocityToLinearVelocity(
+                    shooterSubsystem.GetShooterSetpoint(),
+                    str::physical_dims::SHOOTER_WHEEL_DIAMETER / 2
+                ) + 2_fps 
+            ); 
+        }, 
+        {
+            &shooterSubsystem
+        })
     );
 }
 
