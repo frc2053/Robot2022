@@ -19,6 +19,7 @@ DrivetrainSubsystem::DrivetrainSubsystem() {
     ResetEncoders();
     frc::SmartDashboard::PutData("Field", &fieldSim);
     frc::SmartDashboard::PutData("Pose Estimator Field", &poseEstimatorSim);
+    drive.SetSafetyEnabled(false);
 }
 
 void DrivetrainSubsystem::Periodic() {
