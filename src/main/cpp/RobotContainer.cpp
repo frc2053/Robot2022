@@ -36,6 +36,14 @@ RobotContainer::RobotContainer() {
         );
 
     drivetrainSubsystem.SetDefaultCommand(driveCmd);
+
+    frc::SmartDashboard::PutData("Zero Yaw", new frc2::InstantCommand([this]{
+        drivetrainSubsystem.ResetGyro();
+    }));
+
+    frc::SmartDashboard::PutData("Reset Odom", new frc2::InstantCommand([this]{
+        drivetrainSubsystem.ResetOdom(frc::Pose2d());
+    }));
 }
 
 void RobotContainer::ConfigureButtonBindings() {

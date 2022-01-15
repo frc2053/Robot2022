@@ -20,6 +20,11 @@
         "header": {
           "open": true
         }
+      },
+      "navX-Sensor[4]": {
+        "header": {
+          "open": true
+        }
       }
     }
   },
@@ -33,7 +38,10 @@
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Pose Estimator Field": "Field2d",
-      "/SmartDashboard/SendableChooser[0]": "String Chooser"
+      "/SmartDashboard/Reset Odom": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Zero Yaw": "Command",
+      "/SmartDashboard/class frc2::CommandBase": "Command"
     },
     "windows": {
       "/LiveWindow/Ungrouped/DrivetrainSubsystem": {
@@ -95,7 +103,22 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Reset Odom": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Zero Yaw": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/class frc2::CommandBase": {
         "window": {
           "visible": true
         }

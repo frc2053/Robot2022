@@ -37,6 +37,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
     void DrawTrajectory(frc::Trajectory traj);
     void ResetOdom(frc::Pose2d pose);
+    void ResetGyro();
     void SetGyroOffset(units::degree_t offset);
 
     void AddVisionMeasurement(frc::Pose2d visionPose, units::second_t latency);

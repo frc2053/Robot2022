@@ -169,6 +169,10 @@ units::degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
     return gyro.GetYawRate();
 }
 
+void DrivetrainSubsystem::ResetGyro() {
+    gyro.ZeroYaw();
+}
+
 void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose,
                                                units::second_t latency) {
     poseEstimator.AddVisionMeasurement(
@@ -270,6 +274,8 @@ void DrivetrainSubsystem::ConfigureMotors() {
 void DrivetrainSubsystem::ResetEncoders() {
     leftSimCollection.SetIntegratedSensorRawPosition(0);
     rightSimCollection.SetIntegratedSensorRawPosition(0);
+    leftSimCollection.SetIntegratedSensorVelocity(0);
+    rightSimCollection.SetIntegratedSensorVelocity(0);
     frontLeftTalon.SetSelectedSensorPosition(0);
     rearLeftTalon.SetSelectedSensorPosition(0);
     frontRightTalon.SetSelectedSensorPosition(0);

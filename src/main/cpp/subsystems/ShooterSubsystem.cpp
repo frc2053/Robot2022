@@ -39,7 +39,7 @@ void ShooterSubsystem::SimulationPeriodic() {
 }
 
 void ShooterSubsystem::SetShooterSpeed(units::revolutions_per_minute_t setSpeed) {
-   currentShooterSpeedSetpoint = setSpeed;
+    currentShooterSpeedSetpoint = setSpeed;
 }
 
 void ShooterSubsystem::SetShooterSurfaceSpeed(units::feet_per_second_t setSurfaceSpeed) {

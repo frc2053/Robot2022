@@ -27,6 +27,9 @@ void str::IMU::Calibrate() {
 void str::IMU::ZeroYaw() {
     std::cout << "Zeroed gyro.\n";
     navxGyro.ZeroYaw();
+    if (frc::RobotBase::IsSimulation()) {
+        simGyroYaw.Set(0);
+    }
 }
 
 frc::Rotation2d str::IMU::GetYaw() {
