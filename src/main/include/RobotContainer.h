@@ -14,24 +14,28 @@
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/VisionSubsystem.h"
 #include "subsystems/ShooterSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
+#include "subsystems/ConveyorSubsystem.h"
 
 class RobotContainer {
-   public:
+public:
     RobotContainer();
     frc2::Command* GetAutonomousCommand();
     const DrivetrainSubsystem& GetRobotDriveSubsystem() const;
     const ShooterSubsystem& GetShooterSubsystem() const;
 
-   private:
+private:
     void ConfigureButtonBindings();
 
     DrivetrainSubsystem drivetrainSubsystem;
     VisionSubsystem visionSubsystem{&drivetrainSubsystem};
     ShooterSubsystem shooterSubsystem{};
+    IntakeSubsystem intakeSubsystem{};
+    ConveyorSubsystem conveyorSubsystem{};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem};
- 
+
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};
 

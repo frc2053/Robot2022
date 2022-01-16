@@ -28,7 +28,17 @@ static constexpr int REAR_RIGHT_DRIVEBASE_TALON_ID = 5;
 static constexpr int SHOOTERLEADER_TALON_ID = 6;
 static constexpr int SHOOTERFOLLOWER01_TALON_ID = 7;
 static constexpr int SHOOTERFOLLOWER02_TALON_ID = 8;
+static constexpr int INTAKE_TALON_ID = 9;
+static constexpr int BOTTOM_CONVEYOR_TALON_ID = 10;
+static constexpr int TOP_CONVEYOR_TALON_ID = 11;
+static constexpr int BOTTOM_CONVEYOR_RANGE_SENSOR_ID = 12;
+static constexpr int TOP_CONVEYOR_RANGE_SENSOR_ID = 13;
 }  // namespace can_ids
+
+namespace pcm_ports {
+    static constexpr int INTAKE_SOLENOID_PORT1 = 1;
+    static constexpr int INTAKE_SOLENOID_PORT2 = 2;
+}
 
 namespace drive_pid {
 extern const frc::DifferentialDriveKinematics DRIVE_KINEMATICS;

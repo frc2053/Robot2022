@@ -24,32 +24,22 @@ DrivetrainSubsystem::DrivetrainSubsystem() {
 
 void DrivetrainSubsystem::Periodic() {
     frc::Rotation2d currentGyroYaw = gyro.GetYaw();
-    units::meter_t leftEncoderDistance =
-        str::Units::ConvertEncoderTicksToDistance(
-            frontLeftTalon.GetSelectedSensorPosition(),
-            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-            str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
-    units::meter_t rightEncoderDistance =
-        str::Units::ConvertEncoderTicksToDistance(
-            frontRightTalon.GetSelectedSensorPosition(),
-            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-            str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
-    units::meters_per_second_t leftEncoderVelocity =
-        str::Units::ConvertAngularVelocityToLinearVelocity(
-            str::Units::ConvertTicksPer100MsToAngularVelocity(
-                frontLeftTalon.GetSelectedSensorVelocity(),
-                str::encoder_cpr::TALON_FX_ENCODER_CPR,
-                str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
-    units::meters_per_second_t rightEncoderVelocity =
-        str::Units::ConvertAngularVelocityToLinearVelocity(
-            str::Units::ConvertTicksPer100MsToAngularVelocity(
-                frontRightTalon.GetSelectedSensorVelocity(),
-                str::encoder_cpr::TALON_FX_ENCODER_CPR,
-                str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
+    units::meter_t leftEncoderDistance = str::Units::ConvertEncoderTicksToDistance(
+        frontLeftTalon.GetSelectedSensorPosition(), str::encoder_cpr::TALON_FX_ENCODER_CPR,
+        str::physical_dims::DRIVEBASE_GEARBOX_RATIO, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
+    units::meter_t rightEncoderDistance = str::Units::ConvertEncoderTicksToDistance(
+        frontRightTalon.GetSelectedSensorPosition(), str::encoder_cpr::TALON_FX_ENCODER_CPR,
+        str::physical_dims::DRIVEBASE_GEARBOX_RATIO, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
+    units::meters_per_second_t leftEncoderVelocity = str::Units::ConvertAngularVelocityToLinearVelocity(
+        str::Units::ConvertTicksPer100MsToAngularVelocity(frontLeftTalon.GetSelectedSensorVelocity(),
+                                                          str::encoder_cpr::TALON_FX_ENCODER_CPR,
+                                                          str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
+        str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
+    units::meters_per_second_t rightEncoderVelocity = str::Units::ConvertAngularVelocityToLinearVelocity(
+        str::Units::ConvertTicksPer100MsToAngularVelocity(frontRightTalon.GetSelectedSensorVelocity(),
+                                                          str::encoder_cpr::TALON_FX_ENCODER_CPR,
+                                                          str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
+        str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
 
     frc::SmartDashboard::PutNumber("Current Gyro Yaw", currentGyroYaw.Degrees().to<double>());
     frc::SmartDashboard::PutNumber("LeftEncoderVelocity", leftEncoderVelocity.to<double>());
@@ -57,9 +47,8 @@ void DrivetrainSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("RightEncoderVelocity", rightEncoderVelocity.to<double>());
     frc::SmartDashboard::PutNumber("RightEncoderDistance", rightEncoderDistance.to<double>());
 
-    poseEstimator.Update(currentGyroYaw,
-                         {leftEncoderVelocity, rightEncoderVelocity},
-                         leftEncoderDistance, rightEncoderDistance);
+    poseEstimator.Update(currentGyroYaw, {leftEncoderVelocity, rightEncoderVelocity}, leftEncoderDistance,
+                         rightEncoderDistance);
 
     odom.Update(currentGyroYaw, leftEncoderDistance, rightEncoderDistance);
 
@@ -72,84 +61,59 @@ void DrivetrainSubsystem::Periodic() {
 }
 
 void DrivetrainSubsystem::SimulationPeriodic() {
-    drivetrainSimulator.SetInputs(
-        units::volt_t{frontLeftTalon.GetMotorOutputVoltage()},
-        units::volt_t{frontRightTalon.GetMotorOutputVoltage()});
+    drivetrainSimulator.SetInputs(units::volt_t{frontLeftTalon.GetMotorOutputVoltage()},
+                                  units::volt_t{frontRightTalon.GetMotorOutputVoltage()});
     drivetrainSimulator.Update(20_ms);
 
-    leftSimCollection.SetIntegratedSensorRawPosition(
-        str::Units::ConvertDistanceToEncoderTicks(
-            drivetrainSimulator.GetLeftPosition(),
-            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-            str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2));
-    leftSimCollection.SetIntegratedSensorVelocity(
-        str::Units::ConvertAngularVelocityToTicksPer100Ms(
-            str::Units::ConvertLinearVelocityToAngularVelocity(
-                drivetrainSimulator.GetLeftVelocity(),
-                str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
-            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-            str::physical_dims::DRIVEBASE_GEARBOX_RATIO));
-    rightSimCollection.SetIntegratedSensorRawPosition(
-        str::Units::ConvertDistanceToEncoderTicks(
-            drivetrainSimulator.GetRightPosition(),
-            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-            str::physical_dims::DRIVEBASE_GEARBOX_RATIO,
-            str::physical_dims::DRIVE_WHEEL_DIAMETER / 2));
-    rightSimCollection.SetIntegratedSensorVelocity(
-        str::Units::ConvertAngularVelocityToTicksPer100Ms(
-            str::Units::ConvertLinearVelocityToAngularVelocity(
-                drivetrainSimulator.GetRightVelocity(),
-                str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
-            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-            str::physical_dims::DRIVEBASE_GEARBOX_RATIO));
+    leftSimCollection.SetIntegratedSensorRawPosition(str::Units::ConvertDistanceToEncoderTicks(
+        drivetrainSimulator.GetLeftPosition(), str::encoder_cpr::TALON_FX_ENCODER_CPR,
+        str::physical_dims::DRIVEBASE_GEARBOX_RATIO, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2));
+    leftSimCollection.SetIntegratedSensorVelocity(str::Units::ConvertAngularVelocityToTicksPer100Ms(
+        str::Units::ConvertLinearVelocityToAngularVelocity(drivetrainSimulator.GetLeftVelocity(),
+                                                           str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
+        str::encoder_cpr::TALON_FX_ENCODER_CPR, str::physical_dims::DRIVEBASE_GEARBOX_RATIO));
+    rightSimCollection.SetIntegratedSensorRawPosition(str::Units::ConvertDistanceToEncoderTicks(
+        drivetrainSimulator.GetRightPosition(), str::encoder_cpr::TALON_FX_ENCODER_CPR,
+        str::physical_dims::DRIVEBASE_GEARBOX_RATIO, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2));
+    rightSimCollection.SetIntegratedSensorVelocity(str::Units::ConvertAngularVelocityToTicksPer100Ms(
+        str::Units::ConvertLinearVelocityToAngularVelocity(drivetrainSimulator.GetRightVelocity(),
+                                                           str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
+        str::encoder_cpr::TALON_FX_ENCODER_CPR, str::physical_dims::DRIVEBASE_GEARBOX_RATIO));
 
     gyro.SetYaw(drivetrainSimulator.GetHeading().Degrees().to<double>());
 
-    leftSimCollection.SetBusVoltage(
-        frc::RobotController::GetBatteryVoltage().to<double>());
-    rightSimCollection.SetBusVoltage(
-        frc::RobotController::GetBatteryVoltage().to<double>());
+    leftSimCollection.SetBusVoltage(frc::RobotController::GetBatteryVoltage().to<double>());
+    rightSimCollection.SetBusVoltage(frc::RobotController::GetBatteryVoltage().to<double>());
 }
 
 void DrivetrainSubsystem::ArcadeDrive(double fwd, double rot) {
     drive.ArcadeDrive(fwd, rot, false);
 }
 
-void DrivetrainSubsystem::CurvatureDrive(double fwd, double rot,
-                                         bool quickTurn) {
+void DrivetrainSubsystem::CurvatureDrive(double fwd, double rot, bool quickTurn) {
     drive.CurvatureDrive(fwd, rot, quickTurn);
 }
 
-void DrivetrainSubsystem::TankDriveVolts(units::volt_t left,
-                                         units::volt_t right) {
+void DrivetrainSubsystem::TankDriveVolts(units::volt_t left, units::volt_t right) {
     frontLeftTalon.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left / 12_V);
     frontRightTalon.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right / 12_V);
     drive.Feed();
 }
 
-void DrivetrainSubsystem::TankDriveVelocity(units::meters_per_second_t left,
-                                            units::meters_per_second_t right,
-                                            units::volt_t leftFF,
-                                            units::volt_t rightFF) {
-    frontLeftTalon.Set(ctre::phoenix::motorcontrol::ControlMode::Velocity,
-                       str::Units::ConvertAngularVelocityToTicksPer100Ms(
-                           str::Units::ConvertLinearVelocityToAngularVelocity(
-                               left, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
-                           str::encoder_cpr::TALON_FX_ENCODER_CPR,
-                           str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-                       ctre::phoenix::motorcontrol::DemandType::
-                           DemandType_ArbitraryFeedForward,
-                       (leftFF / 12_V).to<double>());
-    frontRightTalon.Set(ctre::phoenix::motorcontrol::ControlMode::Velocity,
-                        str::Units::ConvertAngularVelocityToTicksPer100Ms(
-                            str::Units::ConvertLinearVelocityToAngularVelocity(
-                                right, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
-                            str::encoder_cpr::TALON_FX_ENCODER_CPR,
-                            str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
-                        ctre::phoenix::motorcontrol::DemandType::
-                            DemandType_ArbitraryFeedForward,
-                        (rightFF / 12_V).to<double>());
+void DrivetrainSubsystem::TankDriveVelocity(units::meters_per_second_t left, units::meters_per_second_t right,
+                                            units::volt_t leftFF, units::volt_t rightFF) {
+    frontLeftTalon.Set(
+        ctre::phoenix::motorcontrol::ControlMode::Velocity,
+        str::Units::ConvertAngularVelocityToTicksPer100Ms(
+            str::Units::ConvertLinearVelocityToAngularVelocity(left, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
+            str::encoder_cpr::TALON_FX_ENCODER_CPR, str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
+        ctre::phoenix::motorcontrol::DemandType::DemandType_ArbitraryFeedForward, (leftFF / 12_V).to<double>());
+    frontRightTalon.Set(
+        ctre::phoenix::motorcontrol::ControlMode::Velocity,
+        str::Units::ConvertAngularVelocityToTicksPer100Ms(
+            str::Units::ConvertLinearVelocityToAngularVelocity(right, str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
+            str::encoder_cpr::TALON_FX_ENCODER_CPR, str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
+        ctre::phoenix::motorcontrol::DemandType::DemandType_ArbitraryFeedForward, (rightFF / 12_V).to<double>());
     drive.Feed();
 }
 
@@ -173,32 +137,26 @@ void DrivetrainSubsystem::ResetGyro() {
     gyro.ZeroYaw();
 }
 
-void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose,
-                                               units::second_t latency) {
-    poseEstimator.AddVisionMeasurement(
-        visionPose, frc::Timer::GetFPGATimestamp() - latency);
+void DrivetrainSubsystem::AddVisionMeasurement(frc::Pose2d visionPose, units::second_t latency) {
+    poseEstimator.AddVisionMeasurement(visionPose, frc::Timer::GetFPGATimestamp() - latency);
 }
 
 frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {
     return {str::Units::ConvertAngularVelocityToLinearVelocity(
-                str::Units::ConvertTicksPer100MsToAngularVelocity(
-                    frontLeftTalon.GetSelectedSensorVelocity(),
-                    str::encoder_cpr::TALON_FX_ENCODER_CPR,
-                    str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
+                str::Units::ConvertTicksPer100MsToAngularVelocity(frontLeftTalon.GetSelectedSensorVelocity(),
+                                                                  str::encoder_cpr::TALON_FX_ENCODER_CPR,
+                                                                  str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
                 str::physical_dims::DRIVE_WHEEL_DIAMETER / 2),
             str::Units::ConvertAngularVelocityToLinearVelocity(
-                str::Units::ConvertTicksPer100MsToAngularVelocity(
-                    frontRightTalon.GetSelectedSensorVelocity(),
-                    str::encoder_cpr::TALON_FX_ENCODER_CPR,
-                    str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
+                str::Units::ConvertTicksPer100MsToAngularVelocity(frontRightTalon.GetSelectedSensorVelocity(),
+                                                                  str::encoder_cpr::TALON_FX_ENCODER_CPR,
+                                                                  str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
                 str::physical_dims::DRIVE_WHEEL_DIAMETER / 2)};
 }
 
 void DrivetrainSubsystem::DrawTrajectory(frc::Trajectory traj) {
-    fieldSim.GetObject("traj" + std::to_string(trajCounter))
-        ->SetTrajectory(traj);
-    poseEstimatorSim.GetObject("traj" + std::to_string(trajCounter))
-        ->SetTrajectory(traj);
+    fieldSim.GetObject("traj" + std::to_string(trajCounter))->SetTrajectory(traj);
+    poseEstimatorSim.GetObject("traj" + std::to_string(trajCounter))->SetTrajectory(traj);
     ;
     trajCounter++;
 }
@@ -217,16 +175,11 @@ void DrivetrainSubsystem::SetGyroOffset(units::degree_t offset) {
 
 void DrivetrainSubsystem::ConfigureMotors() {
     ctre::phoenix::motorcontrol::can::TalonFXConfiguration baseConfig;
-    baseConfig.primaryPID.selectedFeedbackSensor =
-        ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor;
-    baseConfig.forwardLimitSwitchSource =
-        ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
-    baseConfig.reverseLimitSwitchSource =
-        ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
-    baseConfig.forwardLimitSwitchNormal =
-        ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
-    baseConfig.reverseLimitSwitchNormal =
-        ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
+    baseConfig.primaryPID.selectedFeedbackSensor = ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor;
+    baseConfig.forwardLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
+    baseConfig.reverseLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
+    baseConfig.forwardLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
+    baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
     baseConfig.slot0.kF = str::drive_pid::KF;
     baseConfig.slot0.kP = str::drive_pid::KP;
     baseConfig.slot0.kI = str::drive_pid::KI;
@@ -251,23 +204,17 @@ void DrivetrainSubsystem::ConfigureMotors() {
     rearRightTalon.EnableVoltageCompensation(true);
 
     rearLeftTalon.Follow(frontLeftTalon);
-    rearLeftTalon.SetInverted(
-        ctre::phoenix::motorcontrol::InvertType::FollowMaster);
+    rearLeftTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
 
     rearRightTalon.Follow(frontRightTalon);
-    rearRightTalon.SetInverted(
-        ctre::phoenix::motorcontrol::InvertType::FollowMaster);
+    rearRightTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
 
     if (frc::RobotBase::IsSimulation()) {
-        frontLeftTalon.SetInverted(
-            ctre::phoenix::motorcontrol::InvertType::None);
-        frontRightTalon.SetInverted(
-            ctre::phoenix::motorcontrol::InvertType::None);
+        frontLeftTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::None);
+        frontRightTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::None);
     } else {
-        frontLeftTalon.SetInverted(
-            ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
-        frontRightTalon.SetInverted(
-            ctre::phoenix::motorcontrol::InvertType::None);
+        frontLeftTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
+        frontRightTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::None);
     }
 }
 
