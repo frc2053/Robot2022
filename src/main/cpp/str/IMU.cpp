@@ -33,8 +33,7 @@ void str::IMU::ZeroYaw() {
 }
 
 frc::Rotation2d str::IMU::GetYaw() {
-    units::degree_t gyroVal =
-        units::degree_t(-navxGyro.GetYaw() + internalOffset);
+    units::degree_t gyroVal = units::degree_t(-navxGyro.GetYaw() + internalOffset);
     frc::Rotation2d retVal = frc::Rotation2d(gyroVal);
     return retVal;
 }

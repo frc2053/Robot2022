@@ -8,12 +8,9 @@
 #include <frc2/command/InstantCommand.h>
 #include <frc/smartdashboard/Field2d.h>
 
-FollowPath::FollowPath(units::meters_per_second_t maxSpeed,
-                       units::meters_per_second_squared_t maxAccel,
-                       const frc::Pose2d& startPt,
-                       const std::vector<frc::Translation2d>& middlePts,
-                       const frc::Pose2d& endPt, bool isReverse,
-                       DrivetrainSubsystem* drivetrain)
+FollowPath::FollowPath(units::meters_per_second_t maxSpeed, units::meters_per_second_squared_t maxAccel,
+                       const frc::Pose2d& startPt, const std::vector<frc::Translation2d>& middlePts,
+                       const frc::Pose2d& endPt, bool isReverse, DrivetrainSubsystem* drivetrain)
     : m_maxSpeed(maxSpeed),
       m_maxAccel(maxAccel),
       m_startPt(startPt),
@@ -21,35 +18,28 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed,
       m_endPt(endPt),
       reverseDriving(isReverse),
       m_drivetrain(drivetrain) {
-
     SetName("FollowPath");
 
     // Set up config for trajectory
     frc::TrajectoryConfig config(maxSpeed, maxAccel);
-    //Change direction robot travels
+    // Change direction robot travels
     config.SetReversed(reverseDriving);
     // Add kinematics to ensure max speed is actually obeyed
     config.SetKinematics(str::drive_pid::DRIVE_KINEMATICS);
     // Apply the voltage constraint
-    //config.AddConstraint(autoVoltageConstraint);
+    // config.AddConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
-    auto trajectoryToFollow = frc::TrajectoryGenerator::GenerateTrajectory(
-        startPt, middlePts, endPt, config);
+    auto trajectoryToFollow = frc::TrajectoryGenerator::GenerateTrajectory(startPt, middlePts, endPt, config);
 
     m_drivetrain->DrawTrajectory(trajectoryToFollow);
 
     BetterRamseteCommand ramseteCommand(
-        trajectoryToFollow, 
-        [this] { return m_drivetrain->GetPose(); },
-        m_drivetrain
-    );
+        trajectoryToFollow, [this] { return m_drivetrain->GetPose(); }, m_drivetrain);
 
     AddCommands(frc2::InstantCommand([this, trajectoryToFollow, startPt]() {
                     m_drivetrain->ResetOdom(trajectoryToFollow.InitialPose());
                 }),
                 std::move(ramseteCommand),
-                frc2::InstantCommand(
-                    [this]() { m_drivetrain->TankDriveVolts(0_V, 0_V); },
-                    {m_drivetrain}));
+                frc2::InstantCommand([this]() { m_drivetrain->TankDriveVolts(0_V, 0_V); }, {m_drivetrain}));
 }

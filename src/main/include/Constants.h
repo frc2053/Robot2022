@@ -18,7 +18,7 @@ static constexpr auto K_MAX_SPEED = 15.9_fps;
 static constexpr auto K_MAX_ACCEL = 20_fps_sq;
 static constexpr auto K_RAMSETE_B = 2 * 1_rad * 1_rad / (1_m * 1_m);
 static constexpr auto K_RAMSETE_ZETA = 0.7 / 1_rad;
-}  // namespace auto_consts
+}    // namespace auto_consts
 
 namespace can_ids {
 static constexpr int FRONT_LEFT_DRIVEBASE_TALON_ID = 2;
@@ -33,12 +33,12 @@ static constexpr int BOTTOM_CONVEYOR_TALON_ID = 10;
 static constexpr int TOP_CONVEYOR_TALON_ID = 11;
 static constexpr int BOTTOM_CONVEYOR_RANGE_SENSOR_ID = 12;
 static constexpr int TOP_CONVEYOR_RANGE_SENSOR_ID = 13;
-}  // namespace can_ids
+}    // namespace can_ids
 
 namespace pcm_ports {
-    static constexpr int INTAKE_SOLENOID_PORT1 = 1;
-    static constexpr int INTAKE_SOLENOID_PORT2 = 2;
-}
+static constexpr int INTAKE_SOLENOID_PORT1 = 1;
+static constexpr int INTAKE_SOLENOID_PORT2 = 2;
+}    // namespace pcm_ports
 
 namespace drive_pid {
 extern const frc::DifferentialDriveKinematics DRIVE_KINEMATICS;
@@ -62,24 +62,24 @@ static constexpr auto TURN_TOLERANCE = 2_deg;
 static constexpr auto TURN_RATE_TOLERANCE = 10_deg_per_s;
 constexpr auto MAX_TURN_RATE = 100_deg_per_s;
 constexpr auto MAX_TURN_ACCEL = 300_deg_per_s / 1_s;
-}  // namespace drive_pid
+}    // namespace drive_pid
 
 namespace shooter_pid {
 extern frc::LinearSystem<1, 1, 1> SHOOTER_PLANT;
 static constexpr auto KV = 0.02_V / 1_rad_per_s;
 static constexpr auto KA = 0.01_V / 1_rad_per_s_sq;
-}  // namespace shooter_pid
+}    // namespace shooter_pid
 
 namespace encoder_cpr {
 static constexpr int TALON_FX_ENCODER_CPR = 2048;
 static constexpr int CANCODER_ENCODER_CPR = 4096;
 static constexpr int NEO_ENCODER_CPR = 48;
-}  // namespace encoder_cpr
+}    // namespace encoder_cpr
 
 namespace oi {
 static constexpr int DRIVER_CONTROLLER_PORT = 0;
 static constexpr int OPERATOR_CONTROLLER_PORT = 1;
-}  // namespace oi
+}    // namespace oi
 
 namespace physical_dims {
 static constexpr auto TRACK_WIDTH = 27_in;
@@ -90,7 +90,7 @@ static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::Falcon500(2);
 static constexpr auto SHOOTER_GEARBOX = frc::DCMotor::Falcon500(2);
 static constexpr double SHOOTER_GEARBOX_RATIO = 0.5;
 static constexpr auto SHOOTER_WHEEL_DIAMETER = 4_in;
-}  // namespace physical_dims
+}    // namespace physical_dims
 
 namespace vision_vars {
 static constexpr units::meter_t CAMERA_HEIGHT = 3_ft;
@@ -99,11 +99,12 @@ static constexpr units::meter_t TARGET_HEIGHT = 2_in;
 static constexpr units::meter_t TARGET_WIDTH = 53_in;
 static constexpr units::degree_t CAMERA_PITCH = 20_deg;
 static frc::Pose2d TARGET_POSE = frc::Pose2d(27_ft, 13.5_ft, 0_deg);
-static const frc::Transform2d CAMERA_TO_ROBOT = frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(0_deg));
+static const frc::Transform2d CAMERA_TO_ROBOT =
+    frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(0_deg));
 static constexpr units::degree_t CAMERA_DIAG_FOV = 74.8_deg;
 static constexpr units::meter_t MAX_LED_RANGE = 20_m;
 static constexpr int GLOWORM_RES_X = 640;
 static constexpr int GLOWORM_REX_Y = 480;
-static constexpr double MIN_TARGET_AREA = 10; //square pixels
-}  // namespace vision_vars
-}  // namespace str
+static constexpr double MIN_TARGET_AREA = 10;    // square pixels
+}    // namespace vision_vars
+}    // namespace str

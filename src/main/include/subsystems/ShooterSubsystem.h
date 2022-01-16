@@ -15,7 +15,7 @@
 #include "str/ShooterLookupTable.h"
 
 class ShooterSubsystem : public frc2::SubsystemBase {
-   public:
+public:
     ShooterSubsystem();
 
     /**
@@ -24,45 +24,36 @@ class ShooterSubsystem : public frc2::SubsystemBase {
     void Periodic() override;
     void SimulationPeriodic() override;
     units::radians_per_second_t GetCurrentShooterSpeed();
-    units::meters_per_second_t GetWheelSurfaceSpeed(
-        units::radians_per_second_t angularSpeed);
+    units::meters_per_second_t GetWheelSurfaceSpeed(units::radians_per_second_t angularSpeed);
     units::ampere_t GetCurrentDraw() const;
     void SetShooterSpeed(units::revolutions_per_minute_t setSpeed);
     void SetShooterSurfaceSpeed(units::feet_per_second_t setSurfaceSpeed);
     const units::radians_per_second_t GetShooterSetpoint() const;
     str::LookupValue GetAngleAndRPMForGoal(units::meter_t distance);
-   private:
+
+private:
     void ResetEncoders();
     void ConfigureMotors();
-    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorLeader{
-        str::can_ids::SHOOTERLEADER_TALON_ID};
-    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorFollower01{
-        str::can_ids::SHOOTERFOLLOWER01_TALON_ID};
-    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorFollower02{
-        str::can_ids::SHOOTERFOLLOWER02_TALON_ID};
-    ctre::phoenix::motorcontrol::TalonFXSimCollection shooterSimCollection{
-        shooterMotorLeader};
-    frc::sim::FlywheelSim shooterSim{str::shooter_pid::SHOOTER_PLANT,
-                                     str::physical_dims::SHOOTER_GEARBOX,
+    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorLeader{str::can_ids::SHOOTERLEADER_TALON_ID};
+    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorFollower01{str::can_ids::SHOOTERFOLLOWER01_TALON_ID};
+    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorFollower02{str::can_ids::SHOOTERFOLLOWER02_TALON_ID};
+    ctre::phoenix::motorcontrol::TalonFXSimCollection shooterSimCollection{shooterMotorLeader};
+    frc::sim::FlywheelSim shooterSim{str::shooter_pid::SHOOTER_PLANT, str::physical_dims::SHOOTER_GEARBOX,
                                      str::physical_dims::SHOOTER_GEARBOX_RATIO};
-    frc::KalmanFilter<1, 1, 1> observer{
-        str::shooter_pid::SHOOTER_PLANT, {3.0}, {0.01}, 20_ms};
-    frc::LinearQuadraticRegulator<1, 1> controller{
-        str::shooter_pid::SHOOTER_PLANT,
-        // qelms. Velocity error tolerance, in radians per second. Decrease this
-        // to more heavily penalize state excursion, or make the controller
-        // behave more aggressively.
-        {8.0},
-        // relms. Control effort (voltage) tolerance. Decrease this to more
-        // heavily penalize control effort, or make the controller less
-        // aggressive. 12 is a good starting point because that is the
-        // (approximate) maximum voltage of a battery.
-        {12.0},
-        20_ms};
-    frc::LinearSystemLoop<1, 1, 1> loop{str::shooter_pid::SHOOTER_PLANT,
-                                        controller, observer, 12_V, 20_ms};
-    frc::SimpleMotorFeedforward<units::radian> feedforward{
-      0_V, str::shooter_pid::KV, str::shooter_pid::KA};
+    frc::KalmanFilter<1, 1, 1> observer{str::shooter_pid::SHOOTER_PLANT, {3.0}, {0.01}, 20_ms};
+    frc::LinearQuadraticRegulator<1, 1> controller{str::shooter_pid::SHOOTER_PLANT,
+                                                   // qelms. Velocity error tolerance, in radians per second. Decrease
+                                                   // this to more heavily penalize state excursion, or make the
+                                                   // controller behave more aggressively.
+                                                   {8.0},
+                                                   // relms. Control effort (voltage) tolerance. Decrease this to more
+                                                   // heavily penalize control effort, or make the controller less
+                                                   // aggressive. 12 is a good starting point because that is the
+                                                   // (approximate) maximum voltage of a battery.
+                                                   {12.0},
+                                                   20_ms};
+    frc::LinearSystemLoop<1, 1, 1> loop{str::shooter_pid::SHOOTER_PLANT, controller, observer, 12_V, 20_ms};
+    frc::SimpleMotorFeedforward<units::radian> feedforward{0_V, str::shooter_pid::KV, str::shooter_pid::KA};
     units::radians_per_second_t currentShooterSpeedSetpoint;
     str::ShooterLookupTable lookupTable;
 };

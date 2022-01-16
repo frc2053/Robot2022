@@ -16,8 +16,9 @@
  * Command will *not* work!
  */
 class TeleopDrive : public frc2::CommandHelper<frc2::CommandBase, TeleopDrive> {
-   public:
-    TeleopDrive(std::function<double()> fow, std::function<double()> rot, std::function<bool()> quickTurn, DrivetrainSubsystem* driveSub);
+public:
+    TeleopDrive(std::function<double()> fow, std::function<double()> rot, std::function<bool()> quickTurn,
+                DrivetrainSubsystem* driveSub);
 
     void Initialize() override;
 
@@ -26,6 +27,7 @@ class TeleopDrive : public frc2::CommandHelper<frc2::CommandBase, TeleopDrive> {
     void End(bool interrupted) override;
 
     bool IsFinished() override;
+
 private:
     std::function<double()> forwardCmd;
     std::function<double()> rotCmd;

@@ -8,7 +8,7 @@
 
 namespace str {
 class IMU {
-   public:
+public:
     IMU();
     void Calibrate();
     void ZeroYaw();
@@ -21,11 +21,11 @@ class IMU {
     void SetRate(double newRate);
     void SetOffset(units::degree_t offset);
 
-   private:
+private:
     AHRS navxGyro{frc::SPI::Port::kMXP};
     HAL_SimDeviceHandle simGyro;
     hal::SimDouble simGyroYaw;
     hal::SimDouble simGyroRate;
     double internalOffset;
 };
-}  // namespace str
+}    // namespace str

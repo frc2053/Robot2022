@@ -4,8 +4,7 @@
 
 #include "commands/drive/BetterRamseteCommand.h"
 
-BetterRamseteCommand::BetterRamseteCommand(frc::Trajectory traj,
-                                           std::function<frc::Pose2d()> pose,
+BetterRamseteCommand::BetterRamseteCommand(frc::Trajectory traj, std::function<frc::Pose2d()> pose,
                                            DrivetrainSubsystem* driveSub)
     : trajToFollow(traj), m_pose(pose), drivetrainSubsystem(driveSub) {
     AddRequirements(drivetrainSubsystem);
@@ -17,8 +16,7 @@ void BetterRamseteCommand::Initialize() {
     m_prevTime = -1_s;
     auto initialState = trajToFollow.Sample(0_s);
     m_prevSpeeds = str::drive_pid::DRIVE_KINEMATICS.ToWheelSpeeds(
-        frc::ChassisSpeeds{initialState.velocity, 0_mps,
-                           initialState.velocity * initialState.curvature});
+        frc::ChassisSpeeds{initialState.velocity, 0_mps, initialState.velocity * initialState.curvature});
     m_timer.Reset();
     m_timer.Start();
 }
@@ -38,11 +36,12 @@ void BetterRamseteCommand::Execute() {
 
     auto refChassisSpeeds = m_ramseteController.Calculate(m_pose(), desiredPose);
 
-    frc::DifferentialDriveWheelSpeeds wheelSpeeds =
-        str::drive_pid::DRIVE_KINEMATICS.ToWheelSpeeds(refChassisSpeeds);
+    frc::DifferentialDriveWheelSpeeds wheelSpeeds = str::drive_pid::DRIVE_KINEMATICS.ToWheelSpeeds(refChassisSpeeds);
 
-    units::volt_t feedForwardLeft = feedForward.Calculate(wheelSpeeds.left, (wheelSpeeds.left - m_prevSpeeds.left) / dt);
-    units::volt_t feedForwardRight = feedForward.Calculate(wheelSpeeds.right, (wheelSpeeds.right - m_prevSpeeds.right) / dt);
+    units::volt_t feedForwardLeft =
+        feedForward.Calculate(wheelSpeeds.left, (wheelSpeeds.left - m_prevSpeeds.left) / dt);
+    units::volt_t feedForwardRight =
+        feedForward.Calculate(wheelSpeeds.right, (wheelSpeeds.right - m_prevSpeeds.right) / dt);
 
     drivetrainSubsystem->TankDriveVelocity(wheelSpeeds.left, wheelSpeeds.right, feedForwardLeft, feedForwardRight);
 

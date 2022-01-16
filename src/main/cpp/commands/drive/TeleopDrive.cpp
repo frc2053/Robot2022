@@ -4,9 +4,7 @@
 
 #include "commands/drive/TeleopDrive.h"
 
-TeleopDrive::TeleopDrive(std::function<double()> fow,
-                         std::function<double()> rot,
-                         std::function<bool()> quickTurn,
+TeleopDrive::TeleopDrive(std::function<double()> fow, std::function<double()> rot, std::function<bool()> quickTurn,
                          DrivetrainSubsystem* driveSub)
     : forwardCmd(fow), rotCmd(rot), quickTurnCmd(quickTurn), drivetrainSub(driveSub) {
     AddRequirements(drivetrainSub);

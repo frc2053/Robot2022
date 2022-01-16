@@ -10,9 +10,8 @@
 #include <photonlib/SimVisionSystem.h>
 #include "Constants.h"
 
-
 class VisionSubsystem : public frc2::SubsystemBase {
-   public:
+public:
     VisionSubsystem(DrivetrainSubsystem* driveSub);
 
     /**
@@ -31,22 +30,21 @@ class VisionSubsystem : public frc2::SubsystemBase {
     units::meter_t GetDistanceToTarget();
     frc::Translation2d GetTranslationToTarget();
     frc::Pose2d GetRobotPose();
-   private:
+
+private:
     DrivetrainSubsystem* driveSubsystem;
     photonlib::PhotonCamera gloworm{"gloworm-cam"};
     photonlib::PhotonPipelineResult latestData;
     units::second_t latency;
     wpi::span<const photonlib::PhotonTrackedTarget> targetsFound;
     photonlib::PhotonTrackedTarget bestTarget;
-    photonlib::SimVisionSystem gloworm_sim{
-        "gloworm-cam",
-        str::vision_vars::CAMERA_DIAG_FOV,
-        str::vision_vars::CAMERA_PITCH,
-        str::vision_vars::CAMERA_TO_ROBOT,
-        str::vision_vars::CAMERA_HEIGHT,
-        str::vision_vars::MAX_LED_RANGE,
-        str::vision_vars::GLOWORM_RES_X,
-        str::vision_vars::GLOWORM_REX_Y,
-        str::vision_vars::MIN_TARGET_AREA
-    };
+    photonlib::SimVisionSystem gloworm_sim{"gloworm-cam",
+                                           str::vision_vars::CAMERA_DIAG_FOV,
+                                           str::vision_vars::CAMERA_PITCH,
+                                           str::vision_vars::CAMERA_TO_ROBOT,
+                                           str::vision_vars::CAMERA_HEIGHT,
+                                           str::vision_vars::MAX_LED_RANGE,
+                                           str::vision_vars::GLOWORM_RES_X,
+                                           str::vision_vars::GLOWORM_REX_Y,
+                                           str::vision_vars::MIN_TARGET_AREA};
 };

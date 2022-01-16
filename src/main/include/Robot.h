@@ -10,7 +10,7 @@
 #include "RobotContainer.h"
 
 class Robot : public frc::TimedRobot {
-   public:
+public:
     void RobotInit() override;
     void RobotPeriodic() override;
     void DisabledInit() override;
@@ -22,7 +22,7 @@ class Robot : public frc::TimedRobot {
     void TestPeriodic() override;
     void SimulationPeriodic() override;
 
-   private:
+private:
     frc2::Command* m_autonomousCommand = nullptr;
     RobotContainer m_container;
 };

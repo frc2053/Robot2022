@@ -6,12 +6,10 @@
 #include <photonlib/PhotonUtils.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub)
-    : driveSubsystem(driveSub) {
-    gloworm_sim.AddSimVisionTarget(photonlib::SimVisionTarget(
-        str::vision_vars::TARGET_POSE,
-        str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
-        str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
+VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub) : driveSubsystem(driveSub) {
+    gloworm_sim.AddSimVisionTarget(
+        photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+                                   str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
 }
 
 // This method will be called once per scheduler run
@@ -63,26 +61,23 @@ units::degree_t VisionSubsystem::GetSkewOfTarget() {
 }
 
 units::meter_t VisionSubsystem::GetDistanceToTarget() {
-    auto dist = photonlib::PhotonUtils::CalculateDistanceToTarget(
-        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
-        str::vision_vars::CAMERA_PITCH, GetPitchToTarget());
+    auto dist = photonlib::PhotonUtils::CalculateDistanceToTarget(str::vision_vars::CAMERA_HEIGHT,
+                                                                  str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+                                                                  str::vision_vars::CAMERA_PITCH, GetPitchToTarget());
     return dist;
 }
 
 frc::Translation2d VisionSubsystem::GetTranslationToTarget() {
     auto translationToTarget =
-        photonlib::PhotonUtils::EstimateCameraToTargetTranslation(
-            GetDistanceToTarget(), GetYawToTarget());
+        photonlib::PhotonUtils::EstimateCameraToTargetTranslation(GetDistanceToTarget(), GetYawToTarget());
 
     return translationToTarget;
 }
 
 frc::Pose2d VisionSubsystem::GetRobotPose() {
     auto pose = photonlib::PhotonUtils::EstimateFieldToRobot(
-        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
-        str::vision_vars::CAMERA_PITCH, GetPitchToTarget(),
-        frc::Rotation2d(GetYawToTarget()),
-        frc::Rotation2d(driveSubsystem->GetHeading()),
+        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND, str::vision_vars::CAMERA_PITCH,
+        GetPitchToTarget(), frc::Rotation2d(GetYawToTarget()), frc::Rotation2d(driveSubsystem->GetHeading()),
         str::vision_vars::TARGET_POSE, str::vision_vars::CAMERA_TO_ROBOT);
     return pose;
 }

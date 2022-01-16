@@ -18,8 +18,7 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class BetterRamseteCommand
-    : public frc2::CommandHelper<frc2::CommandBase, BetterRamseteCommand> {
+class BetterRamseteCommand : public frc2::CommandHelper<frc2::CommandBase, BetterRamseteCommand> {
 public:
     BetterRamseteCommand(frc::Trajectory traj, std::function<frc::Pose2d()> pose, DrivetrainSubsystem* driveSub);
 
@@ -30,17 +29,14 @@ public:
     void End(bool interrupted) override;
 
     bool IsFinished() override;
+
 private:
     frc::Timer m_timer;
     frc::Trajectory trajToFollow;
     frc::RamseteController m_ramseteController;
     std::function<frc::Pose2d()> m_pose;
     DrivetrainSubsystem* drivetrainSubsystem;
-    frc::SimpleMotorFeedforward<units::meters> feedForward{
-        str::drive_pid::KS, 
-        str::drive_pid::KV, 
-        str::drive_pid::KA
-    };
+    frc::SimpleMotorFeedforward<units::meters> feedForward{str::drive_pid::KS, str::drive_pid::KV, str::drive_pid::KA};
     units::second_t m_prevTime;
     frc::DifferentialDriveWheelSpeeds m_prevSpeeds;
 };
