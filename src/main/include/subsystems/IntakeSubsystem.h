@@ -17,8 +17,11 @@ public:
      * Will be called periodically whenever the CommandScheduler runs.
      */
     void Periodic() override;
+    void PutIntakeDown();
+    void PutIntakeUp();
 
 private:
+    void ConfigureMotors();
     ctre::phoenix::motorcontrol::can::WPI_TalonSRX intakeMotor{str::can_ids::INTAKE_TALON_ID};
     frc::DoubleSolenoid intakeSolenoid{frc::PneumaticsModuleType::CTREPCM, str::pcm_ports::INTAKE_SOLENOID_PORT1,
                                        str::pcm_ports::INTAKE_SOLENOID_PORT2};
