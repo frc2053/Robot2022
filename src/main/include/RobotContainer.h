@@ -16,6 +16,7 @@
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ConveyorSubsystem.h"
+#include "subsystems/TurretSubsystem.h"
 
 class RobotContainer {
 public:
@@ -32,6 +33,7 @@ private:
     ShooterSubsystem shooterSubsystem{};
     IntakeSubsystem intakeSubsystem{};
     ConveyorSubsystem conveyorSubsystem{};
+    TurretSubsystem turretSubsystem{};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem};
