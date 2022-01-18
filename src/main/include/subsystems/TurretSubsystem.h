@@ -30,12 +30,14 @@ public:
     units::ampere_t GetCurrentDraw() const;
     void SetTurretGoal(units::radian_t goal);
     units::degree_t GetTurretSetpoint();
+    frc::Transform2d GetCameraToRobotPose();
+    units::radian_t GetCurrentTurretAngle();
 
 private:
     void ConfigureMotors();
     ctre::phoenix::motorcontrol::can::TalonSRX turretMotor{str::can_ids::TURRET_TALON_ID};
     ctre::phoenix::motorcontrol::TalonSRXSimCollection turretSimCollection{turretMotor};
-    frc::TrapezoidProfile<units::radians>::Constraints constraints{180_deg_per_s, 90_deg_per_s / 1_s};
+    frc::TrapezoidProfile<units::radians>::Constraints constraints{360_deg_per_s, 1000_deg_per_s / 1_s};
     frc::TrapezoidProfile<units::radians>::State lastProfiledReference;
     frc::KalmanFilter<2, 1, 1> observer{str::turret_pid::TURRET_PLANT, {0.015, 0.17}, {0.01}, 20_ms};
     frc::LinearQuadraticRegulator<2, 1> controller{

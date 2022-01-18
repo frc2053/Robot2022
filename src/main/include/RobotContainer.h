@@ -30,11 +30,11 @@ private:
     void ConfigureButtonBindings();
 
     DrivetrainSubsystem drivetrainSubsystem;
-    VisionSubsystem visionSubsystem{&drivetrainSubsystem};
     ShooterSubsystem shooterSubsystem{};
     IntakeSubsystem intakeSubsystem{};
     ConveyorSubsystem conveyorSubsystem{};
     TurretSubsystem turretSubsystem{};
+    VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem};

@@ -9,10 +9,11 @@
 #include "subsystems/DrivetrainSubsystem.h"
 #include <photonlib/SimVisionSystem.h>
 #include "Constants.h"
+#include "subsystems/TurretSubsystem.h"
 
 class VisionSubsystem : public frc2::SubsystemBase {
 public:
-    VisionSubsystem(DrivetrainSubsystem* driveSub);
+    VisionSubsystem(DrivetrainSubsystem* driveSub, TurretSubsystem* turretSub);
 
     /**
      * Will be called periodically whenever the CommandScheduler runs.
@@ -33,6 +34,7 @@ public:
 
 private:
     DrivetrainSubsystem* driveSubsystem;
+    TurretSubsystem* turretSubsystem;
     photonlib::PhotonCamera gloworm{"gloworm-cam"};
     photonlib::PhotonPipelineResult latestData;
     units::second_t latency;

@@ -15,16 +15,18 @@ TurretSubsystem::TurretSubsystem() {
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
+    auto currentAngle = GetCurrentTurretAngle();
     frc::TrapezoidProfile<units::radians>::State goal;
     goal = {turretSetpointGoal, 0_rad_per_s};
+    frc::SmartDashboard::PutNumber("Turret Setpoint",
+                                   units::convert<units::radian, units::degree>(turretSetpointGoal).to<double>());
+    frc::SmartDashboard::PutNumber("Turret Current Angle",
+                                   units::convert<units::radian, units::degree>(currentAngle).to<double>());
     lastProfiledReference =
         (frc::TrapezoidProfile<units::radians>(constraints, goal, lastProfiledReference)).Calculate(20_ms);
     loop.SetNextR(
         Eigen::Vector<double, 2>{lastProfiledReference.position.value(), lastProfiledReference.velocity.value()});
-    loop.Correct(Eigen::Vector<double, 1>{
-        str::Units::ConvertTicksToAngle(turretMotor.GetSelectedSensorPosition(), str::encoder_cpr::CANCODER_ENCODER_CPR,
-                                        str::physical_dims::TURRET_GEARBOX_RATIO, true)
-            .value()});
+    loop.Correct(Eigen::Vector<double, 1>{currentAngle.value()});
     loop.Predict(20_ms);
     turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, units::volt_t(loop.U(0)) / 12_V);
 }
@@ -61,4 +63,14 @@ void TurretSubsystem::SetTurretGoal(units::radian_t goal) {
 
 units::degree_t TurretSubsystem::GetTurretSetpoint() {
     return turretSetpointGoal;
+}
+
+units::radian_t TurretSubsystem::GetCurrentTurretAngle() {
+    return str::Units::ConvertTicksToAngle(turretMotor.GetSelectedSensorPosition(),
+                                           str::encoder_cpr::CANCODER_ENCODER_CPR,
+                                           str::physical_dims::TURRET_GEARBOX_RATIO, true);
+}
+
+frc::Transform2d TurretSubsystem::GetCameraToRobotPose() {
+    return frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(GetCurrentTurretAngle()));
 }

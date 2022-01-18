@@ -6,7 +6,8 @@
 #include <photonlib/PhotonUtils.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub) : driveSubsystem(driveSub) {
+VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub, TurretSubsystem* turretSub)
+    : driveSubsystem(driveSub), turretSubsystem(turretSub) {
     SetName("VisionSubsystem");
     gloworm_sim.AddSimVisionTarget(
         photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
@@ -15,6 +16,9 @@ VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub) : driveSubsystem
 
 // This method will be called once per scheduler run
 void VisionSubsystem::Periodic() {
+    auto cam_to_bot = turretSubsystem->GetCameraToRobotPose();
+    gloworm_sim.MoveCamera(cam_to_bot, str::vision_vars::CAMERA_HEIGHT, str::vision_vars::CAMERA_PITCH);
+    frc::SmartDashboard::PutNumber("cam_to_bot_rot", cam_to_bot.Rotation().Degrees().value());
     latestData = gloworm.GetLatestResult();
     if (latestData.HasTargets()) {
         targetsFound = latestData.GetTargets();
