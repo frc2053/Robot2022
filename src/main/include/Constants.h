@@ -6,7 +6,7 @@
 
 #include <frc/kinematics/DifferentialDriveKinematics.h>
 #include <frc/system/plant/LinearSystemId.h>
-
+#include <frc/simulation/SingleJointedArmSim.h>
 #include <units/acceleration.h>
 #include <units/length.h>
 #include <units/voltage.h>
@@ -33,6 +33,7 @@ static constexpr int BOTTOM_CONVEYOR_TALON_ID = 10;
 static constexpr int TOP_CONVEYOR_TALON_ID = 11;
 static constexpr int BOTTOM_CONVEYOR_RANGE_SENSOR_ID = 12;
 static constexpr int TOP_CONVEYOR_RANGE_SENSOR_ID = 13;
+static constexpr int TURRET_TALON_ID = 14;
 }    // namespace can_ids
 
 namespace pcm_ports {
@@ -75,6 +76,10 @@ static constexpr auto KV = 0.02_V / 1_rad_per_s;
 static constexpr auto KA = 0.01_V / 1_rad_per_s_sq;
 }    // namespace shooter_pid
 
+namespace turret_pid {
+extern frc::LinearSystem<2, 1, 1> TURRET_PLANT;
+}
+
 namespace encoder_cpr {
 static constexpr int TALON_FX_ENCODER_CPR = 2048;
 static constexpr int CANCODER_ENCODER_CPR = 4096;
@@ -95,6 +100,14 @@ static constexpr auto DRIVEBASE_GEARBOX = frc::DCMotor::Falcon500(2);
 static constexpr auto SHOOTER_GEARBOX = frc::DCMotor::Falcon500(2);
 static constexpr double SHOOTER_GEARBOX_RATIO = 0.5;
 static constexpr auto SHOOTER_WHEEL_DIAMETER = 4_in;
+
+static constexpr auto TURRET_GEARBOX = frc::DCMotor::Bag(1);
+static constexpr double TURRET_GEARBOX_RATIO = 100.0;
+static constexpr auto TURRET_DIAMETER = 10.5_in;
+// yeah whatever lbs isnt mass exactly but our robot is only on earth right?
+static constexpr auto TURRET_MASS = 15_lb;
+static constexpr auto TURRET_MOI =
+    frc::sim::SingleJointedArmSim::EstimateMOI(str::physical_dims::TURRET_DIAMETER, TURRET_MASS);
 }    // namespace physical_dims
 
 namespace vision_vars {

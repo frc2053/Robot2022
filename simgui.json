@@ -31,15 +31,20 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/ConveyorSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
       "/LiveWindow/Ungrouped/DrivetrainSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/IntakeSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/ShooterSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/VisionSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/class frc2::SubsystemBase": "Subsystem",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Pose Estimator Field": "Field2d",
       "/SmartDashboard/Reset Odom": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/Turret Sim": "Mechanism2d",
       "/SmartDashboard/Zero Yaw": "Command",
       "/SmartDashboard/class frc2::CommandBase": "Command"
     },
@@ -114,6 +119,11 @@
         }
       },
       "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Turret Sim": {
         "window": {
           "visible": true
         }
