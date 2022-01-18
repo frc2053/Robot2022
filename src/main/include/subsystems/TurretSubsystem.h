@@ -16,6 +16,7 @@
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include <frc/smartdashboard/MechanismRoot2d.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
+#include <frc/trajectory/TrapezoidProfile.h>
 
 class TurretSubsystem : public frc2::SubsystemBase {
 public:
@@ -25,11 +26,17 @@ public:
      * Will be called periodically whenever the CommandScheduler runs.
      */
     void Periodic() override;
+    void SimulationPeriodic() override;
+    units::ampere_t GetCurrentDraw() const;
+    void SetTurretGoal(units::radian_t goal);
+    units::degree_t GetTurretSetpoint();
 
 private:
     void ConfigureMotors();
     ctre::phoenix::motorcontrol::can::TalonSRX turretMotor{str::can_ids::TURRET_TALON_ID};
     ctre::phoenix::motorcontrol::TalonSRXSimCollection turretSimCollection{turretMotor};
+    frc::TrapezoidProfile<units::radians>::Constraints constraints{180_deg_per_s, 90_deg_per_s / 1_s};
+    frc::TrapezoidProfile<units::radians>::State lastProfiledReference;
     frc::KalmanFilter<2, 1, 1> observer{str::turret_pid::TURRET_PLANT, {0.015, 0.17}, {0.01}, 20_ms};
     frc::LinearQuadraticRegulator<2, 1> controller{
         str::turret_pid::TURRET_PLANT,
@@ -56,4 +63,5 @@ private:
     frc::MechanismRoot2d* turretBase = turretViz.GetRoot("TurretBase", 30, 30);
     frc::MechanismLigament2d* turretArm = turretBase->Append<frc::MechanismLigament2d>(
         "TurretArm", 30, turretSim.GetAngle(), 6, frc::Color8Bit{frc::Color::kCyan});
+    units::radian_t turretSetpointGoal = 0_deg;
 };

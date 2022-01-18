@@ -78,6 +78,16 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
         .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftStick)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() - 10_deg); },
+            {&turretSubsystem}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightStick)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
+            {&turretSubsystem}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -90,4 +100,8 @@ const DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem() const {
 
 const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
     return shooterSubsystem;
+}
+
+const TurretSubsystem& RobotContainer::GetTurretSubsystem() const {
+    return turretSubsystem;
 }

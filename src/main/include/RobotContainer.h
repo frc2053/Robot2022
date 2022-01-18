@@ -24,6 +24,7 @@ public:
     frc2::Command* GetAutonomousCommand();
     const DrivetrainSubsystem& GetRobotDriveSubsystem() const;
     const ShooterSubsystem& GetShooterSubsystem() const;
+    const TurretSubsystem& GetTurretSubsystem() const;
 
 private:
     void ConfigureButtonBindings();
