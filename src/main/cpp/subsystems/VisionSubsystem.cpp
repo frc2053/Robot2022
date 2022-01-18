@@ -7,6 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub) : driveSubsystem(driveSub) {
+    SetName("VisionSubsystem");
     gloworm_sim.AddSimVisionTarget(
         photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
                                    str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));

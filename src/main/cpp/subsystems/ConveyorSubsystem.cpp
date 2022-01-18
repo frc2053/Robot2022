@@ -4,7 +4,10 @@
 
 #include "subsystems/ConveyorSubsystem.h"
 
-ConveyorSubsystem::ConveyorSubsystem() = default;
+ConveyorSubsystem::ConveyorSubsystem() {
+    SetName("ConveyorSubsystem");
+    ConfigureMotors();
+}
 
 // This method will be called once per scheduler run
 void ConveyorSubsystem::Periodic() {
