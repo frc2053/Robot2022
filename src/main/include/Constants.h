@@ -40,6 +40,11 @@ static constexpr int INTAKE_SOLENOID_PORT1 = 1;
 static constexpr int INTAKE_SOLENOID_PORT2 = 2;
 }    // namespace pcm_ports
 
+namespace intake_vars {
+static constexpr size_t FILTER_VALUE = 5;
+static constexpr units::millimeter_t DIST_THRESHOLD = 50_mm;
+}    // namespace intake_vars
+
 namespace drive_pid {
 extern const frc::DifferentialDriveKinematics DRIVE_KINEMATICS;
 extern const frc::LinearSystem<2, 2, 2> DRIVE_TRAIN_PLANT;

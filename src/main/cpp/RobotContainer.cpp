@@ -19,6 +19,7 @@
 #include "commands/drive/TeleopDrive.h"
 #include <frc2/command/InstantCommand.h>
 #include "str/Units.h"
+#include "commands/intake/IntakeABall.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -55,7 +56,7 @@ void RobotContainer::ConfigureButtonBindings() {
             [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
             {&shooterSubsystem}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
         .WhenPressed(frc2::InstantCommand(
             [this] {
                 shooterSubsystem.SetShooterSurfaceSpeed(
@@ -65,7 +66,7 @@ void RobotContainer::ConfigureButtonBindings() {
             },
             {&shooterSubsystem}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kStart)
         .WhenPressed(frc2::InstantCommand(
             [this] {
                 shooterSubsystem.SetShooterSurfaceSpeed(
@@ -74,6 +75,9 @@ void RobotContainer::ConfigureButtonBindings() {
                     2_fps);
             },
             {&shooterSubsystem}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

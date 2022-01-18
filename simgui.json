@@ -49,6 +49,11 @@
           "visible": true
         }
       },
+      "/LiveWindow/Ungrouped/class frc2::SubsystemBase": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 900,
         "height": 8.229599952697754,
