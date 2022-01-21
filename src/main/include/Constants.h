@@ -72,8 +72,9 @@ constexpr auto MAX_TURN_ACCEL = 300_deg_per_s / 1_s;
 
 namespace shooter_pid {
 extern frc::LinearSystem<1, 1, 1> SHOOTER_PLANT;
-static constexpr auto KV = 0.02_V / 1_rad_per_s;
-static constexpr auto KA = 0.01_V / 1_rad_per_s_sq;
+static constexpr auto KV = 0.0091677_V / 1_rad_per_s;
+static constexpr auto KA = 0.0022401_V / 1_rad_per_s_sq;
+static constexpr auto KS = 0.73937_V;
 }    // namespace shooter_pid
 
 namespace turret_pid {

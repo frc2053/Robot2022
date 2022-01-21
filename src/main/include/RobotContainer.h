@@ -29,15 +29,15 @@ public:
 private:
     void ConfigureButtonBindings();
 
-    DrivetrainSubsystem drivetrainSubsystem;
+    //DrivetrainSubsystem drivetrainSubsystem;
     ShooterSubsystem shooterSubsystem{};
-    IntakeSubsystem intakeSubsystem{};
-    ConveyorSubsystem conveyorSubsystem{};
-    TurretSubsystem turretSubsystem{};
-    VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
+    // IntakeSubsystem intakeSubsystem{};
+    // ConveyorSubsystem conveyorSubsystem{};
+    // TurretSubsystem turretSubsystem{};
+    // VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    FourBallAuto fourBallAuto{&drivetrainSubsystem};
+    //FourBallAuto fourBallAuto{&drivetrainSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};

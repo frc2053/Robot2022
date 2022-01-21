@@ -26,7 +26,7 @@ void ShooterSubsystem::Periodic() {
     loop.Correct(Eigen::Vector<double, 1>{wheelAngularSpeed.value()});
     loop.Predict(20_ms);
     auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(currentShooterSpeedSetpoint);
-    //shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, finalVoltage / 12_V);
+    shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, finalVoltage / 12_V);
 }
 
 void ShooterSubsystem::SimulationPeriodic() {
@@ -98,7 +98,7 @@ void ShooterSubsystem::ConfigureMotors() {
     shooterMotorFollower02.ConfigAllSettings(baseConfig);
 
     shooterMotorLeader.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
-    shooterMotorLeader.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
+    shooterMotorLeader.SetInverted(false);
 
     shooterMotorFollower01.Follow(shooterMotorLeader);
     shooterMotorFollower01.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
