@@ -4,22 +4,11 @@
 
 #include "commands/shooter/SetShooterSpeed.h"
 
-SetShooterSpeed::SetShooterSpeed(std::function<double()> speed, ShooterSubsystem* shooterSub) : speedFunc(speed), shooterSubsystem(shooterSub) {
+SetShooterSpeed::SetShooterSpeed(std::function<units::revolutions_per_minute_t()> speed, ShooterSubsystem* shooterSub) : speedFunc(speed), shooterSubsystem(shooterSub) {
   AddRequirements(shooterSubsystem);
 }
 
 // Called when the command is initially scheduled.
-void SetShooterSpeed::Initialize() {}
-
-// Called repeatedly when this Command is scheduled to run
-void SetShooterSpeed::Execute() {
-  shooterSubsystem->SetShooterSpeedPercent(speedFunc());
-}
-
-// Called once the command ends or is interrupted.
-void SetShooterSpeed::End(bool interrupted) {}
-
-// Returns true when the command should end.
-bool SetShooterSpeed::IsFinished() {
-  return false;
+void SetShooterSpeed::Initialize() {
+    shooterSubsystem->SetShooterSpeed(speedFunc());
 }

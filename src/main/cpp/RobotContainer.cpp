@@ -29,12 +29,6 @@ RobotContainer::RobotContainer() {
 
     frc::SmartDashboard::PutData(&m_chooser);
 
-    frc::SmartDashboard::PutNumber("Shooter Speed Percent", 0);
-
-    SetShooterSpeed shooterCmd = SetShooterSpeed([this]() {return frc::SmartDashboard::GetNumber("Shooter Speed Percent", 0);}, &shooterSubsystem);
-
-    //shooterSubsystem.SetDefaultCommand(shooterCmd);
-
     // TeleopDrive driveCmd = TeleopDrive([this]() { return -m_driverController.GetLeftY(); },
     //                                    [this]() { return m_driverController.GetRightX(); },
     //                                    [this]() { return m_driverController.GetRightBumper(); }, &drivetrainSubsystem);
@@ -61,6 +55,11 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
         .WhenPressed(frc2::InstantCommand(
             [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
+            {&shooterSubsystem}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { shooterSubsystem.SetShooterSpeed(0_rpm); },
             {&shooterSubsystem}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
@@ -114,9 +113,9 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 //     return drivetrainSubsystem;
 // }
 
-// const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
-//     return shooterSubsystem;
-// }
+const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
+    return shooterSubsystem;
+}
 
 // const TurretSubsystem& RobotContainer::GetTurretSubsystem() const {
 //     return turretSubsystem;
