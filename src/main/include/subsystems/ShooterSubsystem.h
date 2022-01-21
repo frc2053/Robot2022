@@ -28,6 +28,7 @@ public:
     units::ampere_t GetCurrentDraw() const;
     void SetShooterSpeed(units::revolutions_per_minute_t setSpeed);
     void SetShooterSurfaceSpeed(units::feet_per_second_t setSurfaceSpeed);
+    void SetShooterSpeedPercent(double setSpeed);
     const units::radians_per_second_t GetShooterSetpoint() const;
     str::LookupValue GetAngleAndRPMForGoal(units::meter_t distance);
 
