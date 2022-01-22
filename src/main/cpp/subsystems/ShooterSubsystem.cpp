@@ -9,7 +9,6 @@
 ShooterSubsystem::ShooterSubsystem() {
     SetName("ShooterSubsystem");
     loop.Reset(Eigen::Vector<double, 1>{});
-    frc::SmartDashboard::PutNumber("Shooter Set Speed", 0);
     ConfigureMotors();
 }
 
@@ -23,6 +22,9 @@ void ShooterSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber(
         "Shooter Motor Surface Speed",
         units::convert<units::meters_per_second, units::feet_per_second>(wheelSurfaceSpeed).to<double>());
+    frc::SmartDashboard::PutNumber(
+        "Shooter Motor Setpoint",
+        units::convert<units::rad_per_s, units::rpm>(currentShooterSpeedSetpoint).to<double>());
     loop.Correct(Eigen::Vector<double, 1>{wheelAngularSpeed.value()});
     loop.Predict(20_ms);
     auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(currentShooterSpeedSetpoint);
