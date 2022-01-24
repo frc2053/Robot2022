@@ -80,6 +80,11 @@ str::LookupValue ShooterSubsystem::GetAngleAndRPMForGoal(units::meter_t distance
     return lookupTable.Get(distance);
 }
 
+bool ShooterSubsystem::IsFlywheelUpToSpeed() {
+    return units::math::abs(GetCurrentShooterSpeed() - currentShooterSpeedSetpoint) <
+           str::shooter_pid::FLYWHEEL_ALLOWABLE_ERROR;
+}
+
 void ShooterSubsystem::ResetEncoders() {
     shooterSimCollection.SetIntegratedSensorRawPosition(0);
     shooterSimCollection.SetIntegratedSensorVelocity(0);

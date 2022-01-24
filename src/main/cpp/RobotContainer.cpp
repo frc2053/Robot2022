@@ -21,19 +21,21 @@
 #include "str/Units.h"
 #include "commands/intake/IntakeABall.h"
 #include "commands/shooter/SetShooterSpeed.h"
+#include "commands/shooter/SetSpeedAndWait.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
 
-    //m_chooser.SetDefaultOption("Four Ball Auto", &fourBallAuto);
+    // m_chooser.SetDefaultOption("Four Ball Auto", &fourBallAuto);
 
     frc::SmartDashboard::PutData(&m_chooser);
 
     // TeleopDrive driveCmd = TeleopDrive([this]() { return -m_driverController.GetLeftY(); },
     //                                    [this]() { return m_driverController.GetRightX(); },
-    //                                    [this]() { return m_driverController.GetRightBumper(); }, &drivetrainSubsystem);
+    //                                    [this]() { return m_driverController.GetRightBumper(); },
+    //                                    &drivetrainSubsystem);
 
-    //drivetrainSubsystem.SetDefaultCommand(driveCmd);
+    // drivetrainSubsystem.SetDefaultCommand(driveCmd);
 
     // frc::SmartDashboard::PutData("Zero Yaw", new frc2::InstantCommand([this] { drivetrainSubsystem.ResetGyro(); }));
 
@@ -58,17 +60,14 @@ void RobotContainer::ConfigureButtonBindings() {
             {&shooterSubsystem}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-        .WhenPressed(frc2::InstantCommand(
-            [this] { shooterSubsystem.SetShooterSpeed(0_rpm); },
-            {&shooterSubsystem}));
+        .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
         .WhenPressed(frc2::InstantCommand(
             [this] {
                 shooterSubsystem.SetShooterSurfaceSpeed(
                     str::Units::ConvertAngularVelocityToLinearVelocity(shooterSubsystem.GetShooterSetpoint(),
-                                                                       str::physical_dims::SHOOTER_WHEEL_DIAMETER /
-                                                                       2) -
+                                                                       str::physical_dims::SHOOTER_WHEEL_DIAMETER / 2) -
                     2_fps);
             },
             {&shooterSubsystem}));
@@ -78,14 +77,13 @@ void RobotContainer::ConfigureButtonBindings() {
             [this] {
                 shooterSubsystem.SetShooterSurfaceSpeed(
                     str::Units::ConvertAngularVelocityToLinearVelocity(shooterSubsystem.GetShooterSetpoint(),
-                                                                       str::physical_dims::SHOOTER_WHEEL_DIAMETER /
-                                                                       2) +
+                                                                       str::physical_dims::SHOOTER_WHEEL_DIAMETER / 2) +
                     2_fps);
             },
             {&shooterSubsystem}));
 
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-    //     .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem));
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .WhenPressed(SetSpeedAndWait([]() { return 3000_rpm; }, &shooterSubsystem));
 
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kX)
     //     .WhenPressed(frc2::InstantCommand(

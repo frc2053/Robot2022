@@ -75,6 +75,7 @@ extern frc::LinearSystem<1, 1, 1> SHOOTER_PLANT;
 static constexpr auto KV = 0.0091677_V / 1_rad_per_s;
 static constexpr auto KA = 0.0022401_V / 1_rad_per_s_sq;
 static constexpr auto KS = 0.73937_V;
+static constexpr auto FLYWHEEL_ALLOWABLE_ERROR = 20_rpm;
 }    // namespace shooter_pid
 
 namespace turret_pid {

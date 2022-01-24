@@ -31,6 +31,7 @@ public:
     void SetShooterSpeedPercent(double setSpeed);
     const units::radians_per_second_t GetShooterSetpoint() const;
     str::LookupValue GetAngleAndRPMForGoal(units::meter_t distance);
+    bool IsFlywheelUpToSpeed();
 
 private:
     void ResetEncoders();
@@ -54,7 +55,8 @@ private:
                                                    {12.0},
                                                    20_ms};
     frc::LinearSystemLoop<1, 1, 1> loop{str::shooter_pid::SHOOTER_PLANT, controller, observer, 12_V, 20_ms};
-    frc::SimpleMotorFeedforward<units::radian> feedforward{str::shooter_pid::KS, str::shooter_pid::KV, str::shooter_pid::KA};
+    frc::SimpleMotorFeedforward<units::radian> feedforward{str::shooter_pid::KS, str::shooter_pid::KV,
+                                                           str::shooter_pid::KA};
     units::radians_per_second_t currentShooterSpeedSetpoint;
     str::ShooterLookupTable lookupTable;
 };
