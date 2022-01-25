@@ -184,6 +184,8 @@ void DrivetrainSubsystem::ConfigureMotors() {
     baseConfig.slot0.kP = str::drive_pid::KP;
     baseConfig.slot0.kI = str::drive_pid::KI;
     baseConfig.slot0.kD = str::drive_pid::KD;
+    baseConfig.velocityMeasurementPeriod = ctre::phoenix::sensors::SensorVelocityMeasPeriod::Period_1Ms;
+    baseConfig.velocityMeasurementWindow = 1;
 
     frontLeftTalon.ConfigAllSettings(baseConfig);
     rearLeftTalon.ConfigAllSettings(baseConfig);

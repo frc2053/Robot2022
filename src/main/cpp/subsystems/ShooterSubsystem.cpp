@@ -100,6 +100,8 @@ void ShooterSubsystem::ConfigureMotors() {
     baseConfig.reverseLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
     baseConfig.forwardLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
     baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
+    baseConfig.velocityMeasurementPeriod = ctre::phoenix::sensors::SensorVelocityMeasPeriod::Period_1Ms;
+    baseConfig.velocityMeasurementWindow = 1;
     shooterMotorLeader.ConfigAllSettings(baseConfig);
     shooterMotorFollower01.ConfigAllSettings(baseConfig);
     shooterMotorFollower02.ConfigAllSettings(baseConfig);

@@ -9,6 +9,7 @@
 #include <frc2/command/Command.h>
 
 #include "commands/auto/FourBallAuto.h"
+#include "commands/auto/MoveForward5Ft.h"
 #include "Constants.h"
 #include <frc/filter/SlewRateLimiter.h>
 #include "subsystems/DrivetrainSubsystem.h"
@@ -29,7 +30,7 @@ public:
 private:
     void ConfigureButtonBindings();
 
-    //DrivetrainSubsystem drivetrainSubsystem;
+    DrivetrainSubsystem drivetrainSubsystem;
     ShooterSubsystem shooterSubsystem{};
     // IntakeSubsystem intakeSubsystem{};
     // ConveyorSubsystem conveyorSubsystem{};
@@ -37,7 +38,8 @@ private:
     // VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    //FourBallAuto fourBallAuto{&drivetrainSubsystem};
+    FourBallAuto fourBallAuto{&drivetrainSubsystem};
+    MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};
