@@ -17,6 +17,7 @@ DrivetrainSubsystem::DrivetrainSubsystem() {
 
     ConfigureMotors();
     ResetEncoders();
+    drive.SetDeadband(.2);
     frc::SmartDashboard::PutData("Field", &fieldSim);
     frc::SmartDashboard::PutData("Pose Estimator Field", &poseEstimatorSim);
     drive.SetSafetyEnabled(false);
@@ -87,10 +88,14 @@ void DrivetrainSubsystem::SimulationPeriodic() {
 }
 
 void DrivetrainSubsystem::ArcadeDrive(double fwd, double rot) {
-    drive.ArcadeDrive(fwd, rot, false);
+    frc::SmartDashboard::PutNumber("Drive Joystick Forward", fwd);
+    frc::SmartDashboard::PutNumber("Drive Joystick Rotation", rot);
+    drive.ArcadeDrive(fwd, rot, true);
 }
 
 void DrivetrainSubsystem::CurvatureDrive(double fwd, double rot, bool quickTurn) {
+    frc::SmartDashboard::PutNumber("Drive Joystick Forward", fwd);
+    frc::SmartDashboard::PutNumber("Drive Joystick Rotation", rot);
     drive.CurvatureDrive(fwd, rot, quickTurn);
 }
 
