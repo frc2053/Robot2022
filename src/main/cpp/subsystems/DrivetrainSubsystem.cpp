@@ -160,9 +160,8 @@ frc::DifferentialDriveWheelSpeeds DrivetrainSubsystem::GetWheelSpeeds() {
 }
 
 void DrivetrainSubsystem::DrawTrajectory(frc::Trajectory traj) {
-    fieldSim.GetObject("traj" + std::to_string(trajCounter))->SetTrajectory(traj);
-    poseEstimatorSim.GetObject("traj" + std::to_string(trajCounter))->SetTrajectory(traj);
-    trajCounter++;
+    fieldSim.GetObject("traj")->SetTrajectory(traj);
+    poseEstimatorSim.GetObject("traj")->SetTrajectory(traj);
 }
 
 void DrivetrainSubsystem::ResetOdom(frc::Pose2d pose) {
