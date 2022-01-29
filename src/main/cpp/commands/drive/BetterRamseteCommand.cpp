@@ -13,6 +13,7 @@ BetterRamseteCommand::BetterRamseteCommand(frc::Trajectory traj, std::function<f
 
 // Called when the command is initially scheduled.
 void BetterRamseteCommand::Initialize() {
+    drivetrainSubsystem->DrawTrajectory(trajToFollow);
     m_prevTime = -1_s;
     auto initialState = trajToFollow.Sample(0_s);
     m_prevSpeeds = str::drive_pid::DRIVE_KINEMATICS.ToWheelSpeeds(

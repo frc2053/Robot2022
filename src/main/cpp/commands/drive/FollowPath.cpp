@@ -32,8 +32,6 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed, units::meters_per_se
     // An example trajectory to follow.  All units in meters.
     auto trajectoryToFollow = frc::TrajectoryGenerator::GenerateTrajectory(startPt, middlePts, endPt, config);
 
-    m_drivetrain->DrawTrajectory(trajectoryToFollow);
-
     BetterRamseteCommand ramseteCommand(
         trajectoryToFollow, [this] { return m_drivetrain->GetPose(); }, m_drivetrain);
 

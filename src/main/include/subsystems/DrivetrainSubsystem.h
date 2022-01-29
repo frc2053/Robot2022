@@ -68,5 +68,4 @@ private:
         gyro.GetYaw(), frc::Pose2d(), {0.01, 0.01, 0.01, 0.01, 0.01}, {0.1, 0.1, 0.1}, {0.1, 0.1, 0.1}};
     frc::Field2d fieldSim;
     frc::Field2d poseEstimatorSim;
-    int trajCounter = 0;
 };

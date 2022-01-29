@@ -19,8 +19,8 @@ private:
     FollowPath moveforward{str::auto_consts::K_MAX_SPEED,
                            str::auto_consts::K_MAX_ACCEL,
                            frc::Pose2d{0_ft, 0_ft, frc::Rotation2d(0_deg)},
-                           {frc::Translation2d(0_ft, 2.5_ft)},
-                           frc::Pose2d(0_ft, 5_ft, frc::Rotation2d(0_deg)),
+                           {frc::Translation2d(2.5_ft, 0_ft)},
+                           frc::Pose2d(5_ft, 0_ft, frc::Rotation2d(0_deg)),
                            false,
                            m_drivetrainSub};
 };

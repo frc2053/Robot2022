@@ -8,10 +8,7 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub)
-    : m_drivetrainSub(drivetrainSub) {
-    AddCommands(frc2::InstantCommand(
-                    [this]() { m_drivetrainSub->SetGyroOffset(90_deg); }),
-                std::move(turn1));
+FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub) : m_drivetrainSub(drivetrainSub) {
+    AddCommands(frc2::InstantCommand([this]() { m_drivetrainSub->SetGyroOffset(90_deg); }), std::move(turn1));
     SetName("FourBallAuto");
 }

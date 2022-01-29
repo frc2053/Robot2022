@@ -16,8 +16,8 @@ void TeleopDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void TeleopDrive::Execute() {
-    drivetrainSub->ArcadeDrive(forwardCmd(), rotCmd());
-    //drivetrainSub->CurvatureDrive(forwardCmd(), rotCmd(), quickTurnCmd());
+    // drivetrainSub->ArcadeDrive(forwardCmd(), rotCmd());
+    drivetrainSub->CurvatureDrive(forwardCmd(), rotCmd(), quickTurnCmd());
 }
 
 // Called once the command ends or is interrupted.
