@@ -44,20 +44,20 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-        .WhenPressed(TurnToAngle([]() { return units::degree_t(90); }, &drivetrainSubsystem).WithInterrupt([this]() {
-            return std::abs(m_driverController.GetLeftY()) > .2 || std::abs(m_driverController.GetRightX()) > .2;
-        }));
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
+    //     .WhenPressed(TurnToAngle([]() { return units::degree_t(90); }, &drivetrainSubsystem).WithInterrupt([this]() {
+    //         return std::abs(m_driverController.GetLeftY()) > .2 || std::abs(m_driverController.GetRightX()) > .2;
+    //     }));
 
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); },
-    //         {&shooterSubsystem}));
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); },
+            {&shooterSubsystem}));
 
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
-    //         {&shooterSubsystem}));
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
+            {&shooterSubsystem}));
 
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
     //     .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
