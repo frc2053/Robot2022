@@ -65,8 +65,9 @@ void RobotContainer::ConfigureButtonBindings() {
                 intakeSubsystem.PutIntakeDown();
                 conveyorSubsystem.SetFunnelSpeed(1);
                 conveyorSubsystem.SetConveyorSpeed(1);
+                shooterSubsystem.SetShooterSpeed(3000_rpm);
             },
-            {&intakeSubsystem, &conveyorSubsystem}));
+            {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
         .WhenReleased(frc2::InstantCommand(
@@ -74,8 +75,9 @@ void RobotContainer::ConfigureButtonBindings() {
                 intakeSubsystem.PutIntakeUp();
                 conveyorSubsystem.SetFunnelSpeed(0);
                 conveyorSubsystem.SetConveyorSpeed(0);
+                shooterSubsystem.SetShooterSpeed(0_rpm);
             },
-            {&intakeSubsystem, &conveyorSubsystem}));
+            {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
     //     .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
