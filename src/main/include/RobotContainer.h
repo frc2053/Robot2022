@@ -32,8 +32,8 @@ private:
 
     DrivetrainSubsystem drivetrainSubsystem;
     ShooterSubsystem shooterSubsystem{};
-    // IntakeSubsystem intakeSubsystem{};
-    // ConveyorSubsystem conveyorSubsystem{};
+    IntakeSubsystem intakeSubsystem{};
+    ConveyorSubsystem conveyorSubsystem{};
     // TurretSubsystem turretSubsystem{};
     // VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
 

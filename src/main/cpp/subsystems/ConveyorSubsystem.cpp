@@ -17,12 +17,12 @@ void ConveyorSubsystem::Periodic() {
     topDistFiltered = units::millimeter_t(topFilter.Calculate(rawTopDist));
 }
 
-void ConveyorSubsystem::SetBottomConveyorSpeed(double speed) {
-    bottomConveyorMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+void ConveyorSubsystem::SetFunnelSpeed(double speed) {
+    funnelMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
-void ConveyorSubsystem::SetTopConveyorSpeed(double speed) {
-    topConveyorMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+void ConveyorSubsystem::SetConveyorSpeed(double speed) {
+    conveyorMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
 bool ConveyorSubsystem::DoesTopSensorSeeBall() {
@@ -39,6 +39,6 @@ void ConveyorSubsystem::ConfigureMotors() {
     baseConfig.reverseLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
     baseConfig.forwardLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
     baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
-    bottomConveyorMotor.ConfigAllSettings(baseConfig);
-    topConveyorMotor.ConfigAllSettings(baseConfig);
+    funnelMotor.ConfigAllSettings(baseConfig);
+    conveyorMotor.ConfigAllSettings(baseConfig);
 }

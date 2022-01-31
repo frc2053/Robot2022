@@ -9,8 +9,8 @@
 #include "commands/intake/IntakeDown.h"
 #include "commands/intake/IntakeUp.h"
 #include <frc2/command/ConditionalCommand.h>
-#include "commands/conveyor/RunBottomConveyorUntilBall.h"
-#include "commands/conveyor/RunBothConveyorsUntilTopBall.h"
+#include "commands/conveyor/RunFunnelUntilBall.h"
+#include "commands/conveyor/RunFunnelAndConveyorUntilTopBall.h"
 #include <frc2/command/ParallelCommandGroup.h>
 #include <frc2/command/WaitUntilCommand.h>
 #include "subsystems/IntakeSubsystem.h"
@@ -24,8 +24,8 @@ private:
     IntakeSubsystem* intakeSubsystem;
     ConveyorSubsystem* conveyorSubsystem;
 
-    frc2::ConditionalCommand whatConveyorToRun{std::move(RunBottomConveyorUntilBall(conveyorSubsystem)),
-                                               std::move(RunBothConveyorsUntilTopBall(conveyorSubsystem)),
+    frc2::ConditionalCommand whatConveyorToRun{std::move(RunFunnelUntilBall(conveyorSubsystem)),
+                                               std::move(RunFunnelAndConveyorUntilTopBall(conveyorSubsystem)),
                                                [this]() { return conveyorSubsystem->DoesTopSensorSeeBall(); }};
 
     frc2::SequentialCommandGroup intakeUpWhenBallDetected{

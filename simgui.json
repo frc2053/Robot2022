@@ -50,7 +50,17 @@
       "/SmartDashboard/class frc2::CommandBase": "Command"
     },
     "windows": {
+      "/LiveWindow/Ungrouped/ConveyorSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
       "/LiveWindow/Ungrouped/DrivetrainSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Ungrouped/IntakeSubsystem": {
         "window": {
           "visible": true
         }

@@ -21,13 +21,13 @@ public:
     void Periodic() override;
     bool DoesTopSensorSeeBall();
     bool DoesBottomSensorSeeBall();
-    void SetBottomConveyorSpeed(double speed);
-    void SetTopConveyorSpeed(double speed);
+    void SetFunnelSpeed(double speed);
+    void SetConveyorSpeed(double speed);
 
 private:
     void ConfigureMotors();
-    ctre::phoenix::motorcontrol::can::WPI_TalonSRX bottomConveyorMotor{str::can_ids::BOTTOM_CONVEYOR_TALON_ID};
-    ctre::phoenix::motorcontrol::can::WPI_TalonSRX topConveyorMotor{str::can_ids::TOP_CONVEYOR_TALON_ID};
+    ctre::phoenix::motorcontrol::can::WPI_TalonSRX conveyorMotor{str::can_ids::CONVEYOR_TALON_ID};
+    ctre::phoenix::motorcontrol::can::WPI_TalonSRX funnelMotor{str::can_ids::FUNNEL_TALON_ID};
 #ifdef __FRC_ROBORIO__
     frc::TimeOfFlight bottomConveyorSensor{str::can_ids::BOTTOM_CONVEYOR_RANGE_SENSOR_ID};
     frc::TimeOfFlight topConveyorSensor{str::can_ids::TOP_CONVEYOR_RANGE_SENSOR_ID};

@@ -2,27 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/conveyor/RunBottomConveyorUntilBall.h"
+#include "commands/conveyor/RunFunnelUntilBall.h"
 
-RunBottomConveyorUntilBall::RunBottomConveyorUntilBall(ConveyorSubsystem* conveyorSub)
-    : conveyorSubsystem(conveyorSub) {
+RunFunnelUntilBall::RunFunnelUntilBall(ConveyorSubsystem* conveyorSub) : conveyorSubsystem(conveyorSub) {
     AddRequirements(conveyorSubsystem);
 }
 
 // Called when the command is initially scheduled.
-void RunBottomConveyorUntilBall::Initialize() {
-    conveyorSubsystem->SetBottomConveyorSpeed(1);
+void RunFunnelUntilBall::Initialize() {
+    conveyorSubsystem->SetFunnelSpeed(1);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RunBottomConveyorUntilBall::Execute() {}
+void RunFunnelUntilBall::Execute() {}
 
 // Called once the command ends or is interrupted.
-void RunBottomConveyorUntilBall::End(bool interrupted) {
-    conveyorSubsystem->SetBottomConveyorSpeed(0);
+void RunFunnelUntilBall::End(bool interrupted) {
+    conveyorSubsystem->SetFunnelSpeed(0);
 }
 
 // Returns true when the command should end.
-bool RunBottomConveyorUntilBall::IsFinished() {
+bool RunFunnelUntilBall::IsFinished() {
     return conveyorSubsystem->DoesBottomSensorSeeBall();
 }

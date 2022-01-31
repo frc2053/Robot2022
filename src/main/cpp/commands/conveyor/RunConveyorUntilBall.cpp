@@ -2,26 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "commands/conveyor/RunTopConveyorUntilBall.h"
+#include "commands/conveyor/RunConveyorUntilBall.h"
 
-RunTopConveyorUntilBall::RunTopConveyorUntilBall(ConveyorSubsystem* conveyorSub) : conveyorSubsystem(conveyorSub) {
+RunConveyorUntilBall::RunConveyorUntilBall(ConveyorSubsystem* conveyorSub) : conveyorSubsystem(conveyorSub) {
     AddRequirements(conveyorSubsystem);
 }
 
 // Called when the command is initially scheduled.
-void RunTopConveyorUntilBall::Initialize() {
-    conveyorSubsystem->SetTopConveyorSpeed(1);
+void RunConveyorUntilBall::Initialize() {
+    conveyorSubsystem->SetConveyorSpeed(1);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RunTopConveyorUntilBall::Execute() {}
+void RunConveyorUntilBall::Execute() {}
 
 // Called once the command ends or is interrupted.
-void RunTopConveyorUntilBall::End(bool interrupted) {
-    conveyorSubsystem->SetTopConveyorSpeed(0);
+void RunConveyorUntilBall::End(bool interrupted) {
+    conveyorSubsystem->SetConveyorSpeed(0);
 }
 
 // Returns true when the command should end.
-bool RunTopConveyorUntilBall::IsFinished() {
+bool RunConveyorUntilBall::IsFinished() {
     return conveyorSubsystem->DoesTopSensorSeeBall();
 }

@@ -59,6 +59,9 @@ void RobotContainer::ConfigureButtonBindings() {
             [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
             {&shooterSubsystem}));
 
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem));
+
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
     //     .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
 

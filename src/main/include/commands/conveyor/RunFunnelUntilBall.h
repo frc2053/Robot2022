@@ -15,9 +15,9 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class RunBothConveyorsUntilTopBall : public frc2::CommandHelper<frc2::CommandBase, RunBothConveyorsUntilTopBall> {
+class RunFunnelUntilBall : public frc2::CommandHelper<frc2::CommandBase, RunFunnelUntilBall> {
 public:
-    RunBothConveyorsUntilTopBall(ConveyorSubsystem* conveyorSub);
+    RunFunnelUntilBall(ConveyorSubsystem* conveyorSub);
 
     void Initialize() override;
 
