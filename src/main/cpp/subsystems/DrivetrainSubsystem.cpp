@@ -221,6 +221,11 @@ void DrivetrainSubsystem::ConfigureMotors() {
         frontLeftTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
         frontRightTalon.SetInverted(ctre::phoenix::motorcontrol::InvertType::None);
     }
+
+    frontLeftTalon.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    frontRightTalon.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    rearLeftTalon.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+    rearRightTalon.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
 }
 
 void DrivetrainSubsystem::ResetEncoders() {
