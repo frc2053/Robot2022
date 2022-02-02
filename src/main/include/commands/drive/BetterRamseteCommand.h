@@ -33,7 +33,7 @@ public:
 private:
     frc::Timer m_timer;
     frc::Trajectory trajToFollow;
-    frc::RamseteController m_ramseteController;
+    frc::RamseteController m_ramseteController{str::auto_consts::K_RAMSETE_B, str::auto_consts::K_RAMSETE_ZETA};
     std::function<frc::Pose2d()> m_pose;
     DrivetrainSubsystem* drivetrainSubsystem;
     frc::SimpleMotorFeedforward<units::meters> feedForward{str::drive_pid::KS, str::drive_pid::KV, str::drive_pid::KA};

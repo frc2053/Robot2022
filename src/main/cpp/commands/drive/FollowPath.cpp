@@ -27,7 +27,7 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed, units::meters_per_se
     // Add kinematics to ensure max speed is actually obeyed
     config.SetKinematics(str::drive_pid::DRIVE_KINEMATICS);
     // Apply the voltage constraint
-    // config.AddConstraint(autoVoltageConstraint);
+    config.AddConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
     auto trajectoryToFollow = frc::TrajectoryGenerator::GenerateTrajectory(startPt, middlePts, endPt, config);

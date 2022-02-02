@@ -12,6 +12,7 @@
 #include <units/velocity.h>
 #include <units/acceleration.h>
 #include <subsystems/DrivetrainSubsystem.h>
+#include <frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h>
 
 class FollowPath : public frc2::CommandHelper<frc2::SequentialCommandGroup, FollowPath> {
 public:
@@ -27,4 +28,7 @@ public:
 
 private:
     DrivetrainSubsystem* m_drivetrain;
+    frc::DifferentialDriveVoltageConstraint autoVoltageConstraint{
+        frc::SimpleMotorFeedforward<units::meters>(str::drive_pid::KS, str::drive_pid::KV, str::drive_pid::KA),
+        str::drive_pid::DRIVE_KINEMATICS, 10_V};
 };
