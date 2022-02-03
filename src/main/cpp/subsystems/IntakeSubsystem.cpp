@@ -14,12 +14,12 @@ void IntakeSubsystem::Periodic() {}
 
 void IntakeSubsystem::PutIntakeDown() {
     intakeMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 1);
-    intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+    //intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void IntakeSubsystem::PutIntakeUp() {
     intakeMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
-    intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+    //intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void IntakeSubsystem::ConfigureMotors() {

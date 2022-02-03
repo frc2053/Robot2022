@@ -7,6 +7,7 @@
 #include "commands/drive/BetterRamseteCommand.h"
 #include <frc2/command/InstantCommand.h>
 #include <frc/smartdashboard/Field2d.h>
+#include <fstream>
 
 FollowPath::FollowPath(units::meters_per_second_t maxSpeed, units::meters_per_second_squared_t maxAccel,
                        const frc::Pose2d& startPt, const std::vector<frc::Translation2d>& middlePts,
@@ -31,6 +32,13 @@ FollowPath::FollowPath(units::meters_per_second_t maxSpeed, units::meters_per_se
 
     // An example trajectory to follow.  All units in meters.
     auto trajectoryToFollow = frc::TrajectoryGenerator::GenerateTrajectory(startPt, middlePts, endPt, config);
+
+    std::ofstream trajFile;
+    trajFile.open("/home/lvuser/trajFileOut.csv");
+    for(const auto& state : trajectoryToFollow.States()) {
+      trajFile << state.t.value() << "," << state.pose.X().value() << "," << state.pose.Y().value() << "," << state.pose.Rotation().Degrees().value() << "\n";
+    }
+    trajFile.close();
 
     BetterRamseteCommand ramseteCommand(
         trajectoryToFollow, [this] { return m_drivetrain->GetPose(); }, m_drivetrain);

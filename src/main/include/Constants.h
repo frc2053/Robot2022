@@ -51,13 +51,13 @@ extern const frc::DifferentialDriveKinematics DRIVE_KINEMATICS;
 extern const frc::LinearSystem<2, 2, 2> DRIVE_TRAIN_PLANT;
 
 static constexpr double KF = 0.0;
-static constexpr double KP = 0.001541;
+static constexpr double KP = 0.011018;
 static constexpr double KI = 0;
 static constexpr double KD = 0;
 
-static constexpr auto KS = 0.65842_V;
-static constexpr auto KV = 0.77582 * 1_V / 1_mps;
-static constexpr auto KA = 0.043357 * 1_V / 1_mps_sq;
+static constexpr auto KS = 0.46814_V;
+static constexpr auto KV = 2.4253 * 1_V / 1_mps;
+static constexpr auto KA = 0.12445 * 1_V / 1_mps_sq;
 static constexpr auto KV_ANGULAR = 1.5 * 1_V / 1_mps;
 static constexpr auto KA_ANGULAR = 0.3 * 1_V / 1_mps_sq;
 

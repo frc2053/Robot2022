@@ -108,6 +108,7 @@ void ShooterSubsystem::ConfigureMotors() {
 
     shooterMotorLeader.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
     shooterMotorLeader.SetInverted(false);
+    shooterMotorLeader.ConfigPeakOutputReverse(0);
 
     shooterMotorFollower01.Follow(shooterMotorLeader);
     shooterMotorFollower01.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
