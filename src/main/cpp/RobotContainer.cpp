@@ -27,7 +27,7 @@ RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
 
     m_chooser.SetDefaultOption("Move Forward 5ft", &moveForwardAuto);
-    //m_chooser.AddOption("Four Ball Auto", &fourBallAuto);
+    m_chooser.AddOption("Four Ball Auto", &fourBallAuto);
 
     frc::SmartDashboard::PutData(&m_chooser);
 
@@ -65,7 +65,7 @@ void RobotContainer::ConfigureButtonBindings() {
                 intakeSubsystem.PutIntakeDown();
                 conveyorSubsystem.SetFunnelSpeed(1);
                 conveyorSubsystem.SetConveyorSpeed(-1);
-                //shooterSubsystem.SetShooterSpeed(6000_rpm);
+                // shooterSubsystem.SetShooterSpeed(6000_rpm);
             },
             {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 
@@ -75,7 +75,7 @@ void RobotContainer::ConfigureButtonBindings() {
                 intakeSubsystem.PutIntakeUp();
                 conveyorSubsystem.SetFunnelSpeed(0);
                 conveyorSubsystem.SetConveyorSpeed(0);
-                //shooterSubsystem.SetShooterSpeed(0_rpm);
+                // shooterSubsystem.SetShooterSpeed(0_rpm);
             },
             {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 

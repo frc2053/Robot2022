@@ -38,7 +38,7 @@ private:
     // VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    //FourBallAuto fourBallAuto{&drivetrainSubsystem};
+    FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem};
     MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
