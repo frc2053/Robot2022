@@ -13,12 +13,13 @@
 
 class FourBallAuto : public frc2::CommandHelper<frc2::SequentialCommandGroup, FourBallAuto> {
 public:
-    FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub);
+    FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub, VisionSubsystem* visionSub);
 
 private:
     DrivetrainSubsystem* m_drivetrainSub;
     ShooterSubsystem* m_shooterSub;
     TurretSubsystem* m_turretSub;
+    VisionSubsystem* m_visionSub;
 
     FollowPath toSecondBallPath{str::auto_consts::K_MAX_SPEED,
                                 str::auto_consts::K_MAX_ACCEL,

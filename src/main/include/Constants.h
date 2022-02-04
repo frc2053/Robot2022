@@ -41,6 +41,15 @@ static constexpr int INTAKE_SOLENOID_PORT1 = 1;
 static constexpr int INTAKE_SOLENOID_PORT2 = 2;
 }    // namespace pcm_ports
 
+namespace pwm_ports {
+static constexpr int HOOD_SERVO_PORT = 1;
+}
+
+namespace dio_ports {
+static constexpr int HOOD_ENCODER_PORT_A = 1;
+static constexpr int HOOD_ENCODER_PORT_B = 2;
+}    // namespace dio_ports
+
 namespace intake_vars {
 static constexpr size_t FILTER_VALUE = 5;
 static constexpr units::millimeter_t DIST_THRESHOLD = 50_mm;
@@ -76,6 +85,12 @@ static constexpr auto KV = 0.0091677_V / 1_rad_per_s;
 static constexpr auto KA = 0.0022401_V / 1_rad_per_s_sq;
 static constexpr auto KS = 0.73937_V;
 static constexpr auto FLYWHEEL_ALLOWABLE_ERROR = 20_rpm;
+static constexpr int SHOOTER_HOOD_MAX_TICKS = 4500;
+static constexpr units::degree_t SHOOTER_HOOD_MAX_ANGLE = 52_deg;
+static constexpr double HOOD_KP = 1;
+static constexpr double HOOD_KI = 0;
+static constexpr double HOOD_KD = 0;
+static constexpr double HOOD_TOLERANCE = 2;
 }    // namespace shooter_pid
 
 namespace turret_pid {

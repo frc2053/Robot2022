@@ -13,10 +13,14 @@
 #include <frc/controller/SimpleMotorFeedforward.h>
 #include "Constants.h"
 #include "str/ShooterLookupTable.h"
+#include "str/ContinuousServo.h"
+#include <frc/Encoder.h>
+#include "subsystems/VisionSubsystem.h"
+#include <frc/controller/PIDController.h>
 
 class ShooterSubsystem : public frc2::SubsystemBase {
 public:
-    ShooterSubsystem();
+    ShooterSubsystem(VisionSubsystem* visionSub);
 
     /**
      * Will be called periodically whenever the CommandScheduler runs.
@@ -32,8 +36,17 @@ public:
     const units::radians_per_second_t GetShooterSetpoint() const;
     str::LookupValue GetAngleAndRPMForGoal(units::meter_t distance);
     bool IsFlywheelUpToSpeed();
+    units::degree_t GetHoodAngleToGoTo();
+    units::revolutions_per_minute_t GetShooterSpeedToGoTo();
+    units::degree_t GetHoodAngle();
+    void SetHoodToAngle(units::degree_t setpoint);
+    bool IsHoodAtSetpoint();
 
 private:
+    VisionSubsystem* visionSubsystem;
+    int ConvertHoodAngleToTicks(units::degree_t angle);
+    units::degree_t ConvertHoodTicksToAngle(int ticks);
+    void SetServoSpeed(double percent);
     void ResetEncoders();
     void ConfigureMotors();
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorLeader{str::can_ids::SHOOTERLEADER_TALON_ID};
@@ -59,4 +72,10 @@ private:
                                                            str::shooter_pid::KA};
     units::radians_per_second_t currentShooterSpeedSetpoint;
     str::ShooterLookupTable lookupTable;
+    ContinuousServo hoodServo{str::pwm_ports::HOOD_SERVO_PORT};
+    frc::Encoder hoodEncoder{str::dio_ports::HOOD_ENCODER_PORT_A, str::dio_ports::HOOD_ENCODER_PORT_B, false,
+                             frc::Encoder::EncodingType::k4X};
+    units::degree_t hoodAngleToGoTo;
+    units::revolutions_per_minute_t shooterSpeedToGoTo;
+    frc::PIDController hoodController{str::shooter_pid::HOOD_KP, str::shooter_pid::HOOD_KI, str::shooter_pid::HOOD_KD};
 };

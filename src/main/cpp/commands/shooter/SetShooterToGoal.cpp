@@ -3,7 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/shooter/SetShooterToGoal.h"
-#include "commands/shooter/SetShooterSpeed.h"
+#include "commands/shooter/SetSpeedAndWait.h"
+#include "commands/shooter/SetHoodToAngleAndWait.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -12,7 +13,8 @@ SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem
     : shooterSubsystem(shooterSub), visionSubsystem(visionSub) {
     // clang-format off
     AddCommands(
-      SetShooterSpeed([this](){ return shooterSubsystem->GetAngleAndRPMForGoal(visionSubsystem->GetDistanceToTarget()).rpm; }, shooterSubsystem)
+      SetHoodToAngleAndWait([this](){ return shooterSubsystem->GetAngleAndRPMForGoal(visionSubsystem->GetDistanceToTarget()).angle; }, shooterSubsystem),
+      SetSpeedAndWait([this](){ return shooterSubsystem->GetAngleAndRPMForGoal(visionSubsystem->GetDistanceToTarget()).rpm; }, shooterSubsystem)
     );
     // clang-format on
 }

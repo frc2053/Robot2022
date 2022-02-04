@@ -5,11 +5,11 @@
 #pragma once
 
 #include <frc2/command/CommandHelper.h>
-#include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/ParallelCommandGroup.h>
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/VisionSubsystem.h"
 
-class SetShooterToGoal : public frc2::CommandHelper<frc2::SequentialCommandGroup, SetShooterToGoal> {
+class SetShooterToGoal : public frc2::CommandHelper<frc2::ParallelCommandGroup, SetShooterToGoal> {
 public:
     SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub);
 

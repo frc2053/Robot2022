@@ -6,14 +6,27 @@
 #include "str/Units.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-ShooterSubsystem::ShooterSubsystem() {
+ShooterSubsystem::ShooterSubsystem(VisionSubsystem* visionSub) : visionSubsystem(visionSub) {
     SetName("ShooterSubsystem");
     loop.Reset(Eigen::Vector<double, 1>{});
     ConfigureMotors();
+    hoodEncoder.SetSamplesToAverage(50);
+    hoodEncoder.SetMinRate(1.0);
+    hoodEncoder.SetDistancePerPulse(1);
+    hoodEncoder.SetReverseDirection(true);
+    hoodController.SetSetpoint(0);
+    hoodController.SetTolerance(str::shooter_pid::HOOD_TOLERANCE);
 }
 
 // This method will be called once per scheduler run
 void ShooterSubsystem::Periodic() {
+    str::LookupValue goalTarget = lookupTable.Get(visionSubsystem->GetDistanceToTarget());
+    shooterSpeedToGoTo = goalTarget.rpm;
+    hoodAngleToGoTo = goalTarget.angle;
+
+    double hoodOutputVal = hoodController.Calculate(GetHoodAngle().to<double>());
+    SetServoSpeed(hoodOutputVal);
+
     loop.SetNextR(Eigen::Vector<double, 1>{currentShooterSpeedSetpoint.value()});
     units::radians_per_second_t wheelAngularSpeed = GetCurrentShooterSpeed();
     units::meters_per_second_t wheelSurfaceSpeed = GetWheelSurfaceSpeed(wheelAngularSpeed);
@@ -115,4 +128,38 @@ void ShooterSubsystem::ConfigureMotors() {
 
     shooterMotorFollower02.Follow(shooterMotorLeader);
     shooterMotorFollower02.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
+}
+
+int ShooterSubsystem::ConvertHoodAngleToTicks(units::degree_t angle) {
+    return str::Units::map(angle.to<double>(), 0, str::shooter_pid::SHOOTER_HOOD_MAX_ANGLE.value(), 0,
+                           str::shooter_pid::SHOOTER_HOOD_MAX_TICKS);
+}
+
+units::degree_t ShooterSubsystem::ConvertHoodTicksToAngle(int ticks) {
+    return units::degree_t(str::Units::map(ticks, 0, str::shooter_pid::SHOOTER_HOOD_MAX_TICKS, 0,
+                                           str::shooter_pid::SHOOTER_HOOD_MAX_ANGLE.value()));
+}
+
+units::degree_t ShooterSubsystem::GetHoodAngle() {
+    return ConvertHoodTicksToAngle(hoodEncoder.Get());
+}
+
+void ShooterSubsystem::SetHoodToAngle(units::degree_t setpoint) {
+    hoodController.SetSetpoint(setpoint.to<double>());
+}
+
+void ShooterSubsystem::SetServoSpeed(double percent) {
+    hoodServo.Set(std::clamp(percent, -1.0, 1.0));
+}
+
+units::degree_t ShooterSubsystem::GetHoodAngleToGoTo() {
+    return hoodAngleToGoTo;
+}
+
+units::revolutions_per_minute_t ShooterSubsystem::GetShooterSpeedToGoTo() {
+    return shooterSpeedToGoTo;
+}
+
+bool ShooterSubsystem::IsHoodAtSetpoint() {
+    return hoodController.AtSetpoint();
 }
