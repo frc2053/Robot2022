@@ -24,11 +24,21 @@ void TurretSubsystem::Periodic() {
                                    units::convert<units::radian, units::degree>(currentAngle).to<double>());
     lastProfiledReference =
         (frc::TrapezoidProfile<units::radians>(constraints, goal, lastProfiledReference)).Calculate(20_ms);
-    loop.SetNextR(
-        Eigen::Vector<double, 2>{lastProfiledReference.position.value(), lastProfiledReference.velocity.value()});
-    loop.Correct(Eigen::Vector<double, 1>{currentAngle.value()});
-    loop.Predict(20_ms);
-    turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, units::volt_t(loop.U(0)) / 12_V);
+
+    if (!homing) {
+        loop.SetNextR(
+            Eigen::Vector<double, 2>{lastProfiledReference.position.value(), lastProfiledReference.velocity.value()});
+        loop.Correct(Eigen::Vector<double, 1>{currentAngle.value()});
+        loop.Predict(20_ms);
+        turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, units::volt_t(loop.U(0)) / 12_V);
+    } else {
+        if (turretMotor.IsRevLimitSwitchClosed()) {
+            homing = false;
+            turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
+        } else {
+            turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, .25);
+        }
+    }
 }
 
 void TurretSubsystem::SimulationPeriodic() {
@@ -51,6 +61,8 @@ void TurretSubsystem::ConfigureMotors() {
     baseConfig.forwardLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
     baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
     turretMotor.ConfigAllSettings(baseConfig);
+
+    turretMotor.ConfigClearPositionOnLimitR(true, 0);
 }
 
 units::ampere_t TurretSubsystem::GetCurrentDraw() const {
@@ -73,4 +85,8 @@ units::radian_t TurretSubsystem::GetCurrentTurretAngle() {
 
 frc::Transform2d TurretSubsystem::GetCameraToRobotPose() {
     return frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(GetCurrentTurretAngle()));
+}
+
+void TurretSubsystem::HomeTurret() {
+    homing = true;
 }

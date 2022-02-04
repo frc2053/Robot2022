@@ -32,6 +32,7 @@ public:
     units::degree_t GetTurretSetpoint();
     frc::Transform2d GetCameraToRobotPose();
     units::radian_t GetCurrentTurretAngle();
+    void HomeTurret();
 
 private:
     void ConfigureMotors();
@@ -66,4 +67,5 @@ private:
     frc::MechanismLigament2d* turretArm = turretBase->Append<frc::MechanismLigament2d>(
         "TurretArm", 30, turretSim.GetAngle(), 6, frc::Color8Bit{frc::Color::kCyan});
     units::radian_t turretSetpointGoal = 0_deg;
+    bool homing = false;
 };
