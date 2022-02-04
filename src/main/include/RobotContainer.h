@@ -34,11 +34,11 @@ private:
     ShooterSubsystem shooterSubsystem{};
     IntakeSubsystem intakeSubsystem{};
     ConveyorSubsystem conveyorSubsystem{};
-    // TurretSubsystem turretSubsystem{};
+    TurretSubsystem turretSubsystem{};
     // VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem};
+    FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem};
     MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
