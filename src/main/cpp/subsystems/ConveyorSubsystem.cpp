@@ -4,6 +4,7 @@
 
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/ConveyorSubsystem.h"
+#include <iostream>
 
 ConveyorSubsystem::ConveyorSubsystem() {
     SetName("ConveyorSubsystem");
@@ -33,11 +34,15 @@ void ConveyorSubsystem::SetConveyorSpeed(double speed) {
 }
 
 bool ConveyorSubsystem::DoesTopSensorSeeBall() {
-    return topDistFiltered < str::intake_vars::DIST_THRESHOLD;
+    bool retVal = topDistFiltered < str::intake_vars::DIST_THRESHOLD;
+    std::cout << "does top sensor see ball: " << retVal << "\n";
+    return retVal;
 }
 
 bool ConveyorSubsystem::DoesBottomSensorSeeBall() {
-    return bottomDistFiltered < str::intake_vars::DIST_THRESHOLD;
+    bool retVal = bottomDistFiltered < str::intake_vars::DIST_THRESHOLD;
+    std::cout << "does top sensor see ball: " << retVal << "\n";
+    return retVal;
 }
 
 void ConveyorSubsystem::ConfigureMotors() {
