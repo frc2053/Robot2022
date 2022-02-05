@@ -9,12 +9,12 @@
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub)
-    : shooterSubsystem(shooterSub), visionSubsystem(visionSub) {
+SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub, HoodSubsystem* hoodSub)
+    : shooterSubsystem(shooterSub), visionSubsystem(visionSub), hoodSubsystem(hoodSub) {
     // clang-format off
     AddCommands(
-      SetHoodToAngleAndWait([this](){ return shooterSubsystem->GetAngleAndRPMForGoal(visionSubsystem->GetDistanceToTarget()).angle; }, shooterSubsystem),
-      SetSpeedAndWait([this](){ return shooterSubsystem->GetAngleAndRPMForGoal(visionSubsystem->GetDistanceToTarget()).rpm; }, shooterSubsystem)
+      SetHoodToAngleAndWait([this](){ return hoodSubsystem->lookupTable->Get(visionSubsystem->GetDistanceToTarget()).angle; }, hoodSub),
+      SetSpeedAndWait([this](){ return hoodSubsystem->lookupTable->Get(visionSubsystem->GetDistanceToTarget()).rpm; }, shooterSubsystem)
     );
     // clang-format on
 }

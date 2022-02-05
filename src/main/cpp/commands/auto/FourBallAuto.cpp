@@ -13,15 +13,19 @@
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub,
-                           VisionSubsystem* visionSub)
-    : m_drivetrainSub(drivetrainSub), m_shooterSub(shooterSub), m_turretSub(turretSub), m_visionSub(visionSub) {
+                           VisionSubsystem* visionSub, HoodSubsystem* hoodSub)
+    : m_drivetrainSub(drivetrainSub),
+      m_shooterSub(shooterSub),
+      m_turretSub(turretSub),
+      m_visionSub(visionSub),
+      m_hoodSub(hoodSub) {
     // clang-format off
     AddCommands(
         frc2::InstantCommand([this]() { m_drivetrainSub->SetGyroOffset(90_deg); }),
         HomeTurret(m_turretSub),
         SetShooterSpeed([]() { return 3000_rpm; }, m_shooterSub), 
         std::move(toSecondBallPath),
-        SetShooterToGoal(m_shooterSub, m_visionSub),
+        SetShooterToGoal(m_shooterSub, m_visionSub, m_hoodSub),
         std::move(toThirdAndFourthBallPath)
     );
     // clang-format on

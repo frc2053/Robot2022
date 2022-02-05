@@ -8,12 +8,14 @@
 #include <frc2/command/ParallelCommandGroup.h>
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/VisionSubsystem.h"
+#include "subsystems/HoodSubsystem.h"
 
 class SetShooterToGoal : public frc2::CommandHelper<frc2::ParallelCommandGroup, SetShooterToGoal> {
 public:
-    SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub);
+    SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub, HoodSubsystem* hoodSub);
 
 private:
     ShooterSubsystem* shooterSubsystem;
     VisionSubsystem* visionSubsystem;
+    HoodSubsystem* hoodSubsystem;
 };

@@ -4,9 +4,9 @@
 
 #include "commands/shooter/SetHoodToAngleAndWait.h"
 
-SetHoodToAngleAndWait::SetHoodToAngleAndWait(std::function<units::degree_t()> angleFunc, ShooterSubsystem* shooterSub)
-    : angleFunction(angleFunc), shooterSubsystem(shooterSub) {
-    AddRequirements(shooterSubsystem);
+SetHoodToAngleAndWait::SetHoodToAngleAndWait(std::function<units::degree_t()> angleFunc, HoodSubsystem* hoodSub)
+    : angleFunction(angleFunc), hoodSubsystem(hoodSub) {
+    AddRequirements(hoodSubsystem);
 }
 
 // Called when the command is initially scheduled.
@@ -14,7 +14,7 @@ void SetHoodToAngleAndWait::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void SetHoodToAngleAndWait::Execute() {
-    shooterSubsystem->SetHoodToAngle(angleFunction());
+    hoodSubsystem->SetHoodToAngle(angleFunction());
 }
 
 // Called once the command ends or is interrupted.
@@ -22,5 +22,5 @@ void SetHoodToAngleAndWait::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool SetHoodToAngleAndWait::IsFinished() {
-    return shooterSubsystem->IsHoodAtSetpoint();
+    return hoodSubsystem->IsHoodAtSetpoint();
 }

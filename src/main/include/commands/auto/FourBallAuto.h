@@ -10,16 +10,19 @@
 #include <commands/drive/FollowPath.h>
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/TurretSubsystem.h"
+#include "subsystems/HoodSubsystem.h"
 
 class FourBallAuto : public frc2::CommandHelper<frc2::SequentialCommandGroup, FourBallAuto> {
 public:
-    FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub, VisionSubsystem* visionSub);
+    FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub,
+                 VisionSubsystem* visionSub, HoodSubsystem* hoodSub);
 
 private:
     DrivetrainSubsystem* m_drivetrainSub;
     ShooterSubsystem* m_shooterSub;
     TurretSubsystem* m_turretSub;
     VisionSubsystem* m_visionSub;
+    HoodSubsystem* m_hoodSub;
 
     FollowPath toSecondBallPath{str::auto_consts::K_MAX_SPEED,
                                 str::auto_consts::K_MAX_ACCEL,

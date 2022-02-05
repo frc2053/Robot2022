@@ -52,7 +52,7 @@ static constexpr int HOOD_ENCODER_PORT_B = 2;
 
 namespace intake_vars {
 static constexpr size_t FILTER_VALUE = 5;
-static constexpr units::millimeter_t DIST_THRESHOLD = 50_mm;
+static constexpr units::millimeter_t DIST_THRESHOLD = 5_mm;
 }    // namespace intake_vars
 
 namespace drive_pid {

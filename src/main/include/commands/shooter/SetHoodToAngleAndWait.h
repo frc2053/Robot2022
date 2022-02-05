@@ -6,7 +6,7 @@
 
 #include <frc2/command/CommandBase.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystems/ShooterSubsystem.h"
+#include "subsystems/HoodSubsystem.h"
 
 /**
  * An example command.
@@ -17,7 +17,7 @@
  */
 class SetHoodToAngleAndWait : public frc2::CommandHelper<frc2::CommandBase, SetHoodToAngleAndWait> {
 public:
-    SetHoodToAngleAndWait(std::function<units::degree_t()> angleFunc, ShooterSubsystem* shooterSub);
+    SetHoodToAngleAndWait(std::function<units::degree_t()> angleFunc, HoodSubsystem* hoodSub);
 
     void Initialize() override;
 
@@ -29,5 +29,5 @@ public:
 
 private:
     std::function<units::degree_t()> angleFunction;
-    ShooterSubsystem* shooterSubsystem;
+    HoodSubsystem* hoodSubsystem;
 };

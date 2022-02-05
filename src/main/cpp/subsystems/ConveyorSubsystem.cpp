@@ -2,11 +2,14 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+#include <frc/smartdashboard/SmartDashboard.h>
 #include "subsystems/ConveyorSubsystem.h"
 
 ConveyorSubsystem::ConveyorSubsystem() {
     SetName("ConveyorSubsystem");
     ConfigureMotors();
+    bottomConveyorSensor.SetRangingMode(frc::TimeOfFlight::RangingMode::kShort, 24);
+    topConveyorSensor.SetRangingMode(frc::TimeOfFlight::RangingMode::kShort, 24);
 }
 
 // This method will be called once per scheduler run
@@ -15,6 +18,10 @@ void ConveyorSubsystem::Periodic() {
     double rawTopDist = topConveyorSensor.GetRange();
     bottomDistFiltered = units::millimeter_t(bottomFilter.Calculate(rawBottomDist));
     topDistFiltered = units::millimeter_t(topFilter.Calculate(rawTopDist));
+    frc::SmartDashboard::PutNumber("top distance raw", rawTopDist);
+    frc::SmartDashboard::PutNumber("bottom distance raw", rawBottomDist);
+    frc::SmartDashboard::PutNumber("top distance filtered", topDistFiltered.value());
+    frc::SmartDashboard::PutNumber("bottom distance filtered", bottomDistFiltered.value());
 }
 
 void ConveyorSubsystem::SetFunnelSpeed(double speed) {
@@ -41,4 +48,5 @@ void ConveyorSubsystem::ConfigureMotors() {
     baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
     funnelMotor.ConfigAllSettings(baseConfig);
     conveyorMotor.ConfigAllSettings(baseConfig);
+    conveyorMotor.SetInverted(true);
 }
