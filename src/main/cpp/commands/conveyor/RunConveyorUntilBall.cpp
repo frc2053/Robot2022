@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/conveyor/RunConveyorUntilBall.h"
+#include <iostream>
 
 RunConveyorUntilBall::RunConveyorUntilBall(ConveyorSubsystem* conveyorSub) : conveyorSubsystem(conveyorSub) {
     AddRequirements(conveyorSubsystem);
@@ -10,6 +11,7 @@ RunConveyorUntilBall::RunConveyorUntilBall(ConveyorSubsystem* conveyorSub) : con
 
 // Called when the command is initially scheduled.
 void RunConveyorUntilBall::Initialize() {
+    std::cout << "initialized run conveyor until ball!\n";
     conveyorSubsystem->SetConveyorSpeed(1);
 }
 
@@ -18,6 +20,7 @@ void RunConveyorUntilBall::Execute() {}
 
 // Called once the command ends or is interrupted.
 void RunConveyorUntilBall::End(bool interrupted) {
+    std::cout << "ended run funnel until ball!\n";
     conveyorSubsystem->SetConveyorSpeed(0);
 }
 

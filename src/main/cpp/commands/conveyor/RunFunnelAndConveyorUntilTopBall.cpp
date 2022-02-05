@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/conveyor/RunFunnelAndConveyorUntilTopBall.h"
+#include <iostream>
 
 RunFunnelAndConveyorUntilTopBall::RunFunnelAndConveyorUntilTopBall(ConveyorSubsystem* conveyorSub)
     : conveyorSubsystem(conveyorSub) {
@@ -11,6 +12,7 @@ RunFunnelAndConveyorUntilTopBall::RunFunnelAndConveyorUntilTopBall(ConveyorSubsy
 
 // Called when the command is initially scheduled.
 void RunFunnelAndConveyorUntilTopBall::Initialize() {
+    std::cout << "initialized run funnel and conveyor until ball!\n";
     conveyorSubsystem->SetFunnelSpeed(1);
     conveyorSubsystem->SetConveyorSpeed(1);
 }
@@ -20,6 +22,7 @@ void RunFunnelAndConveyorUntilTopBall::Execute() {}
 
 // Called once the command ends or is interrupted.
 void RunFunnelAndConveyorUntilTopBall::End(bool interrupted) {
+    std::cout << "ended run funnel and conveyor until ball!\n";
     conveyorSubsystem->SetFunnelSpeed(0);
     conveyorSubsystem->SetConveyorSpeed(0);
 }
