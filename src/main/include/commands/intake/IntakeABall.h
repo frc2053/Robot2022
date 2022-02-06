@@ -32,5 +32,5 @@ private:
         frc2::WaitUntilCommand([this]() { return conveyorSubsystem->DoesBottomSensorSeeBall(); }),
         IntakeUp(intakeSubsystem)};
 
-    frc2::ParallelCommandGroup intakeUpAndConveyor{std::move(intakeUpWhenBallDetected), std::move(whatConveyorToRun)};
+    frc2::SequentialCommandGroup intakeUpAndConveyor{std::move(intakeUpWhenBallDetected), std::move(whatConveyorToRun)};
 };

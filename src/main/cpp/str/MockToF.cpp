@@ -1,9 +1,10 @@
 #include "str/MockToF.h"
 #include <iostream>
+#include <wpi/sendable/SendableBuilder.h>
 
 MockToF::MockToF(int port) {
     portNum = port;
-    currentMode = RangingMode::kMedium;
+    currentMode = frc::TimeOfFlight::RangingMode::kMedium;
     tlX = 0;
     tlY = 0;
     brX = 1;
@@ -27,7 +28,7 @@ bool MockToF::IsRangeValid() const {
 }
 
 double MockToF::GetRange() const {
-    return 12.5;
+    return currentDistance;
 }
 
 double MockToF::GetRangeSigma() const {
@@ -38,11 +39,11 @@ double MockToF::GetAmbientLightLevel() const {
     return 0.25;
 }
 
-MockToF::Status MockToF::GetStatus() const {
-    return MockToF::Status::kValid;
+frc::TimeOfFlight::Status MockToF::GetStatus() const {
+    return frc::TimeOfFlight::Status::kValid;
 }
 
-void MockToF::SetRangingMode(MockToF::RangingMode mode) {
+void MockToF::SetRangingMode(frc::TimeOfFlight::RangingMode mode, int sensorPeriod) {
     currentMode = mode;
 }
 
@@ -51,4 +52,10 @@ void MockToF::SetRangeOfInterest(int topLeftX, int topLeftY, int bottomRightX, i
     tlY = topLeftY;
     brX = bottomRightX;
     brY = bottomRightY;
+}
+
+void MockToF::InitSendable(wpi::SendableBuilder& builder) {
+    builder.SetSmartDashboardType("ToFSensor");
+    builder.AddDoubleProperty(
+        "Distance", [this] { return GetRange(); }, [this](double distance) { currentDistance = distance; });
 }

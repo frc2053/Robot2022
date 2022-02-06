@@ -11,6 +11,9 @@ ConveyorSubsystem::ConveyorSubsystem() {
     ConfigureMotors();
     bottomConveyorSensor.SetRangingMode(frc::TimeOfFlight::RangingMode::kShort, 24);
     topConveyorSensor.SetRangingMode(frc::TimeOfFlight::RangingMode::kShort, 24);
+    frc::SmartDashboard::PutData("Top Conveyor Sensor", &topConveyorSensor);
+    frc::SmartDashboard::PutData("Bottom Conveyor Sensor", &bottomConveyorSensor);
+    std::cout << std::boolalpha;
 }
 
 // This method will be called once per scheduler run
@@ -34,14 +37,14 @@ void ConveyorSubsystem::SetConveyorSpeed(double speed) {
 }
 
 bool ConveyorSubsystem::DoesTopSensorSeeBall() {
-    bool retVal = topDistFiltered < str::intake_vars::DIST_THRESHOLD;
-    std::cout << "does top sensor see ball: " << retVal << "\n";
+    bool retVal = units::millimeter_t(topConveyorSensor.GetRange()) < str::intake_vars::DIST_THRESHOLD;
+    std::cout << "Does top sensor see ball: " << retVal << "\n";
     return retVal;
 }
 
 bool ConveyorSubsystem::DoesBottomSensorSeeBall() {
-    bool retVal = bottomDistFiltered < str::intake_vars::DIST_THRESHOLD;
-    std::cout << "does top sensor see ball: " << retVal << "\n";
+    bool retVal = units::millimeter_t(bottomConveyorSensor.GetRange()) < str::intake_vars::DIST_THRESHOLD;
+    std::cout << "Does bottom sensor see ball: " << retVal << "\n";
     return retVal;
 }
 

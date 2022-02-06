@@ -1,53 +1,11 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Talon FX[2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[2]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[3]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[10]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[11]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[9]": {
-        "header": {
-          "open": true
-        }
-      },
-      "navX-Sensor[4]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/ConveyorSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/DrivetrainSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/IntakeSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
@@ -70,17 +28,7 @@
           "visible": true
         }
       },
-      "/LiveWindow/Ungrouped/DrivetrainSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
       "/LiveWindow/Ungrouped/IntakeSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Ungrouped/class frc2::SubsystemBase": {
         "window": {
           "visible": true
         }
@@ -164,11 +112,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Reset Odom": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
@@ -178,28 +121,15 @@
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/Zero Yaw": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/class frc2::CommandBase": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
   "NetworkTables": {
-    "LiveWindow": {
-      "open": true
-    },
     "SmartDashboard": {
-      "Field": {
+      "Bottom Conveyor Sensor": {
         "open": true
       },
-      "SendableChooser[0]": {
+      "Top Conveyor Sensor": {
         "open": true
       },
       "open": true
@@ -347,7 +277,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <3>": {
       "plots": [
@@ -376,6 +309,59 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/Turret Setpoint"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <4>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/bottom distance raw"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/bottom distance filtered"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/top distance filtered"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/top distance raw"
             }
           ]
         }

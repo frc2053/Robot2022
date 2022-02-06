@@ -39,4 +39,6 @@ private:
     frc::MedianFilter<double> topFilter{str::intake_vars::FILTER_VALUE};
     units::millimeter_t bottomDistFiltered = 0_m;
     units::millimeter_t topDistFiltered = 0_m;
+    bool bottomFirst = true;
+    bool topFirst = true;
 };

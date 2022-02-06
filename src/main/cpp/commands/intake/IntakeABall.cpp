@@ -4,11 +4,11 @@
 
 #include "commands/intake/IntakeABall.h"
 
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 IntakeABall::IntakeABall(IntakeSubsystem* intakeSub, ConveyorSubsystem* conveyorSub)
     : intakeSubsystem(intakeSub), conveyorSubsystem(conveyorSub) {
     AddCommands(IntakeDown(intakeSubsystem), std::move(intakeUpAndConveyor));
+    SetName("IntakeABall");
 }

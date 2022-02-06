@@ -1,18 +1,11 @@
 #pragma once
 
-class MockToF {
+#include <wpi/sendable/Sendable.h>
+#include <wpi/sendable/SendableHelper.h>
+#include <TimeOfFlight.h>
+
+class MockToF : public wpi::Sendable, public wpi::SendableHelper<MockToF> {
 public:
-    enum Status {
-        kValid,
-        kSigmaHigh,
-        kReturnSignalLow,
-        kReturnPhaseBad,
-        kHardwareFaliure,
-        kWrappedTarget,
-        kInternalError,
-        kInvalid
-    };
-    enum RangingMode { kShort, kMedium, kLong };
     MockToF(int port);
     void IdentifySensor();
     int GetFirmwareVersion() const;
@@ -21,9 +14,10 @@ public:
     double GetRange() const;
     double GetRangeSigma() const;
     double GetAmbientLightLevel() const;
-    Status GetStatus() const;
-    void SetRangingMode(RangingMode mode);
+    frc::TimeOfFlight::Status GetStatus() const;
+    void SetRangingMode(frc::TimeOfFlight::RangingMode mode, int sensorPeriod);
     void SetRangeOfInterest(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY);
+    void InitSendable(wpi::SendableBuilder& builder) override;
 
 private:
     int portNum;
@@ -31,5 +25,6 @@ private:
     int tlY;
     int brX;
     int brY;
-    RangingMode currentMode;
+    frc::TimeOfFlight::RangingMode currentMode;
+    double currentDistance = 12.5;
 };

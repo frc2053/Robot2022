@@ -7,6 +7,7 @@
 
 RunConveyorUntilBall::RunConveyorUntilBall(ConveyorSubsystem* conveyorSub) : conveyorSubsystem(conveyorSub) {
     AddRequirements(conveyorSubsystem);
+    SetName("RunConveyorUntilBall");
 }
 
 // Called when the command is initially scheduled.
@@ -20,7 +21,7 @@ void RunConveyorUntilBall::Execute() {}
 
 // Called once the command ends or is interrupted.
 void RunConveyorUntilBall::End(bool interrupted) {
-    std::cout << "ended run funnel until ball!\n";
+    std::cout << "ended run conveyor until ball!\n";
     conveyorSubsystem->SetConveyorSpeed(0);
 }
 

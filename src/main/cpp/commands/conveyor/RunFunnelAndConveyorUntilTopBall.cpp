@@ -8,6 +8,7 @@
 RunFunnelAndConveyorUntilTopBall::RunFunnelAndConveyorUntilTopBall(ConveyorSubsystem* conveyorSub)
     : conveyorSubsystem(conveyorSub) {
     AddRequirements(conveyorSubsystem);
+    SetName("RunFunnelAndConveyorUntilTopBall");
 }
 
 // Called when the command is initially scheduled.
