@@ -35,10 +35,8 @@ private:
     MockToF bottomConveyorSensor{str::can_ids::BOTTOM_CONVEYOR_RANGE_SENSOR_ID};
     MockToF topConveyorSensor{str::can_ids::TOP_CONVEYOR_RANGE_SENSOR_ID};
 #endif
-    frc::MedianFilter<double> bottomFilter{str::intake_vars::FILTER_VALUE};
-    frc::MedianFilter<double> topFilter{str::intake_vars::FILTER_VALUE};
-    units::millimeter_t bottomDistFiltered = 0_m;
-    units::millimeter_t topDistFiltered = 0_m;
-    bool bottomFirst = true;
-    bool topFirst = true;
+    // frc::MedianFilter<double> bottomFilter{str::intake_vars::FILTER_VALUE};
+    // frc::MedianFilter<double> topFilter{str::intake_vars::FILTER_VALUE};
+    units::millimeter_t bottomDistFiltered = 50_m;
+    units::millimeter_t topDistFiltered = 50_m;
 };

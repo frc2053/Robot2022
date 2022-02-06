@@ -15,7 +15,7 @@
 
 class HoodSubsystem : public frc2::SubsystemBase {
 public:
-    HoodSubsystem(VisionSubsystem* visionSub, str::ShooterLookupTable* shooterTable);
+    HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsystem* visionSub);
     void Periodic() override;
     units::degree_t GetHoodAngleToGoTo();
     units::degree_t GetHoodAngle();

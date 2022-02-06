@@ -5,8 +5,8 @@
 #include "subsystems/HoodSubsystem.h"
 #include "str/Units.h"
 
-HoodSubsystem::HoodSubsystem(VisionSubsystem* visionSub, str::ShooterLookupTable* shooterTable)
-    : visionSubsystem(visionSub), lookupTable(shooterTable) {
+HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsystem* visionSub)
+    : lookupTable(shooterTable), visionSubsystem(visionSub) {
     hoodEncoder.SetSamplesToAverage(50);
     hoodEncoder.SetMinRate(1.0);
     hoodEncoder.SetDistancePerPulse(1);

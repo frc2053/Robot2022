@@ -40,7 +40,7 @@ private:
     TurretSubsystem turretSubsystem{};
     VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
     ShooterSubsystem shooterSubsystem{&visionSubsystem, &lookupTable};
-    HoodSubsystem hoodSubsystem{&visionSubsystem, &lookupTable};
+    HoodSubsystem hoodSubsystem{&lookupTable, &visionSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem, &visionSubsystem,
