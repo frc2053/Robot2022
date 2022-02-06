@@ -9,6 +9,16 @@
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 IntakeABall::IntakeABall(IntakeSubsystem* intakeSub, ConveyorSubsystem* conveyorSub)
     : intakeSubsystem(intakeSub), conveyorSubsystem(conveyorSub) {
-    AddCommands(IntakeDown(intakeSubsystem), std::move(intakeUpAndConveyor));
+    frc2::ConditionalCommand whatConveyorToRun{RunFunnelUntilBall{conveyorSubsystem},
+                                               RunFunnelAndConveyorUntilTopBall{conveyorSubsystem},
+                                               [conveyorSub]() { return conveyorSub->DoesTopSensorSeeBall(); }};
+
+    frc2::SequentialCommandGroup intakeUpWhenBallDetected{
+        frc2::WaitUntilCommand{[conveyorSub]() { return conveyorSub->DoesBottomSensorSeeBall(); }},
+        IntakeUp{intakeSubsystem}};
+
+    frc2::ParallelCommandGroup intakeUpAndConveyor{std::move(intakeUpWhenBallDetected), std::move(whatConveyorToRun)};
+
+    AddCommands(IntakeDown{intakeSubsystem}, std::move(intakeUpAndConveyor));
     SetName("IntakeABall");
 }

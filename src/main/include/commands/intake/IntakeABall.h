@@ -23,14 +23,4 @@ public:
 private:
     IntakeSubsystem* intakeSubsystem;
     ConveyorSubsystem* conveyorSubsystem;
-
-    frc2::ConditionalCommand whatConveyorToRun{std::move(RunFunnelUntilBall(conveyorSubsystem)),
-                                               std::move(RunFunnelAndConveyorUntilTopBall(conveyorSubsystem)),
-                                               [this]() { return conveyorSubsystem->DoesTopSensorSeeBall(); }};
-
-    frc2::SequentialCommandGroup intakeUpWhenBallDetected{
-        frc2::WaitUntilCommand([this]() { return conveyorSubsystem->DoesBottomSensorSeeBall(); }),
-        IntakeUp(intakeSubsystem)};
-
-    frc2::SequentialCommandGroup intakeUpAndConveyor{std::move(intakeUpWhenBallDetected), std::move(whatConveyorToRun)};
 };

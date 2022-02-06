@@ -20,8 +20,8 @@ ConveyorSubsystem::ConveyorSubsystem() {
 void ConveyorSubsystem::Periodic() {
     double rawBottomDist = bottomConveyorSensor.GetRange();
     double rawTopDist = topConveyorSensor.GetRange();
-    // bottomDistFiltered = units::millimeter_t(bottomFilter.Calculate(rawBottomDist));
-    // topDistFiltered = units::millimeter_t(topFilter.Calculate(rawTopDist));
+    bottomDistFiltered = units::millimeter_t(bottomFilter.Calculate(rawBottomDist));
+    topDistFiltered = units::millimeter_t(topFilter.Calculate(rawTopDist));
     frc::SmartDashboard::PutNumber("top distance raw", rawTopDist);
     frc::SmartDashboard::PutNumber("bottom distance raw", rawBottomDist);
     frc::SmartDashboard::PutNumber("top distance filtered", topDistFiltered.value());
@@ -37,17 +37,11 @@ void ConveyorSubsystem::SetConveyorSpeed(double speed) {
 }
 
 bool ConveyorSubsystem::DoesTopSensorSeeBall() {
-    double rawVal = topConveyorSensor.GetRange();
-    bool retVal = rawVal < 5.0;
-    std::cout << "Does top sensor see ball: " << retVal << "\n";
-    return retVal;
+    return topDistFiltered < str::intake_vars::DIST_THRESHOLD;
 }
 
 bool ConveyorSubsystem::DoesBottomSensorSeeBall() {
-    double rawVal = bottomConveyorSensor.GetRange();
-    bool retVal = rawVal < 5.0;
-    std::cout << "Does bottom sensor see ball: " << retVal << "\n";
-    return retVal;
+    return bottomDistFiltered < str::intake_vars::DIST_THRESHOLD;
 }
 
 void ConveyorSubsystem::ConfigureMotors() {

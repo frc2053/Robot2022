@@ -21,10 +21,10 @@ public:
 
 private:
     int portNum;
-    int tlX;
-    int tlY;
-    int brX;
-    int brY;
-    frc::TimeOfFlight::RangingMode currentMode;
-    double currentDistance = 12.5;
+    int tlX{0};
+    int tlY{0};
+    int brX{1};
+    int brY{1};
+    frc::TimeOfFlight::RangingMode currentMode{frc::TimeOfFlight::RangingMode::kShort};
+    double currentDistance{12.5};
 };

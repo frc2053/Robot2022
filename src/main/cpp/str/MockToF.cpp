@@ -2,14 +2,7 @@
 #include <iostream>
 #include <wpi/sendable/SendableBuilder.h>
 
-MockToF::MockToF(int port) {
-    portNum = port;
-    currentMode = frc::TimeOfFlight::RangingMode::kMedium;
-    tlX = 0;
-    tlY = 0;
-    brX = 1;
-    brY = 1;
-}
+MockToF::MockToF(int port) : portNum(port) {}
 
 void MockToF::IdentifySensor() {
     std::cout << "I AM TOF SENSOR " << portNum << "\n";
