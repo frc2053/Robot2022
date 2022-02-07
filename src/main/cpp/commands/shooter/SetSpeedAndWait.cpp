@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/shooter/SetSpeedAndWait.h"
+#include <iostream>
 
 SetSpeedAndWait::SetSpeedAndWait(std::function<units::revolutions_per_minute_t()> speed, ShooterSubsystem* shooterSub)
     : speedFunc(speed), shooterSubsystem(shooterSub) {
@@ -10,7 +11,9 @@ SetSpeedAndWait::SetSpeedAndWait(std::function<units::revolutions_per_minute_t()
 }
 
 // Called when the command is initially scheduled.
-void SetSpeedAndWait::Initialize() {}
+void SetSpeedAndWait::Initialize() {
+    std::cout << "Inited set speed and wait\n";
+}
 
 // Called repeatedly when this Command is scheduled to run
 void SetSpeedAndWait::Execute() {
@@ -18,7 +21,9 @@ void SetSpeedAndWait::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void SetSpeedAndWait::End(bool interrupted) {}
+void SetSpeedAndWait::End(bool interrupted) {
+    std::cout << "Ended set speed and wait\n";
+}
 
 // Returns true when the command should end.
 bool SetSpeedAndWait::IsFinished() {

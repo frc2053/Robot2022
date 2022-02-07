@@ -13,8 +13,8 @@ SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem
     : shooterSubsystem(shooterSub), visionSubsystem(visionSub), hoodSubsystem(hoodSub) {
     // clang-format off
     AddCommands(
-      SetHoodToAngleAndWait([this](){ return hoodSubsystem->lookupTable->Get(visionSubsystem->GetDistanceToTarget()).angle; }, hoodSub),
-      SetSpeedAndWait([this](){ return hoodSubsystem->lookupTable->Get(visionSubsystem->GetDistanceToTarget()).rpm; }, shooterSubsystem)
+      SetHoodToAngleAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).angle; }, hoodSub},
+      SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm; }, shooterSubsystem}
     );
     // clang-format on
 }

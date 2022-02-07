@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/shooter/SetHoodToAngleAndWait.h"
+#include <iostream>
 
 SetHoodToAngleAndWait::SetHoodToAngleAndWait(std::function<units::degree_t()> angleFunc, HoodSubsystem* hoodSub)
     : angleFunction(angleFunc), hoodSubsystem(hoodSub) {
@@ -10,7 +11,9 @@ SetHoodToAngleAndWait::SetHoodToAngleAndWait(std::function<units::degree_t()> an
 }
 
 // Called when the command is initially scheduled.
-void SetHoodToAngleAndWait::Initialize() {}
+void SetHoodToAngleAndWait::Initialize() {
+    std::cout << "Inited set hood to angle!\n";
+}
 
 // Called repeatedly when this Command is scheduled to run
 void SetHoodToAngleAndWait::Execute() {
@@ -18,7 +21,9 @@ void SetHoodToAngleAndWait::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void SetHoodToAngleAndWait::End(bool interrupted) {}
+void SetHoodToAngleAndWait::End(bool interrupted) {
+    std::cout << "Ended set hood to angle!\n";
+}
 
 // Returns true when the command should end.
 bool SetHoodToAngleAndWait::IsFinished() {
