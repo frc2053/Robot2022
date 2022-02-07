@@ -18,9 +18,7 @@ void SetSpeedAndWait::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void SetSpeedAndWait::End(bool interrupted) {
-    shooterSubsystem->SetShooterSpeed(0_rpm);
-}
+void SetSpeedAndWait::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool SetSpeedAndWait::IsFinished() {

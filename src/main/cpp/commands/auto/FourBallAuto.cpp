@@ -7,25 +7,29 @@
 #include <frc2/command/ParallelCommandGroup.h>
 #include "commands/shooter/SetShooterSpeed.h"
 #include "commands/turret/HomeTurret.h"
+#include "commands/intake/IntakeABall.h"
 #include "commands/shooter/SetShooterToGoal.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub,
-                           VisionSubsystem* visionSub, HoodSubsystem* hoodSub)
+                           VisionSubsystem* visionSub, HoodSubsystem* hoodSub, IntakeSubsystem* intakeSub,
+                           ConveyorSubsystem* conveyorSub)
     : m_drivetrainSub(drivetrainSub),
       m_shooterSub(shooterSub),
       m_turretSub(turretSub),
       m_visionSub(visionSub),
-      m_hoodSub(hoodSub) {
+      m_hoodSub(hoodSub),
+      m_intakeSub(intakeSub),
+      m_conveyorSub(conveyorSub) {
     // clang-format off
     AddCommands(
         frc2::InstantCommand([this]() { m_drivetrainSub->SetGyroOffset(90_deg); }),
         HomeTurret(m_turretSub),
         SetShooterSpeed([]() { return 3000_rpm; }, m_shooterSub), 
-        std::move(toSecondBallPath),
-        SetShooterToGoal(m_shooterSub, m_visionSub, m_hoodSub),
+        frc2::ParallelCommandGroup{std::move(toSecondBallPath), IntakeABall{m_intakeSub, m_conveyorSub}, SetShooterToGoal(m_shooterSub, m_visionSub, m_hoodSub)},
+        //FIRE!,
         std::move(toThirdAndFourthBallPath)
     );
     // clang-format on

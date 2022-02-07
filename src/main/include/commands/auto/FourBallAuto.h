@@ -11,11 +11,14 @@
 #include "subsystems/ShooterSubsystem.h"
 #include "subsystems/TurretSubsystem.h"
 #include "subsystems/HoodSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
+#include "subsystems/ConveyorSubsystem.h"
 
 class FourBallAuto : public frc2::CommandHelper<frc2::SequentialCommandGroup, FourBallAuto> {
 public:
     FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem* shooterSub, TurretSubsystem* turretSub,
-                 VisionSubsystem* visionSub, HoodSubsystem* hoodSub);
+                 VisionSubsystem* visionSub, HoodSubsystem* hoodSub, IntakeSubsystem* intakeSub,
+                 ConveyorSubsystem* conveyorSub);
 
 private:
     DrivetrainSubsystem* m_drivetrainSub;
@@ -23,6 +26,8 @@ private:
     TurretSubsystem* m_turretSub;
     VisionSubsystem* m_visionSub;
     HoodSubsystem* m_hoodSub;
+    IntakeSubsystem* m_intakeSub;
+    ConveyorSubsystem* m_conveyorSub;
 
     FollowPath toSecondBallPath{str::auto_consts::K_MAX_SPEED,
                                 str::auto_consts::K_MAX_ACCEL,
