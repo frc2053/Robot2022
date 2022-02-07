@@ -44,7 +44,7 @@ private:
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem, &visionSubsystem,
-                              &hoodSubsystem};
+                              &hoodSubsystem, &intakeSubsystem, &conveyorSubsystem};
     MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};

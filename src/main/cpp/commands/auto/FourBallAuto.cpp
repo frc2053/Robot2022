@@ -28,7 +28,7 @@ FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem*
         frc2::InstantCommand([this]() { m_drivetrainSub->SetGyroOffset(90_deg); }),
         HomeTurret(m_turretSub),
         SetShooterSpeed([]() { return 3000_rpm; }, m_shooterSub), 
-        frc2::ParallelCommandGroup{std::move(toSecondBallPath), IntakeABall{m_intakeSub, m_conveyorSub}, SetShooterToGoal(m_shooterSub, m_visionSub, m_hoodSub)},
+        frc2::ParallelCommandGroup{std::move(toSecondBallPath), IntakeABall{m_intakeSub, m_conveyorSub, m_visionSub}, SetShooterToGoal(m_shooterSub, m_visionSub, m_hoodSub)},
         //FIRE!,
         std::move(toThirdAndFourthBallPath)
     );

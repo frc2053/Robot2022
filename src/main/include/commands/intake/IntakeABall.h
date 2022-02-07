@@ -15,12 +15,14 @@
 #include <frc2/command/WaitUntilCommand.h>
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/ConveyorSubsystem.h"
+#include "subsystems/VisionSubsystem.h"
 
 class IntakeABall : public frc2::CommandHelper<frc2::SequentialCommandGroup, IntakeABall> {
 public:
-    IntakeABall(IntakeSubsystem* intakeSubsystem, ConveyorSubsystem* conveyorSubsystem);
+    IntakeABall(IntakeSubsystem* intakeSubsystem, ConveyorSubsystem* conveyorSubsystem, VisionSubsystem* visionSub);
 
 private:
     IntakeSubsystem* intakeSubsystem;
     ConveyorSubsystem* conveyorSubsystem;
+    VisionSubsystem* visionSubsystem;
 };

@@ -73,7 +73,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //         {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem));
+        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
 
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
     //     .WhenReleased(frc2::InstantCommand(
