@@ -22,6 +22,8 @@
 #include "commands/intake/IntakeABall.h"
 #include "commands/shooter/SetShooterSpeed.h"
 #include "commands/shooter/SetSpeedAndWait.h"
+#include "commands/conveyor/FeedBalls.h"
+#include "commands/shooter/SetShooterToGoal.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -72,8 +74,15 @@ void RobotContainer::ConfigureButtonBindings() {
     //         },
     //         {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kB)
         .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
+
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
+        .WhileHeld(FeedBalls(&conveyorSubsystem));
+
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
+        .WhenHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem))
+        .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
 
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
     //     .WhenReleased(frc2::InstantCommand(

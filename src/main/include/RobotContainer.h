@@ -43,12 +43,13 @@ private:
     HoodSubsystem hoodSubsystem{&lookupTable, &visionSubsystem};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem, &visionSubsystem,
-                              &hoodSubsystem, &intakeSubsystem, &conveyorSubsystem};
+    FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
+                              &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
     MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};
 
     frc::XboxController m_driverController{str::oi::DRIVER_CONTROLLER_PORT};
+    frc::XboxController m_operatorController{str::oi::OPERATOR_CONTROLLER_PORT};
 };
