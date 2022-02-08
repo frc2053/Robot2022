@@ -41,7 +41,7 @@ bool ConveyorSubsystem::DoesTopSensorSeeBall() {
 }
 
 bool ConveyorSubsystem::DoesBottomSensorSeeBall() {
-    return bottomDistFiltered < str::intake_vars::DIST_THRESHOLD;
+    return bottomDistFiltered < str::intake_vars::DIST_THRESHOLD_BOTTOM;
 }
 
 void ConveyorSubsystem::ConfigureMotors() {
