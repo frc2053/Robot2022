@@ -22,7 +22,7 @@ void SetHoodToAngleAndWait::Execute() {
 
 // Called once the command ends or is interrupted.
 void SetHoodToAngleAndWait::End(bool interrupted) {
-    std::cout << "Ended set hood to angle!\n";
+    // std::cout << "Ended set hood to angle!\n";
 }
 
 // Returns true when the command should end.

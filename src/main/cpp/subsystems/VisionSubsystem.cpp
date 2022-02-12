@@ -24,7 +24,7 @@ void VisionSubsystem::Periodic() {
         targetsFound = latestData.GetTargets();
         bestTarget = latestData.GetBestTarget();
         latency = latestData.GetLatency();
-        driveSubsystem->AddVisionMeasurement(GetRobotPose(), latency);
+        // driveSubsystem->AddVisionMeasurement(GetRobotPose(), latency);
     }
 }
 
@@ -36,7 +36,7 @@ void VisionSubsystem::SimulationPeriodic() {
 void VisionSubsystem::ChangeVisionPipeline(int pipeline) {
     gloworm.SetPipelineIndex(pipeline);
 }
-
+// robot.win();
 void VisionSubsystem::SetDriverMode(bool driverMode) {
     gloworm.SetDriverMode(driverMode);
 }
