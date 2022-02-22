@@ -84,6 +84,26 @@ void RobotContainer::ConfigureButtonBindings() {
         .WhenHeld(SetShooterSpeed([] { return 3500_rpm; }, &shooterSubsystem))
         .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
 
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
+        .WhenPressed(frc2::InstantCommand(
+            [this] {
+                intakeSubsystem.PutIntakeDown();
+                climberSubsystem.ExtendClimber();
+                climberSubsystem.LockClimber();
+                turretSubsystem.LockTurret();
+            },
+            {&intakeSubsystem, &climberSubsystem, &turretSubsystem}));
+
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
+        .WhenPressed(frc2::InstantCommand(
+            [this] {
+                intakeSubsystem.PutIntakeUp();
+                climberSubsystem.RetractClimber();
+                climberSubsystem.UnlockClimber();
+                turretSubsystem.UnlockTurret();
+            },
+            {&intakeSubsystem, &climberSubsystem, &turretSubsystem}));
+
     // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
     //     .WhenReleased(frc2::InstantCommand(
     //         [this] {

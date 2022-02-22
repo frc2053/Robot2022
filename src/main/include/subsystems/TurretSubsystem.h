@@ -17,6 +17,7 @@
 #include <frc/smartdashboard/MechanismRoot2d.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <frc/trajectory/TrapezoidProfile.h>
+#include <frc/DoubleSolenoid.h>
 
 class TurretSubsystem : public frc2::SubsystemBase {
 public:
@@ -33,6 +34,8 @@ public:
     frc::Transform2d GetCameraToRobotPose();
     units::radian_t GetCurrentTurretAngle();
     void HomeTurret();
+    void LockTurret();
+    void UnlockTurret();
 
 private:
     void ConfigureMotors();
@@ -68,4 +71,6 @@ private:
         "TurretArm", 30, turretSim.GetAngle(), 6, frc::Color8Bit{frc::Color::kCyan});
     units::radian_t turretSetpointGoal = 0_deg;
     bool homing = false;
+    frc::DoubleSolenoid turretLockSolenoid{frc::PneumaticsModuleType::CTREPCM, str::pcm_ports::TURRET_LOCK_PORT1,
+                                           str::pcm_ports::TURRET_LOCK_PORT2};
 };

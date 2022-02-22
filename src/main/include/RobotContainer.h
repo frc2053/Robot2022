@@ -20,6 +20,7 @@
 #include "subsystems/TurretSubsystem.h"
 #include "subsystems/HoodSubsystem.h"
 #include "str/ShooterLookupTable.h"
+#include "subsystems/ClimberSubsystem.h"
 
 class RobotContainer {
 public:
@@ -41,6 +42,7 @@ private:
     VisionSubsystem visionSubsystem{&drivetrainSubsystem, &turretSubsystem};
     ShooterSubsystem shooterSubsystem{&visionSubsystem, &lookupTable};
     HoodSubsystem hoodSubsystem{&lookupTable, &visionSubsystem};
+    ClimberSubsystem climberSubsystem{};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
     FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,

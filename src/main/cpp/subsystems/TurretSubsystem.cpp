@@ -90,3 +90,11 @@ frc::Transform2d TurretSubsystem::GetCameraToRobotPose() {
 void TurretSubsystem::HomeTurret() {
     homing = true;
 }
+
+void TurretSubsystem::LockTurret() {
+    turretLockSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+}
+
+void TurretSubsystem::UnlockTurret() {
+    turretLockSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+}

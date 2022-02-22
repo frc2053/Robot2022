@@ -37,8 +37,14 @@ static constexpr int TURRET_TALON_ID = 14;
 }    // namespace can_ids
 
 namespace pcm_ports {
-static constexpr int INTAKE_SOLENOID_PORT1 = 1;
-static constexpr int INTAKE_SOLENOID_PORT2 = 2;
+static constexpr int INTAKE_SOLENOID_PORT1 = 4;
+static constexpr int INTAKE_SOLENOID_PORT2 = 3;
+static constexpr int CLIMBER_SOLENOID_PORT1 = 5;
+static constexpr int CLIMBER_SOLENOID_PORT2 = 2;
+static constexpr int CLIMBER_LOCK_PORT1 = 6;
+static constexpr int CLIMBER_LOCK_PORT2 = 1;
+static constexpr int TURRET_LOCK_PORT1 = 7;
+static constexpr int TURRET_LOCK_PORT2 = 0;
 }    // namespace pcm_ports
 
 namespace pwm_ports {
