@@ -5,12 +5,14 @@
 #include "subsystems/TurretSubsystem.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "str/Units.h"
+#include "frc/smartdashboard/Field2d.h"
 
 TurretSubsystem::TurretSubsystem() {
     ConfigureMotors();
     frc::SmartDashboard::PutData("Turret Sim", &turretViz);
     loop.Reset(Eigen::Vector<double, 2>{});
     lastProfiledReference = {};
+    UnlockTurret();
 }
 
 // This method will be called once per scheduler run
@@ -56,10 +58,15 @@ void TurretSubsystem::ConfigureMotors() {
     ctre::phoenix::motorcontrol::can::TalonSRXConfiguration baseConfig;
     baseConfig.primaryPID.selectedFeedbackSensor =
         ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative;
-    baseConfig.forwardLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
-    baseConfig.reverseLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource_Deactivated;
-    baseConfig.forwardLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
-    baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal_Disabled;
+    baseConfig.forwardLimitSwitchSource =
+        ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_FeedbackConnector;
+    baseConfig.reverseLimitSwitchSource =
+        ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_FeedbackConnector;
+    ;
+    baseConfig.forwardLimitSwitchNormal =
+        ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
+    baseConfig.reverseLimitSwitchNormal =
+        ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
     turretMotor.ConfigAllSettings(baseConfig);
 
     turretMotor.ConfigClearPositionOnLimitR(true, 0);
@@ -84,7 +91,12 @@ units::radian_t TurretSubsystem::GetCurrentTurretAngle() {
 }
 
 frc::Transform2d TurretSubsystem::GetCameraToRobotPose() {
-    return frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(GetCurrentTurretAngle()));
+    units::radian_t currentTurretAngle = GetCurrentTurretAngle();
+    units::inch_t x_coord_turret = 9.05_in * units::math::sin(currentTurretAngle);
+    units::inch_t y_coord_turret = 9.05_in * units::math::cos(currentTurretAngle);
+    return frc::Transform2d(frc::Translation2d(y_coord_turret + str::vision_vars::CAMERA_TO_ROBOT.Y(),
+                                               x_coord_turret + str::vision_vars::CAMERA_TO_ROBOT.X()),
+                            frc::Rotation2d(currentTurretAngle));
 }
 
 void TurretSubsystem::HomeTurret() {

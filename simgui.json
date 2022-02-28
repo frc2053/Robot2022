@@ -47,11 +47,6 @@
           "visible": true
         }
       },
-      "/LiveWindow/Ungrouped/Scheduler": {
-        "window": {
-          "visible": true
-        }
-      },
       "/LiveWindow/Ungrouped/ShooterSubsystem": {
         "window": {
           "visible": true
@@ -73,6 +68,16 @@
         }
       },
       "/SmartDashboard/Field": {
+        "Robot": {
+          "arrowColor": [
+            0.0,
+            29.999967575073242,
+            255.0,
+            255.0
+          ],
+          "arrowSize": 13,
+          "arrowWeight": 2.0
+        },
         "bottom": 900,
         "height": 8.229599952697754,
         "image": "C:\\Users\\willi\\dev\\Robot2022\\2022-field.png",
@@ -108,6 +113,35 @@
             255.0
           ],
           "style": "Line"
+        },
+        "turret": {
+          "arrowSize": 24,
+          "arrowWeight": 2.0,
+          "style": "Line"
+        },
+        "upperHubFour": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 2.0,
+          "width": 1.2999999523162842
+        },
+        "upperHubOne": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 1.0,
+          "width": 1.2999999523162842
+        },
+        "upperHubThree": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 1.0,
+          "width": 1.2999999523162842
+        },
+        "upperHubTwo": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 1.0,
+          "width": 1.2999999523162842
         },
         "width": 16.459199905395508,
         "window": {
@@ -150,19 +184,11 @@
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/Turret Sim": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
   "NetworkTables": {
     "SmartDashboard": {
-      "Bottom Conveyor Sensor": {
-        "open": true
-      },
       "Top Conveyor Sensor": {
         "open": true
       },
@@ -311,7 +337,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <3>": {
       "plots": [
@@ -343,10 +372,7 @@
             }
           ]
         }
-      ],
-      "window": {
-        "visible": false
-      }
+      ]
     },
     "Plot <4>": {
       "plots": [
@@ -396,7 +422,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

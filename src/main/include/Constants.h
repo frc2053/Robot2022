@@ -135,18 +135,21 @@ static constexpr auto TURRET_MOI =
 }    // namespace physical_dims
 
 namespace vision_vars {
-static constexpr units::meter_t CAMERA_HEIGHT = 3_ft;
+static constexpr units::meter_t CAMERA_HEIGHT = 32.376_in;
 static constexpr units::meter_t TARGET_HEIGHT_ABOVE_GROUND = 103.619_in;
 static constexpr units::meter_t TARGET_HEIGHT = 2_in;
 static constexpr units::meter_t TARGET_WIDTH = 53_in;
-static constexpr units::degree_t CAMERA_PITCH = 20_deg;
-static frc::Pose2d TARGET_POSE = frc::Pose2d(27_ft, 13.5_ft, 0_deg);
+static constexpr units::degree_t CAMERA_PITCH = 26.34_deg;
+static frc::Pose2d TARGET_POSE_ONE = frc::Pose2d(27_ft - 2_ft, 13.5_ft, 180_deg);
+static frc::Pose2d TARGET_POSE_TWO = frc::Pose2d(27_ft, 13.5_ft + 2_ft, 90_deg);
+static frc::Pose2d TARGET_POSE_THREE = frc::Pose2d(27_ft, 13.5_ft - 2_ft, -90_deg);
+static frc::Pose2d TARGET_POSE_FOUR = frc::Pose2d(27_ft + 2_ft, 13.5_ft, 0_deg);
 static const frc::Transform2d CAMERA_TO_ROBOT =
-    frc::Transform2d(frc::Translation2d(0_ft, 0_ft), frc::Rotation2d(0_deg));
+    frc::Transform2d(frc::Translation2d(4.358_in, 0_ft), frc::Rotation2d(0_deg));
 static constexpr units::degree_t CAMERA_DIAG_FOV = 74.8_deg;
 static constexpr units::meter_t MAX_LED_RANGE = 20_m;
 static constexpr int GLOWORM_RES_X = 640;
 static constexpr int GLOWORM_REX_Y = 480;
-static constexpr double MIN_TARGET_AREA = 10;    // square pixels
+static constexpr double MIN_TARGET_AREA = 1;    // square pixels
 }    // namespace vision_vars
 }    // namespace str

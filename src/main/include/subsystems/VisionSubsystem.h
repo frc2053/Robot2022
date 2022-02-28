@@ -31,6 +31,7 @@ public:
     units::meter_t GetDistanceToTarget();
     frc::Translation2d GetTranslationToTarget();
     frc::Pose2d GetRobotPose();
+    bool SeesTarget();
 
 private:
     DrivetrainSubsystem* driveSubsystem;
@@ -40,6 +41,7 @@ private:
     units::second_t latency;
     wpi::span<const photonlib::PhotonTrackedTarget> targetsFound;
     photonlib::PhotonTrackedTarget bestTarget;
+    bool seesATarget;
     photonlib::SimVisionSystem gloworm_sim{"gloworm-cam",
                                            str::vision_vars::CAMERA_DIAG_FOV,
                                            str::vision_vars::CAMERA_PITCH,

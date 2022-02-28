@@ -21,6 +21,7 @@ DrivetrainSubsystem::DrivetrainSubsystem() {
     frc::SmartDashboard::PutData("Field", &fieldSim);
     frc::SmartDashboard::PutData("Pose Estimator Field", &poseEstimatorSim);
     drive.SetSafetyEnabled(false);
+    DrawVisionTarget();
 }
 
 void DrivetrainSubsystem::Periodic() {
@@ -237,4 +238,20 @@ void DrivetrainSubsystem::ResetEncoders() {
     rearLeftTalon.SetSelectedSensorPosition(0);
     frontRightTalon.SetSelectedSensorPosition(0);
     rearRightTalon.SetSelectedSensorPosition(0);
+}
+
+void DrivetrainSubsystem::DrawVisionTarget() {
+    frc::FieldObject2d* upperHubOne = fieldSim.GetObject("upperHubOne");
+    frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
+    frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
+    frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
+    upperHubOne->SetPose(str::vision_vars::TARGET_POSE_ONE);
+    upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
+    upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
+    upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
+}
+
+void DrivetrainSubsystem::DrawTurret(frc::Transform2d cam_to_robot) {
+    frc::FieldObject2d* turret = fieldSim.GetObject("turret");
+    turret->SetPose(fieldSim.GetRobotPose().TransformBy(cam_to_robot));
 }

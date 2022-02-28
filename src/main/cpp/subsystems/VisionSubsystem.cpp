@@ -10,21 +10,34 @@ VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub, TurretSubsystem*
     : driveSubsystem(driveSub), turretSubsystem(turretSub) {
     SetName("VisionSubsystem");
     gloworm_sim.AddSimVisionTarget(
-        photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+        photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE_ONE, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+                                   str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
+    gloworm_sim.AddSimVisionTarget(
+        photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE_TWO, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+                                   str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
+    gloworm_sim.AddSimVisionTarget(
+        photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE_THREE, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
+                                   str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
+    gloworm_sim.AddSimVisionTarget(
+        photonlib::SimVisionTarget(str::vision_vars::TARGET_POSE_FOUR, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
                                    str::vision_vars::TARGET_WIDTH, str::vision_vars::TARGET_HEIGHT));
 }
 
 // This method will be called once per scheduler run
 void VisionSubsystem::Periodic() {
     auto cam_to_bot = turretSubsystem->GetCameraToRobotPose();
+    driveSubsystem->DrawTurret(cam_to_bot);
     gloworm_sim.MoveCamera(cam_to_bot, str::vision_vars::CAMERA_HEIGHT, str::vision_vars::CAMERA_PITCH);
     frc::SmartDashboard::PutNumber("cam_to_bot_rot", cam_to_bot.Rotation().Degrees().value());
     latestData = gloworm.GetLatestResult();
     if (latestData.HasTargets()) {
+        seesATarget = true;
         targetsFound = latestData.GetTargets();
         bestTarget = latestData.GetBestTarget();
         latency = latestData.GetLatency();
         // driveSubsystem->AddVisionMeasurement(GetRobotPose(), latency);
+    } else {
+        seesATarget = false;
     }
 }
 
@@ -83,6 +96,10 @@ frc::Pose2d VisionSubsystem::GetRobotPose() {
     auto pose = photonlib::PhotonUtils::EstimateFieldToRobot(
         str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND, str::vision_vars::CAMERA_PITCH,
         GetPitchToTarget(), frc::Rotation2d(GetYawToTarget()), frc::Rotation2d(driveSubsystem->GetHeading()),
-        str::vision_vars::TARGET_POSE, str::vision_vars::CAMERA_TO_ROBOT);
+        str::vision_vars::TARGET_POSE_ONE, str::vision_vars::CAMERA_TO_ROBOT);
     return pose;
+}
+
+bool VisionSubsystem::SeesTarget() {
+    return seesATarget;
 }

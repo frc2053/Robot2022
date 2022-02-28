@@ -1,42 +1,7 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "Talon FX[2]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[2]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[3]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon FX[3]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[10]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[11]": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[9]": {
-        "header": {
-          "open": true
-        }
-      },
-      "navX-Sensor[4]": {
+      "Talon FX[6]": {
         "header": {
           "open": true
         }
@@ -48,6 +13,8 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/ConveyorSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/DrivetrainSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/IntakeSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
@@ -80,6 +47,21 @@
           "visible": true
         }
       },
+      "/LiveWindow/Ungrouped/Scheduler": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Ungrouped/ShooterSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Ungrouped/VisionSubsystem": {
+        "window": {
+          "visible": true
+        }
+      },
       "/LiveWindow/Ungrouped/class frc2::SubsystemBase": {
         "window": {
           "visible": true
@@ -91,6 +73,16 @@
         }
       },
       "/SmartDashboard/Field": {
+        "Robot": {
+          "arrowColor": [
+            0.0,
+            29.999967575073242,
+            255.0,
+            255.0
+          ],
+          "arrowSize": 13,
+          "arrowWeight": 2.0
+        },
         "bottom": 900,
         "height": 8.229599952697754,
         "image": "C:\\Users\\willi\\dev\\Robot2022\\2022-field.png",
@@ -126,6 +118,35 @@
             255.0
           ],
           "style": "Line"
+        },
+        "turret": {
+          "arrowSize": 24,
+          "arrowWeight": 2.0,
+          "style": "Line"
+        },
+        "upperHubFour": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 2.0,
+          "width": 1.2999999523162842
+        },
+        "upperHubOne": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 1.0,
+          "width": 1.2999999523162842
+        },
+        "upperHubThree": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 1.0,
+          "width": 1.2999999523162842
+        },
+        "upperHubTwo": {
+          "arrows": false,
+          "length": 0.10000000149011612,
+          "weight": 1.0,
+          "width": 1.2999999523162842
         },
         "width": 16.459199905395508,
         "window": {
@@ -164,11 +185,6 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Reset Odom": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/SendableChooser[0]": {
         "window": {
           "visible": true
@@ -178,28 +194,15 @@
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/Zero Yaw": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/class frc2::CommandBase": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
   "NetworkTables": {
-    "LiveWindow": {
-      "open": true
-    },
     "SmartDashboard": {
-      "Field": {
+      "Bottom Conveyor Sensor": {
         "open": true
       },
-      "SendableChooser[0]": {
+      "Top Conveyor Sensor": {
         "open": true
       },
       "open": true
@@ -219,7 +222,7 @@
               "autoFit": true
             }
           ],
-          "height": -37,
+          "height": 338,
           "series": [
             {
               "color": [
@@ -259,7 +262,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
@@ -269,7 +275,7 @@
               "autoFit": true
             }
           ],
-          "height": -37,
+          "height": 337,
           "series": [
             {
               "color": [
@@ -309,7 +315,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <2>": {
       "plots": [
@@ -319,7 +328,7 @@
               "autoFit": true
             }
           ],
-          "height": -37,
+          "height": 338,
           "series": [
             {
               "color": [
@@ -329,6 +338,15 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/Shooter Motor Angular Speed"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Shooter Motor Setpoint"
             }
           ]
         }
@@ -361,6 +379,59 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/Turret Setpoint"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <4>": {
+      "plots": [
+        {
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/bottom distance raw"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/bottom distance filtered"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/top distance filtered"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/top distance raw"
             }
           ]
         }

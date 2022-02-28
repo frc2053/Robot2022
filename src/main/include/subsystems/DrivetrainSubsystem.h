@@ -43,6 +43,10 @@ public:
 
     void AddVisionMeasurement(frc::Pose2d visionPose, units::second_t latency);
 
+    void DrawVisionTarget();
+    void DrawTurret(frc::Transform2d cam_to_robot);
+    units::degree_t GetYawToCenterOfField();
+
 private:
     void ConfigureMotors();
     void ResetEncoders();
