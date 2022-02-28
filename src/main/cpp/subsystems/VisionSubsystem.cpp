@@ -39,6 +39,7 @@ void VisionSubsystem::Periodic() {
     } else {
         seesATarget = false;
     }
+    frc::SmartDashboard::PutNumber("Best Target Yaw", bestTarget.GetYaw());
 }
 
 void VisionSubsystem::SimulationPeriodic() {
@@ -63,8 +64,7 @@ units::second_t VisionSubsystem::VisionSubsystem::GetLatency() {
 }
 
 units::degree_t VisionSubsystem::GetYawToTarget() {
-    auto yaw = -bestTarget.GetYaw();
-    frc::SmartDashboard::PutNumber("Best Target Yaw", yaw);
+    auto yaw = bestTarget.GetYaw();
     return units::degree_t(yaw);
 }
 
