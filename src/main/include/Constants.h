@@ -125,11 +125,11 @@ static constexpr auto SHOOTER_GEARBOX = frc::DCMotor::Falcon500(2);
 static constexpr double SHOOTER_GEARBOX_RATIO = 0.5;
 static constexpr auto SHOOTER_WHEEL_DIAMETER = 4_in;
 
-static constexpr auto TURRET_GEARBOX = frc::DCMotor::Bag(1);
-static constexpr double TURRET_GEARBOX_RATIO = 100.0;
-static constexpr auto TURRET_DIAMETER = 10.5_in;
+static constexpr auto TURRET_GEARBOX = frc::DCMotor::Falcon500(1);
+static constexpr double TURRET_GEARBOX_RATIO = 80.0;
+static constexpr auto TURRET_DIAMETER = 18.1_in;
 // yeah whatever lbs isnt mass exactly but our robot is only on earth right?
-static constexpr auto TURRET_MASS = 15_lb;
+static constexpr auto TURRET_MASS = 13_lb;
 static constexpr auto TURRET_MOI =
     frc::sim::SingleJointedArmSim::EstimateMOI(str::physical_dims::TURRET_DIAMETER, TURRET_MASS);
 }    // namespace physical_dims

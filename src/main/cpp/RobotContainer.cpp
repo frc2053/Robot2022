@@ -74,7 +74,7 @@ void RobotContainer::ConfigureButtonBindings() {
     //         },
     //         {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
 
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kB)
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
         .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
@@ -143,8 +143,15 @@ void RobotContainer::ConfigureButtonBindings() {
     //     .WhenPressed(SetSpeedAndWait([]() { return 3000_rpm; }, &shooterSubsystem));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-        .WhileHeld(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(visionSubsystem.GetYawToTarget()); },
-                                        {&turretSubsystem}));
+        .WhileHeld(frc2::InstantCommand(
+            [this] {
+                if (visionSubsystem.SeesTarget()) {
+                    turretSubsystem.SetTurretGoal(-visionSubsystem.GetYawToTarget());
+                } else {
+                    turretSubsystem.SetTurretGoal(-drivetrainSubsystem.GetYawToCenterOfField());
+                }
+            },
+            {&turretSubsystem}));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
         .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));

@@ -60,6 +60,7 @@ void DrivetrainSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Pose Y", pose.Y().to<double>());
     frc::SmartDashboard::PutNumber("Pose Rot", pose.Rotation().Degrees().to<double>());
     poseEstimatorSim.SetRobotPose(pose);
+    GetYawToCenterOfField();
 }
 
 void DrivetrainSubsystem::SimulationPeriodic() {
@@ -242,16 +243,28 @@ void DrivetrainSubsystem::ResetEncoders() {
 
 void DrivetrainSubsystem::DrawVisionTarget() {
     frc::FieldObject2d* upperHubOne = fieldSim.GetObject("upperHubOne");
-    frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
-    frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
-    frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
+    // frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
+    // frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
+    // frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
     upperHubOne->SetPose(str::vision_vars::TARGET_POSE_ONE);
-    upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
-    upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
-    upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
+    // upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
+    // upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
+    // upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
 }
 
 void DrivetrainSubsystem::DrawTurret(frc::Transform2d cam_to_robot) {
     frc::FieldObject2d* turret = fieldSim.GetObject("turret");
     turret->SetPose(fieldSim.GetRobotPose().TransformBy(cam_to_robot));
+}
+
+units::degree_t DrivetrainSubsystem::GetYawToCenterOfField() {
+    units::foot_t goalX = 27.5_ft;
+    units::foot_t goalY = 13.5_ft;
+    frc::Pose2d robotPose = GetPose();
+    units::foot_t robotX = robotPose.X();
+    units::foot_t robotY = robotPose.Y();
+    units::degree_t retVal = units::math::atan2(goalX - robotX, goalY - robotY);
+    retVal = retVal - 90_deg + robotPose.Rotation().Degrees();
+    frc::SmartDashboard::PutNumber("Yaw to center of field", retVal.value());
+    return retVal;
 }

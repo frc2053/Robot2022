@@ -61,8 +61,8 @@ private:
                                             str::physical_dims::TURRET_GEARBOX_RATIO,
                                             str::physical_dims::TURRET_MOI,
                                             str::physical_dims::TURRET_DIAMETER,
-                                            -90_deg,
-                                            90_deg,
+                                            -120_deg,
+                                            120_deg,
                                             str::physical_dims::TURRET_MASS,
                                             false};
     frc::Mechanism2d turretViz{60, 60};
