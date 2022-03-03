@@ -155,6 +155,12 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
         .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
+        .WhileHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem));
+
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
+        .WhenReleased(SetShooterSpeed([]{return 0_rpm;} ,&shooterSubsystem));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
