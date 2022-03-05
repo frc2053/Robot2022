@@ -44,7 +44,6 @@ private:
     void ConfigureMotors();
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorLeader{str::can_ids::SHOOTERLEADER_TALON_ID};
     ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorFollower01{str::can_ids::SHOOTERFOLLOWER01_TALON_ID};
-    ctre::phoenix::motorcontrol::can::WPI_TalonFX shooterMotorFollower02{str::can_ids::SHOOTERFOLLOWER02_TALON_ID};
     ctre::phoenix::motorcontrol::TalonFXSimCollection shooterSimCollection{shooterMotorLeader};
     frc::sim::FlywheelSim shooterSim{str::shooter_pid::SHOOTER_PLANT, str::physical_dims::SHOOTER_GEARBOX,
                                      str::physical_dims::SHOOTER_GEARBOX_RATIO};

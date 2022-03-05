@@ -27,7 +27,6 @@ static constexpr int FRONT_RIGHT_DRIVEBASE_TALON_ID = 4;
 static constexpr int REAR_RIGHT_DRIVEBASE_TALON_ID = 5;
 static constexpr int SHOOTERLEADER_TALON_ID = 6;
 static constexpr int SHOOTERFOLLOWER01_TALON_ID = 7;
-static constexpr int SHOOTERFOLLOWER02_TALON_ID = 8;
 static constexpr int INTAKE_TALON_ID = 9;
 static constexpr int CONVEYOR_TALON_ID = 10;
 static constexpr int FUNNEL_TALON_ID = 11;

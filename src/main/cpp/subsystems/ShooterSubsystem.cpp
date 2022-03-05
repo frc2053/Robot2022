@@ -92,7 +92,6 @@ void ShooterSubsystem::ResetEncoders() {
     shooterSimCollection.SetIntegratedSensorVelocity(0);
     shooterMotorLeader.SetSelectedSensorPosition(0);
     shooterMotorFollower01.SetSelectedSensorPosition(0);
-    shooterMotorFollower02.SetSelectedSensorPosition(0);
 }
 
 void ShooterSubsystem::ConfigureMotors() {
@@ -106,7 +105,6 @@ void ShooterSubsystem::ConfigureMotors() {
     baseConfig.velocityMeasurementWindow = 1;
     shooterMotorLeader.ConfigAllSettings(baseConfig);
     shooterMotorFollower01.ConfigAllSettings(baseConfig);
-    shooterMotorFollower02.ConfigAllSettings(baseConfig);
 
     shooterMotorLeader.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
     shooterMotorLeader.SetInverted(false);
@@ -114,9 +112,6 @@ void ShooterSubsystem::ConfigureMotors() {
 
     shooterMotorFollower01.Follow(shooterMotorLeader);
     shooterMotorFollower01.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
-
-    shooterMotorFollower02.Follow(shooterMotorLeader);
-    shooterMotorFollower02.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
 }
 
 units::revolutions_per_minute_t ShooterSubsystem::GetShooterSpeedToGoTo() {

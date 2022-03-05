@@ -24,6 +24,7 @@
 #include "commands/shooter/SetSpeedAndWait.h"
 #include "commands/conveyor/FeedBalls.h"
 #include "commands/shooter/SetShooterToGoal.h"
+#include "wpi/PortForwarder.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -46,6 +47,8 @@ RobotContainer::RobotContainer() {
 
     frc::SmartDashboard::PutData("Reset Odom",
                                  new frc2::InstantCommand([this] { drivetrainSubsystem.ResetOdom(frc::Pose2d()); }));
+
+    wpi::PortForwarder::GetInstance().Add(5800, "10.20.53.105", 5800);
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -160,7 +163,7 @@ void RobotContainer::ConfigureButtonBindings() {
         .WhileHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem));
 
     frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
-        .WhenReleased(SetShooterSpeed([]{return 0_rpm;} ,&shooterSubsystem));
+        .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
