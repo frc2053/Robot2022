@@ -52,118 +52,51 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-    //     .WhenPressed(TurnToAngle([]() { return units::degree_t(90); }, &drivetrainSubsystem).WithInterrupt([this]() {
-    //         return std::abs(m_driverController.GetLeftY()) > .2 || std::abs(m_driverController.GetRightX()) > .2;
-    //     }));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); },
-    //         {&shooterSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
-    //         {&shooterSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] {
-    //             intakeSubsystem.PutIntakeDown();
-    //             conveyorSubsystem.SetFunnelSpeed(1);
-    //             conveyorSubsystem.SetConveyorSpeed(1);
-    //             // shooterSubsystem.SetShooterSpeed(6000_rpm);
-    //         },
-    //         {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
-
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
-        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
-
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
-        .WhileHeld(FeedBalls(&conveyorSubsystem));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); },
+            {&shooterSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-        .WhenHeld(SetShooterSpeed([] { return 3500_rpm; }, &shooterSubsystem))
-        .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
-
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
         .WhenPressed(frc2::InstantCommand(
-            [this] {
-                intakeSubsystem.PutIntakeDown();
-                climberSubsystem.ExtendClimber();
-                climberSubsystem.LockClimber();
-                turretSubsystem.LockTurret();
-            },
-            {&intakeSubsystem, &climberSubsystem, &turretSubsystem}));
+            [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
+            {&shooterSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
         .WhenPressed(frc2::InstantCommand(
-            [this] {
-                intakeSubsystem.PutIntakeUp();
-                climberSubsystem.RetractClimber();
-                climberSubsystem.UnlockClimber();
-                turretSubsystem.UnlockTurret();
-            },
-            {&intakeSubsystem, &climberSubsystem, &turretSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-    //     .WhenReleased(frc2::InstantCommand(
-    //         [this] {
-    //             intakeSubsystem.PutIntakeUp();
-    //             conveyorSubsystem.SetFunnelSpeed(0);
-    //             conveyorSubsystem.SetConveyorSpeed(0);
-    //             // shooterSubsystem.SetShooterSpeed(0_rpm);
-    //         },
-    //         {&intakeSubsystem, &conveyorSubsystem, &shooterSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kA)
-    //     .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] {
-    //             shooterSubsystem.SetShooterSurfaceSpeed(
-    //                 str::Units::ConvertAngularVelocityToLinearVelocity(shooterSubsystem.GetShooterSetpoint(),
-    //                                                                    str::physical_dims::SHOOTER_WHEEL_DIAMETER /
-    //                                                                    2) -
-    //                 2_fps);
-    //         },
-    //         {&shooterSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kStart)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] {
-    //             shooterSubsystem.SetShooterSurfaceSpeed(
-    //                 str::Units::ConvertAngularVelocityToLinearVelocity(shooterSubsystem.GetShooterSetpoint(),
-    //                                                                    str::physical_dims::SHOOTER_WHEEL_DIAMETER /
-    //                                                                    2) +
-    //                 2_fps);
-    //         },
-    //         {&shooterSubsystem}));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kB)
-    //     .WhenPressed(SetSpeedAndWait([]() { return 3000_rpm; }, &shooterSubsystem));
-
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-        .WhileHeld(frc2::InstantCommand(
-            [this] {
-                if (visionSubsystem.SeesTarget()) {
-                    turretSubsystem.SetTurretGoal(-visionSubsystem.GetYawToTarget());
-                } else {
-                    turretSubsystem.SetTurretGoal(-drivetrainSubsystem.GetYawToCenterOfField());
-                }
-            },
+            [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() - 10_deg); },
             {&turretSubsystem}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-        .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
+        .WhenPressed(frc2::InstantCommand(
+            [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
+            {&turretSubsystem}));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
-        .WhileHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem));
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
+    //     .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
 
-    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kRightBumper)
-        .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
+    //     .WhileHeld(FeedBalls(&conveyorSubsystem));
+
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
+    //     .WhileHeld(frc2::InstantCommand(
+    //         [this] {
+    //             if (visionSubsystem.SeesTarget()) {
+    //                 turretSubsystem.SetTurretGoal(-visionSubsystem.GetYawToTarget());
+    //             } else {
+    //                 turretSubsystem.SetTurretGoal(-drivetrainSubsystem.GetYawToCenterOfField());
+    //             }
+    //         },
+    //         {&turretSubsystem}));
+
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
+    //     .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
+
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
+    //     .WhileHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem));
+
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
+    //     .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -174,10 +107,30 @@ const DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem() const {
     return drivetrainSubsystem;
 }
 
-// const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
-//     return shooterSubsystem;
-// }
+const IntakeSubsystem& RobotContainer::GetIntakeSubsystem() const {
+    return intakeSubsystem;
+}
 
-// const TurretSubsystem& RobotContainer::GetTurretSubsystem() const {
-//     return turretSubsystem;
-// }
+const ConveyorSubsystem& RobotContainer::GetConveyorSubsystem() const {
+    return conveyorSubsystem;
+}
+
+const TurretSubsystem& RobotContainer::GetTurretSubsystem() const {
+    return turretSubsystem;
+}
+
+const VisionSubsystem& RobotContainer::GetVisionSubsystem() const {
+    return visionSubsystem;
+}
+
+const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
+    return shooterSubsystem;
+}
+
+const HoodSubsystem& RobotContainer::GetHoodSubsystem() const {
+    return hoodSubsystem;
+}
+
+const ClimberSubsystem& RobotContainer::GetClimberSubsystem() const {
+    return climberSubsystem;
+}

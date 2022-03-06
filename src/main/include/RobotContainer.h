@@ -27,8 +27,13 @@ public:
     RobotContainer();
     frc2::Command* GetAutonomousCommand();
     const DrivetrainSubsystem& GetRobotDriveSubsystem() const;
-    // const ShooterSubsystem& GetShooterSubsystem() const;
+    const IntakeSubsystem& GetIntakeSubsystem() const;
+    const ConveyorSubsystem& GetConveyorSubsystem() const;
     const TurretSubsystem& GetTurretSubsystem() const;
+    const VisionSubsystem& GetVisionSubsystem() const;
+    const ShooterSubsystem& GetShooterSubsystem() const;
+    const HoodSubsystem& GetHoodSubsystem() const;
+    const ClimberSubsystem& GetClimberSubsystem() const;
 
 private:
     void ConfigureButtonBindings();
