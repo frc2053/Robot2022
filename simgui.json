@@ -1,13 +1,4 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Talon FX[6]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -24,6 +15,7 @@
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Home Turret": "Command",
       "/SmartDashboard/Pose Estimator Field": "Field2d",
       "/SmartDashboard/Reset Odom": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
@@ -148,6 +140,11 @@
           "visible": true
         }
       },
+      "/SmartDashboard/Home Turret": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Pose Estimator Field": {
         "bottom": 900,
         "height": 8.229599952697754,
@@ -181,6 +178,11 @@
         }
       },
       "/SmartDashboard/SendableChooser[0]": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Turret Sim": {
         "window": {
           "visible": true
         }

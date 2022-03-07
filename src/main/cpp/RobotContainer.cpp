@@ -25,6 +25,7 @@
 #include "commands/conveyor/FeedBalls.h"
 #include "commands/shooter/SetShooterToGoal.h"
 #include "wpi/PortForwarder.h"
+#include "commands/turret/HomeTurret.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -47,6 +48,9 @@ RobotContainer::RobotContainer() {
 
     frc::SmartDashboard::PutData("Reset Odom",
                                  new frc2::InstantCommand([this] { drivetrainSubsystem.ResetOdom(frc::Pose2d()); }));
+
+    frc::SmartDashboard::PutData("Home Turret",
+                                 new HomeTurret(&turretSubsystem));
 
     wpi::PortForwarder::GetInstance().Add(5800, "10.20.53.105", 5800);
 }
@@ -103,34 +107,34 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     return m_chooser.GetSelected();
 }
 
-const DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem() const {
+DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem(){
     return drivetrainSubsystem;
 }
 
-const IntakeSubsystem& RobotContainer::GetIntakeSubsystem() const {
+IntakeSubsystem& RobotContainer::GetIntakeSubsystem() {
     return intakeSubsystem;
 }
 
-const ConveyorSubsystem& RobotContainer::GetConveyorSubsystem() const {
+ConveyorSubsystem& RobotContainer::GetConveyorSubsystem() {
     return conveyorSubsystem;
 }
 
-const TurretSubsystem& RobotContainer::GetTurretSubsystem() const {
+TurretSubsystem& RobotContainer::GetTurretSubsystem() {
     return turretSubsystem;
 }
 
-const VisionSubsystem& RobotContainer::GetVisionSubsystem() const {
+VisionSubsystem& RobotContainer::GetVisionSubsystem() {
     return visionSubsystem;
 }
 
-const ShooterSubsystem& RobotContainer::GetShooterSubsystem() const {
+ShooterSubsystem& RobotContainer::GetShooterSubsystem() {
     return shooterSubsystem;
 }
 
-const HoodSubsystem& RobotContainer::GetHoodSubsystem() const {
+HoodSubsystem& RobotContainer::GetHoodSubsystem() {
     return hoodSubsystem;
 }
 
-const ClimberSubsystem& RobotContainer::GetClimberSubsystem() const {
+ClimberSubsystem& RobotContainer::GetClimberSubsystem() {
     return climberSubsystem;
 }

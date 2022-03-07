@@ -24,6 +24,7 @@ void Robot::DisabledInit() {
 void Robot::DisabledPeriodic() {}
 
 void Robot::AutonomousInit() {
+    m_container.GetTurretSubsystem().UnlockTurret();
     m_autonomousCommand = m_container.GetAutonomousCommand();
 
     if (m_autonomousCommand != nullptr) {
@@ -34,6 +35,7 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
+    m_container.GetTurretSubsystem().UnlockTurret();
     if (m_autonomousCommand != nullptr) {
         m_autonomousCommand->Cancel();
         m_autonomousCommand = nullptr;

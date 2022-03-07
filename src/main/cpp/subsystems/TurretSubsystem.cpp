@@ -34,7 +34,7 @@ void TurretSubsystem::Periodic() {
         loop.Predict(20_ms);
         turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, units::volt_t(loop.U(0)) / 12_V);
     } else {
-        if (turretMotor.IsRevLimitSwitchClosed()) {
+        if (turretMotor.IsFwdLimitSwitchClosed()) {
             homing = false;
             turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
         } else {
@@ -46,18 +46,18 @@ void TurretSubsystem::Periodic() {
 void TurretSubsystem::SimulationPeriodic() {
     turretSim.SetInput(Eigen::Vector<double, 1>{turretMotor.GetMotorOutputVoltage()});
     turretSim.Update(20_ms);
-    turretSimCollection.SetQuadratureVelocity(str::Units::ConvertAngularVelocityToTicksPer100Ms(
+    turretSimCollection.SetIntegratedSensorVelocity(str::Units::ConvertAngularVelocityToTicksPer100Ms(
         turretSim.GetVelocity(), str::encoder_cpr::CANCODER_ENCODER_CPR, str::physical_dims::TURRET_GEARBOX_RATIO));
-    turretSimCollection.SetQuadratureRawPosition(str::Units::ConvertAngleToEncoderTicks(
+    turretSimCollection.SetIntegratedSensorRawPosition(str::Units::ConvertAngleToEncoderTicks(
         turretSim.GetAngle(), str::encoder_cpr::CANCODER_ENCODER_CPR, str::physical_dims::TURRET_GEARBOX_RATIO, true));
     turretSimCollection.SetBusVoltage(frc::RobotController::GetBatteryVoltage().to<double>());
     turretArm->SetAngle(turretSim.GetAngle());
 }
 
 void TurretSubsystem::ConfigureMotors() {
-    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration baseConfig;
+    ctre::phoenix::motorcontrol::can::TalonFXConfiguration baseConfig;
     baseConfig.primaryPID.selectedFeedbackSensor =
-        ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative;
+        ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor;
     baseConfig.forwardLimitSwitchSource =
         ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_FeedbackConnector;
     baseConfig.reverseLimitSwitchSource =
@@ -68,8 +68,6 @@ void TurretSubsystem::ConfigureMotors() {
     baseConfig.reverseLimitSwitchNormal =
         ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
     turretMotor.ConfigAllSettings(baseConfig);
-
-    turretMotor.ConfigClearPositionOnLimitR(true, 0);
 }
 
 units::ampere_t TurretSubsystem::GetCurrentDraw() const {

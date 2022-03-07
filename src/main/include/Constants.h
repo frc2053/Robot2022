@@ -33,6 +33,7 @@ static constexpr int FUNNEL_TALON_ID = 11;
 static constexpr int BOTTOM_CONVEYOR_RANGE_SENSOR_ID = 12;
 static constexpr int TOP_CONVEYOR_RANGE_SENSOR_ID = 13;
 static constexpr int TURRET_TALON_ID = 14;
+static constexpr int CLIMBER_TALON_ID = 15;
 }    // namespace can_ids
 
 namespace pcm_ports {

@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
+#include <ctre/phoenix/motorcontrol/can/TalonFX.h>
 #include "Constants.h"
 #include <frc/simulation/SingleJointedArmSim.h>
 #include <frc/estimator/KalmanFilter.h>
@@ -15,7 +15,7 @@
 #include <frc/smartdashboard/Mechanism2d.h>
 #include <frc/smartdashboard/MechanismLigament2d.h>
 #include <frc/smartdashboard/MechanismRoot2d.h>
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/DoubleSolenoid.h>
 
@@ -39,8 +39,8 @@ public:
 
 private:
     void ConfigureMotors();
-    ctre::phoenix::motorcontrol::can::TalonSRX turretMotor{str::can_ids::TURRET_TALON_ID};
-    ctre::phoenix::motorcontrol::TalonSRXSimCollection turretSimCollection{turretMotor};
+    ctre::phoenix::motorcontrol::can::TalonFX turretMotor{str::can_ids::TURRET_TALON_ID};
+    ctre::phoenix::motorcontrol::TalonFXSimCollection turretSimCollection{turretMotor};
     frc::TrapezoidProfile<units::radians>::Constraints constraints{360_deg_per_s, 1000_deg_per_s / 1_s};
     frc::TrapezoidProfile<units::radians>::State lastProfiledReference;
     frc::KalmanFilter<2, 1, 1> observer{str::turret_pid::TURRET_PLANT, {0.015, 0.17}, {0.01}, 20_ms};
