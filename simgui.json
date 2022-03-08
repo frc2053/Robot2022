@@ -191,6 +191,12 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "Bottom Conveyor Sensor": {
+        "open": true
+      },
+      "Top Conveyor Sensor": {
+        "open": true
+      },
       "open": true
     },
     "photonvision": {

@@ -26,6 +26,7 @@
 #include "commands/shooter/SetShooterToGoal.h"
 #include "wpi/PortForwarder.h"
 #include "commands/turret/HomeTurret.h"
+#include "commands/intake/IntakeBallTele.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -77,8 +78,11 @@ void RobotContainer::ConfigureButtonBindings() {
             [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
             {&turretSubsystem}));
 
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
-        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kX)
+        .WhenHeld(IntakeBallTele(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
+
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kX)
+        .WhenReleased(IntakeUp(&intakeSubsystem));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
         .WhileHeld(FeedBalls(&conveyorSubsystem));
