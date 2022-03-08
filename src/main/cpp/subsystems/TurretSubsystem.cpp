@@ -6,6 +6,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "str/Units.h"
 #include "frc/smartdashboard/Field2d.h"
+#include "frc/RobotBase.h"
 
 TurretSubsystem::TurretSubsystem() {
     ConfigureMotors();
@@ -68,7 +69,9 @@ void TurretSubsystem::ConfigureMotors() {
         ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
 
     turretMotor.ConfigAllSettings(baseConfig);
-    turretMotor.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
+    if (!frc::RobotBase::IsSimulation()) {
+        turretMotor.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
+    }
 }
 
 units::ampere_t TurretSubsystem::GetCurrentDraw() const {
