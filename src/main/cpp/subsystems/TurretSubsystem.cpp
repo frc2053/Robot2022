@@ -56,8 +56,7 @@ void TurretSubsystem::SimulationPeriodic() {
 
 void TurretSubsystem::ConfigureMotors() {
     ctre::phoenix::motorcontrol::can::TalonFXConfiguration baseConfig;
-    baseConfig.primaryPID.selectedFeedbackSensor =
-        ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor;
+    baseConfig.primaryPID.selectedFeedbackSensor = ctre::phoenix::motorcontrol::FeedbackDevice::IntegratedSensor;
     baseConfig.forwardLimitSwitchSource =
         ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_FeedbackConnector;
     baseConfig.reverseLimitSwitchSource =
@@ -67,7 +66,9 @@ void TurretSubsystem::ConfigureMotors() {
         ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
     baseConfig.reverseLimitSwitchNormal =
         ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
+
     turretMotor.ConfigAllSettings(baseConfig);
+    turretMotor.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
 }
 
 units::ampere_t TurretSubsystem::GetCurrentDraw() const {

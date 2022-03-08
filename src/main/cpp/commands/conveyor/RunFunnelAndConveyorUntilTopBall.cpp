@@ -15,7 +15,7 @@ RunFunnelAndConveyorUntilTopBall::RunFunnelAndConveyorUntilTopBall(ConveyorSubsy
 void RunFunnelAndConveyorUntilTopBall::Initialize() {
     std::cout << "initialized run funnel and conveyor until ball!\n";
     conveyorSubsystem->SetFunnelSpeed(1);
-    conveyorSubsystem->SetConveyorSpeed(1);
+    conveyorSubsystem->SetConveyorSpeed(.5);
 }
 
 // Called repeatedly when this Command is scheduled to run

@@ -107,11 +107,11 @@ void ShooterSubsystem::ConfigureMotors() {
     shooterMotorFollower01.ConfigAllSettings(baseConfig);
 
     shooterMotorLeader.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
-    shooterMotorLeader.SetInverted(false);
+    shooterMotorLeader.SetInverted(true);
     shooterMotorLeader.ConfigPeakOutputReverse(0);
 
     shooterMotorFollower01.Follow(shooterMotorLeader);
-    shooterMotorFollower01.SetInverted(ctre::phoenix::motorcontrol::InvertType::FollowMaster);
+    shooterMotorFollower01.SetInverted(ctre::phoenix::motorcontrol::InvertType::OpposeMaster);
 }
 
 units::revolutions_per_minute_t ShooterSubsystem::GetShooterSpeedToGoTo() {

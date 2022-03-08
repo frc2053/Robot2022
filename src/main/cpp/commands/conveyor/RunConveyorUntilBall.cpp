@@ -13,7 +13,7 @@ RunConveyorUntilBall::RunConveyorUntilBall(ConveyorSubsystem* conveyorSub) : con
 // Called when the command is initially scheduled.
 void RunConveyorUntilBall::Initialize() {
     std::cout << "initialized run conveyor until ball!\n";
-    conveyorSubsystem->SetConveyorSpeed(1);
+    conveyorSubsystem->SetConveyorSpeed(.5);
 }
 
 // Called repeatedly when this Command is scheduled to run

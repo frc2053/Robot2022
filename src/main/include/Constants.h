@@ -58,7 +58,7 @@ static constexpr int HOOD_ENCODER_PORT_B = 2;
 
 namespace intake_vars {
 static constexpr size_t FILTER_VALUE = 5;
-static constexpr units::millimeter_t DIST_THRESHOLD = 70_mm;
+static constexpr units::millimeter_t DIST_THRESHOLD = 100_mm;
 static constexpr units::millimeter_t DIST_THRESHOLD_BOTTOM = 250_mm;
 }    // namespace intake_vars
 

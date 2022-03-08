@@ -49,10 +49,11 @@ RobotContainer::RobotContainer() {
     frc::SmartDashboard::PutData("Reset Odom",
                                  new frc2::InstantCommand([this] { drivetrainSubsystem.ResetOdom(frc::Pose2d()); }));
 
-    frc::SmartDashboard::PutData("Home Turret",
-                                 new HomeTurret(&turretSubsystem));
+    frc::SmartDashboard::PutData("Home Turret", new HomeTurret(&turretSubsystem));
 
     wpi::PortForwarder::GetInstance().Add(5800, "10.20.53.105", 5800);
+    wpi::PortForwarder::GetInstance().Add(1181, "10.20.53.105", 1181);
+    wpi::PortForwarder::GetInstance().Add(1182, "10.20.53.105", 1182);
 }
 
 void RobotContainer::ConfigureButtonBindings() {
@@ -76,11 +77,11 @@ void RobotContainer::ConfigureButtonBindings() {
             [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
             {&turretSubsystem}));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
-    //     .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
+        .WhenPressed(IntakeABall(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
-    //     .WhileHeld(FeedBalls(&conveyorSubsystem));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
+        .WhileHeld(FeedBalls(&conveyorSubsystem));
 
     // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
     //     .WhileHeld(frc2::InstantCommand(
@@ -107,7 +108,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
     return m_chooser.GetSelected();
 }
 
-DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem(){
+DrivetrainSubsystem& RobotContainer::GetRobotDriveSubsystem() {
     return drivetrainSubsystem;
 }
 
