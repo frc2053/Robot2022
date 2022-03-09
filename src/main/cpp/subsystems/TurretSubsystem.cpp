@@ -48,9 +48,9 @@ void TurretSubsystem::SimulationPeriodic() {
     turretSim.SetInput(Eigen::Vector<double, 1>{turretMotor.GetMotorOutputVoltage()});
     turretSim.Update(20_ms);
     turretSimCollection.SetIntegratedSensorVelocity(str::Units::ConvertAngularVelocityToTicksPer100Ms(
-        turretSim.GetVelocity(), str::encoder_cpr::CANCODER_ENCODER_CPR, str::physical_dims::TURRET_GEARBOX_RATIO));
+        turretSim.GetVelocity(), str::encoder_cpr::TALON_FX_ENCODER_CPR, str::physical_dims::TURRET_GEARBOX_RATIO));
     turretSimCollection.SetIntegratedSensorRawPosition(str::Units::ConvertAngleToEncoderTicks(
-        turretSim.GetAngle(), str::encoder_cpr::CANCODER_ENCODER_CPR, str::physical_dims::TURRET_GEARBOX_RATIO, true));
+        turretSim.GetAngle(), str::encoder_cpr::TALON_FX_ENCODER_CPR, str::physical_dims::TURRET_GEARBOX_RATIO, false));
     turretSimCollection.SetBusVoltage(frc::RobotController::GetBatteryVoltage().to<double>());
     turretArm->SetAngle(turretSim.GetAngle());
 }
@@ -88,8 +88,8 @@ units::degree_t TurretSubsystem::GetTurretSetpoint() {
 
 units::radian_t TurretSubsystem::GetCurrentTurretAngle() {
     return str::Units::ConvertTicksToAngle(turretMotor.GetSelectedSensorPosition(),
-                                           str::encoder_cpr::CANCODER_ENCODER_CPR,
-                                           str::physical_dims::TURRET_GEARBOX_RATIO, true);
+                                           str::encoder_cpr::TALON_FX_ENCODER_CPR,
+                                           str::physical_dims::TURRET_GEARBOX_RATIO, false);
 }
 
 frc::Transform2d TurretSubsystem::GetCameraToRobotPose() {
