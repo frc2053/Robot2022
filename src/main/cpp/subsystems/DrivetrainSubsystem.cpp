@@ -49,17 +49,17 @@ void DrivetrainSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("RightEncoderVelocity", rightEncoderVelocity.to<double>());
     frc::SmartDashboard::PutNumber("RightEncoderDistance", rightEncoderDistance.to<double>());
 
-    poseEstimator.Update(currentGyroYaw, {leftEncoderVelocity, rightEncoderVelocity}, leftEncoderDistance,
-                         rightEncoderDistance);
+    // poseEstimator.Update(currentGyroYaw, {leftEncoderVelocity, rightEncoderVelocity}, leftEncoderDistance,
+    //                      rightEncoderDistance);
 
     odom.Update(currentGyroYaw, leftEncoderDistance, rightEncoderDistance);
 
     fieldSim.SetRobotPose(odom.GetPose());
-    auto pose = poseEstimator.GetEstimatedPosition();
-    frc::SmartDashboard::PutNumber("Pose X", pose.X().to<double>());
-    frc::SmartDashboard::PutNumber("Pose Y", pose.Y().to<double>());
-    frc::SmartDashboard::PutNumber("Pose Rot", pose.Rotation().Degrees().to<double>());
-    poseEstimatorSim.SetRobotPose(pose);
+    // auto pose = poseEstimator.GetEstimatedPosition();
+    // frc::SmartDashboard::PutNumber("Pose X", pose.X().to<double>());
+    // frc::SmartDashboard::PutNumber("Pose Y", pose.Y().to<double>());
+    // frc::SmartDashboard::PutNumber("Pose Rot", pose.Rotation().Degrees().to<double>());
+    // poseEstimatorSim.SetRobotPose(odom);
     GetYawToCenterOfField();
 }
 

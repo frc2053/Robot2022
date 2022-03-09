@@ -15,16 +15,22 @@ void RunFunnelAndConveyorTele::Initialize() {
     std::cout << "initialized tele funnel and conveyor\n";
     conveyorSubsystem->SetFunnelSpeed(1);
     conveyorSubsystem->SetConveyorSpeed(.5);
+    isDone = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RunFunnelAndConveyorTele::Execute() {
-    if (conveyorSubsystem->DoesTopSensorSeeBall()) {
-        hasTopBall = true;
-        conveyorSubsystem->SetConveyorSpeed(0);
-    }
-    if (conveyorSubsystem->DoesBottomSensorSeeBall()) {
-        if (hasTopBall) {
+    if (!conveyorSubsystem->DoesTopSensorSeeBall()) {
+        conveyorSubsystem->SetConveyorSpeed(.5);
+        conveyorSubsystem->SetFunnelSpeed(1);
+        if (conveyorSubsystem->DoesBottomSensorSeeBall()) {
+        }
+    } else {
+        if (!conveyorSubsystem->DoesBottomSensorSeeBall()) {
+            conveyorSubsystem->SetConveyorSpeed(0);
+            conveyorSubsystem->SetFunnelSpeed(1);
+        } else {
+            conveyorSubsystem->SetConveyorSpeed(0);
             conveyorSubsystem->SetFunnelSpeed(0);
         }
     }
@@ -39,5 +45,5 @@ void RunFunnelAndConveyorTele::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool RunFunnelAndConveyorTele::IsFinished() {
-    return false;
+    return isDone;
 }

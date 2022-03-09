@@ -30,4 +30,5 @@ public:
 private:
     ConveyorSubsystem* conveyorSubsystem;
     bool hasTopBall = false;
+    bool isDone = false;
 };

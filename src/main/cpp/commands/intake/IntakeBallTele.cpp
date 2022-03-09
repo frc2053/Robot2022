@@ -5,11 +5,16 @@
 #include "commands/intake/IntakeBallTele.h"
 #include "commands/conveyor/RunFunnelAndConveyorTele.h"
 #include "commands/intake/IntakeDown.h"
+#include <frc2/command/ScheduleCommand.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 IntakeBallTele::IntakeBallTele(IntakeSubsystem* intakeSub, ConveyorSubsystem* conveyorSub, VisionSubsystem* visionSub) {
-    AddCommands(IntakeDown{intakeSub}, RunFunnelAndConveyorTele{conveyorSub});
+    RunFunnelAndConveyorTele* cmd = new RunFunnelAndConveyorTele(conveyorSub);
+
+    frc2::ScheduleCommand funnelAndConveyor{cmd};
+
+    AddCommands(IntakeDown{intakeSub}, funnelAndConveyor);
     SetName("IntakeBallTele");
 }
