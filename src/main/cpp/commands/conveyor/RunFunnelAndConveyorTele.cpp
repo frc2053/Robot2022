@@ -7,7 +7,7 @@
 
 RunFunnelAndConveyorTele::RunFunnelAndConveyorTele(ConveyorSubsystem* conveyorSub) : conveyorSubsystem(conveyorSub) {
     AddRequirements(conveyorSubsystem);
-    SetName("RunFunnelAndConveyorUntilTopBall");
+    SetName("RunFunnelAndConveyorTele");
 }
 
 // Called when the command is initially scheduled.
@@ -16,22 +16,21 @@ void RunFunnelAndConveyorTele::Initialize() {
     conveyorSubsystem->SetFunnelSpeed(1);
     conveyorSubsystem->SetConveyorSpeed(.5);
     isDone = false;
+    hasSeenBallAtTop = false;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void RunFunnelAndConveyorTele::Execute() {
-    if (!conveyorSubsystem->DoesTopSensorSeeBall()) {
-        conveyorSubsystem->SetConveyorSpeed(.5);
-        conveyorSubsystem->SetFunnelSpeed(1);
-        if (conveyorSubsystem->DoesBottomSensorSeeBall()) {
-        }
-    } else {
-        if (!conveyorSubsystem->DoesBottomSensorSeeBall()) {
-            conveyorSubsystem->SetConveyorSpeed(0);
-            conveyorSubsystem->SetFunnelSpeed(1);
-        } else {
-            conveyorSubsystem->SetConveyorSpeed(0);
-            conveyorSubsystem->SetFunnelSpeed(0);
+    if (conveyorSubsystem->DoesTopSensorSeeBall()) {
+        conveyorSubsystem->SetConveyorSpeed(0);
+        hasSeenBallAtTop = true;
+        std::cout << "Seen ball at top!\n";
+    }
+    if (conveyorSubsystem->DoesBottomSensorSeeBall()) {
+        std::cout << "Seen ball at bottom!\n";
+        if (hasSeenBallAtTop) {
+            isDone = true;
+            std::cout << "We are done!\n";
         }
     }
 }
@@ -39,7 +38,6 @@ void RunFunnelAndConveyorTele::Execute() {
 // Called once the command ends or is interrupted.
 void RunFunnelAndConveyorTele::End(bool interrupted) {
     std::cout << "ended tele funnel and conveyor\n";
-    conveyorSubsystem->SetFunnelSpeed(0);
     conveyorSubsystem->SetConveyorSpeed(0);
 }
 
