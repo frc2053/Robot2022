@@ -18,6 +18,7 @@
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/DoubleSolenoid.h>
+#include <frc/controller/SimpleMotorFeedforward.h>
 
 class TurretSubsystem : public frc2::SubsystemBase {
 public:
@@ -54,7 +55,7 @@ private:
         // heavily penalize control effort, or make the controller less
         // aggressive. 12 is a good starting point because that is the
         // (approximate) maximum voltage of a battery.
-        {12.0},
+        {7},
         20_ms};
     frc::LinearSystemLoop<2, 1, 1> loop{str::turret_pid::TURRET_PLANT, controller, observer, 12_V, 20_ms};
     frc::sim::SingleJointedArmSim turretSim{str::physical_dims::TURRET_GEARBOX,
@@ -73,4 +74,6 @@ private:
     bool homing = false;
     frc::DoubleSolenoid turretLockSolenoid{frc::PneumaticsModuleType::CTREPCM, str::pcm_ports::TURRET_LOCK_PORT1,
                                            str::pcm_ports::TURRET_LOCK_PORT2};
+    frc::SimpleMotorFeedforward<units::radian> feedforward{str::turret_pid::KS, str::turret_pid::KV,
+                                                           str::turret_pid::KA};
 };

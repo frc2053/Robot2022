@@ -102,7 +102,10 @@ static constexpr double HOOD_TOLERANCE = 2;
 
 namespace turret_pid {
 extern frc::LinearSystem<2, 1, 1> TURRET_PLANT;
-}
+static constexpr auto KS = 0.614_V;
+static constexpr auto KV = 1.3532_V / 1_rad_per_s;
+static constexpr auto KA = 0.10109_V / 1_rad_per_s_sq;
+}    // namespace turret_pid
 
 namespace encoder_cpr {
 static constexpr int TALON_FX_ENCODER_CPR = 2048;
