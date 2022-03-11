@@ -11,30 +11,23 @@
 TurretSubsystem::TurretSubsystem() {
     ConfigureMotors();
     frc::SmartDashboard::PutData("Turret Sim", &turretViz);
-    loop.Reset(Eigen::Vector<double, 2>{});
-    lastProfiledReference = {};
+    frc::SmartDashboard::PutData("Turret PID", &controller);
     UnlockTurret();
 }
 
 // This method will be called once per scheduler run
 void TurretSubsystem::Periodic() {
     auto currentAngle = GetCurrentTurretAngle();
-    frc::TrapezoidProfile<units::radians>::State goal;
-    goal = {turretSetpointGoal, 0_rad_per_s};
     frc::SmartDashboard::PutNumber("Turret Setpoint",
                                    units::convert<units::radian, units::degree>(turretSetpointGoal).to<double>());
     frc::SmartDashboard::PutNumber("Turret Current Angle",
                                    units::convert<units::radian, units::degree>(currentAngle).to<double>());
-    lastProfiledReference =
-        (frc::TrapezoidProfile<units::radians>(constraints, goal, lastProfiledReference)).Calculate(20_ms);
+
+    controller.SetGoal(turretSetpointGoal);
+    double controllerOutput = controller.Calculate(currentAngle);
 
     if (!homing) {
-        loop.SetNextR(
-            Eigen::Vector<double, 2>{lastProfiledReference.position.value(), lastProfiledReference.velocity.value()});
-        loop.Correct(Eigen::Vector<double, 1>{currentAngle.value()});
-        loop.Predict(20_ms);
-        auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(lastProfiledReference.velocity);
-        turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, finalVoltage / 12_V);
+        turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, controllerOutput);
     } else {
         if (turretMotor.IsFwdLimitSwitchClosed()) {
             homing = false;
