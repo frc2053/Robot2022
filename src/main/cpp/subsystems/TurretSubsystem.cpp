@@ -33,7 +33,7 @@ void TurretSubsystem::Periodic() {
             Eigen::Vector<double, 2>{lastProfiledReference.position.value(), lastProfiledReference.velocity.value()});
         loop.Correct(Eigen::Vector<double, 1>{currentAngle.value()});
         loop.Predict(20_ms);
-        auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(goal.velocity);
+        auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(lastProfiledReference.velocity);
         turretMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, finalVoltage / 12_V);
     } else {
         if (turretMotor.IsFwdLimitSwitchClosed()) {

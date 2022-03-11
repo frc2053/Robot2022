@@ -59,25 +59,21 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
-        .WhenPressed(frc2::InstantCommand(
-            [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() - 100_rpm); },
-            {&shooterSubsystem}));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
+        .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(3200_rpm); }, {&shooterSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-        .WhenPressed(frc2::InstantCommand(
-            [this] { shooterSubsystem.SetShooterSpeed(shooterSubsystem.GetShooterSetpoint() + 100_rpm); },
-            {&shooterSubsystem}));
+        .WhenReleased(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
 
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
-        .WhenPressed(frc2::InstantCommand(
-            [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() - 10_deg); },
-            {&turretSubsystem}));
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
+    //     .WhenPressed(frc2::InstantCommand(
+    //         [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() - 10_deg); },
+    //         {&turretSubsystem}));
 
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
-        .WhenPressed(frc2::InstantCommand(
-            [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
-            {&turretSubsystem}));
+    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
+    //     .WhenPressed(frc2::InstantCommand(
+    //         [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
+    //         {&turretSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kX)
         .WhenHeld(IntakeBallTele(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
@@ -88,19 +84,19 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
         .WhileHeld(FeedBalls(&conveyorSubsystem));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
-    //     .WhileHeld(frc2::InstantCommand(
-    //         [this] {
-    //             if (visionSubsystem.SeesTarget()) {
-    //                 turretSubsystem.SetTurretGoal(-visionSubsystem.GetYawToTarget());
-    //             } else {
-    //                 turretSubsystem.SetTurretGoal(-drivetrainSubsystem.GetYawToCenterOfField());
-    //             }
-    //         },
-    //         {&turretSubsystem}));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
+        .WhileHeld(frc2::InstantCommand(
+            [this] {
+                if (visionSubsystem.SeesTarget()) {
+                    turretSubsystem.SetTurretGoal(visionSubsystem.GetYawToTarget());
+                } else {
+                    turretSubsystem.SetTurretGoal(drivetrainSubsystem.GetYawToCenterOfField());
+                }
+            },
+            {&turretSubsystem}));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
-    //     .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
+        .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
 
     // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
     //     .WhileHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem));
