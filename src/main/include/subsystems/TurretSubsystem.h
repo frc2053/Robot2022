@@ -49,7 +49,7 @@ private:
                                                    // qelms. Velocity error tolerance, in radians and radians per
                                                    // second. Decrease this to more heavily penalize state excursion, or
                                                    // make the controller behave more aggressively.
-                                                   {.5, 1},
+                                                   {.5, 1.0},
                                                    // relms. Control effort (voltage) tolerance. Decrease this to more
                                                    // heavily penalize control effort, or make the controller less
                                                    // aggressive. 12 is a good starting point because that is the
