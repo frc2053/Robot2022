@@ -4,6 +4,7 @@
 
 #include "subsystems/HoodSubsystem.h"
 #include "str/Units.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 
 HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsystem* visionSub)
     : lookupTable(shooterTable), visionSubsystem(visionSub) {
@@ -13,6 +14,7 @@ HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsys
     hoodEncoder.SetReverseDirection(true);
     hoodController.SetSetpoint(0);
     hoodController.SetTolerance(str::shooter_pid::HOOD_TOLERANCE);
+    frc::SmartDashboard::PutData("Hood PID", &hoodController);
 }
 
 // This method will be called once per scheduler run
