@@ -5,16 +5,19 @@
 #include "commands/shooter/SetShooterToGoal.h"
 #include "commands/shooter/SetSpeedAndWait.h"
 #include "commands/shooter/SetHoodToAngleAndWait.h"
+#include "commands/turret/AlignTurretToGoal.h"
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub, HoodSubsystem* hoodSub)
-    : shooterSubsystem(shooterSub), visionSubsystem(visionSub), hoodSubsystem(hoodSub) {
+SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem* visionSub, HoodSubsystem* hoodSub,
+                                   TurretSubsystem* turretSub)
+    : shooterSubsystem(shooterSub), visionSubsystem(visionSub), hoodSubsystem(hoodSub), turretSubsystem(turretSub) {
     // clang-format off
     AddCommands(
       SetHoodToAngleAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).angle; }, hoodSub},
-      SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm; }, shooterSubsystem}
+      SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm; }, shooterSubsystem},
+      AlignTurretToGoal{turretSub, visionSub}
     );
     // clang-format on
 }

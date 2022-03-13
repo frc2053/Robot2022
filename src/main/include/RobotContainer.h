@@ -22,6 +22,7 @@
 #include "str/ShooterLookupTable.h"
 #include "subsystems/ClimberSubsystem.h"
 #include "commands/auto/MoveBackAuto.h"
+#include "commands/auto/ShootAndMoveBack.h"
 
 class RobotContainer {
 public:
@@ -55,6 +56,8 @@ private:
                               &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
     MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
     MoveBackAuto moveBackAuto{&drivetrainSubsystem};
+    ShootAndMoveBack shootAndMoveBack{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
+                                      &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};

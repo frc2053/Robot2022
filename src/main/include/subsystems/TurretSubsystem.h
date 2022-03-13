@@ -37,6 +37,7 @@ public:
     void HomeTurret();
     void LockTurret();
     void UnlockTurret();
+    bool IsAtSetpoint();
 
 private:
     void ConfigureMotors();

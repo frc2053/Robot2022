@@ -7,6 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 #include "str/ShooterLookupTable.h"
+#include <frc/RobotBase.h>
 
 ShooterSubsystem::ShooterSubsystem(VisionSubsystem* visionSub, str::ShooterLookupTable* shooterTable)
     : visionSubsystem(visionSub), lookupTable(shooterTable) {
@@ -107,7 +108,11 @@ void ShooterSubsystem::ConfigureMotors() {
     shooterMotorFollower01.ConfigAllSettings(baseConfig);
 
     shooterMotorLeader.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Coast);
-    shooterMotorLeader.SetInverted(true);
+    if (frc::RobotBase::IsSimulation()) {
+        shooterMotorLeader.SetInverted(false);
+    } else {
+        shooterMotorLeader.SetInverted(true);
+    }
     shooterMotorLeader.ConfigPeakOutputReverse(0);
 
     shooterMotorFollower01.Follow(shooterMotorLeader);

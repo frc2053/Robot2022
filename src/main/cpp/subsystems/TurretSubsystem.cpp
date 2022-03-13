@@ -7,6 +7,7 @@
 #include "str/Units.h"
 #include "frc/smartdashboard/Field2d.h"
 #include "frc/RobotBase.h"
+#include <iostream>
 
 TurretSubsystem::TurretSubsystem() {
     ConfigureMotors();
@@ -114,4 +115,13 @@ void TurretSubsystem::LockTurret() {
 
 void TurretSubsystem::UnlockTurret() {
     turretLockSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+}
+
+bool TurretSubsystem::IsAtSetpoint() {
+    auto positionError = turretSetpointGoal - GetCurrentTurretAngle();
+    if (units::math::abs(positionError) < str::turret_pid::TURRET_ALLOWABLE_ERROR) {
+        return true;
+    } else {
+        return false;
+    }
 }

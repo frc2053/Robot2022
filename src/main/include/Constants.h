@@ -105,6 +105,7 @@ extern frc::LinearSystem<2, 1, 1> TURRET_PLANT;
 static constexpr auto KS = 0.614_V;
 static constexpr auto KV = 1.3532_V / 1_rad_per_s;
 static constexpr auto KA = 0.10109_V / 1_rad_per_s_sq;
+static constexpr auto TURRET_ALLOWABLE_ERROR = 2_deg;
 }    // namespace turret_pid
 
 namespace encoder_cpr {
