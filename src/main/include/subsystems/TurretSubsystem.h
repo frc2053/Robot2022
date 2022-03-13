@@ -19,6 +19,7 @@
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/DoubleSolenoid.h>
 #include <frc/controller/SimpleMotorFeedforward.h>
+#include <frc/controller/ProfiledPIDController.h>
 
 class TurretSubsystem : public frc2::SubsystemBase {
 public:
@@ -43,21 +44,9 @@ private:
     void ConfigureMotors();
     ctre::phoenix::motorcontrol::can::TalonFX turretMotor{str::can_ids::TURRET_TALON_ID};
     ctre::phoenix::motorcontrol::TalonFXSimCollection turretSimCollection{turretMotor};
-    frc::TrapezoidProfile<units::radians>::Constraints constraints{70_deg_per_s, 70_deg_per_s / 1_s};
-    frc::TrapezoidProfile<units::radians>::State lastProfiledReference;
-    frc::KalmanFilter<2, 1, 1> observer{str::turret_pid::TURRET_PLANT, {0.015, 0.17}, {0.01}, 20_ms};
-    frc::LinearQuadraticRegulator<2, 1> controller{str::turret_pid::TURRET_PLANT,
-                                                   // qelms. Velocity error tolerance, in radians and radians per
-                                                   // second. Decrease this to more heavily penalize state excursion, or
-                                                   // make the controller behave more aggressively.
-                                                   {.5, 1.0},
-                                                   // relms. Control effort (voltage) tolerance. Decrease this to more
-                                                   // heavily penalize control effort, or make the controller less
-                                                   // aggressive. 12 is a good starting point because that is the
-                                                   // (approximate) maximum voltage of a battery.
-                                                   {3},
-                                                   20_ms};
-    frc::LinearSystemLoop<2, 1, 1> loop{str::turret_pid::TURRET_PLANT, controller, observer, 12_V, 20_ms};
+    frc::TrapezoidProfile<units::radians>::Constraints constraints{360_deg_per_s, 1000_deg_per_s / 1_s};
+    frc::ProfiledPIDController<units::radians> controller{str::turret_pid::KP, str::turret_pid::KI, str::turret_pid::KD,
+                                                          constraints, 20_ms};
     frc::sim::SingleJointedArmSim turretSim{str::physical_dims::TURRET_GEARBOX,
                                             str::physical_dims::TURRET_GEARBOX_RATIO,
                                             str::physical_dims::TURRET_MOI,
@@ -74,6 +63,4 @@ private:
     bool homing = false;
     frc::DoubleSolenoid turretLockSolenoid{frc::PneumaticsModuleType::CTREPCM, str::pcm_ports::TURRET_LOCK_PORT1,
                                            str::pcm_ports::TURRET_LOCK_PORT2};
-    frc::SimpleMotorFeedforward<units::radian> feedforward{str::turret_pid::KS, str::turret_pid::KV,
-                                                           str::turret_pid::KA};
 };
