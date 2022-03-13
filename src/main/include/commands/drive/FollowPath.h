@@ -13,6 +13,7 @@
 #include <units/acceleration.h>
 #include <subsystems/DrivetrainSubsystem.h>
 #include <frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h>
+#include "commands/drive/BetterRamseteCommand.h"
 
 class FollowPath : public frc2::CommandHelper<frc2::SequentialCommandGroup, FollowPath> {
 public:

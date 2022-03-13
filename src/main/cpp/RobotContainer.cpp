@@ -37,6 +37,7 @@ RobotContainer::RobotContainer() {
 
     m_chooser.SetDefaultOption("Move Forward 5ft", &moveForwardAuto);
     m_chooser.AddOption("Four Ball Auto", &fourBallAuto);
+    m_chooser.AddOption("Move Back Auto", &moveBackAuto);
 
     frc::SmartDashboard::PutData(&m_chooser);
 

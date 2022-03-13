@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "commands/drive/BetterRamseteCommand.h"
+#include <frc/DriverStation.h>
 
 BetterRamseteCommand::BetterRamseteCommand(frc::Trajectory traj, std::function<frc::Pose2d()> pose,
                                            DrivetrainSubsystem* driveSub)
@@ -13,7 +14,11 @@ BetterRamseteCommand::BetterRamseteCommand(frc::Trajectory traj, std::function<f
 
 // Called when the command is initially scheduled.
 void BetterRamseteCommand::Initialize() {
+    if (frc::DriverStation::GetAlliance() == frc::DriverStation::kRed) {
+        FlipTrajectory180();
+    }
     drivetrainSubsystem->DrawTrajectory(trajToFollow);
+    drivetrainSubsystem->ResetOdom(trajToFollow.InitialPose());
     m_prevTime = -1_s;
     auto initialState = trajToFollow.Sample(0_s);
     m_prevSpeeds = str::drive_pid::DRIVE_KINEMATICS.ToWheelSpeeds(
@@ -59,4 +64,8 @@ void BetterRamseteCommand::End(bool interrupted) {
 // Returns true when the command should end.
 bool BetterRamseteCommand::IsFinished() {
     return m_timer.HasElapsed(trajToFollow.TotalTime());
+}
+
+void BetterRamseteCommand::FlipTrajectory180() {
+    trajToFollow = trajToFollow.RelativeTo(frc::Pose2d(frc::Translation2d(54_ft, 27_ft), frc::Rotation2d(180_deg)));
 }

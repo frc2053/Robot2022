@@ -39,4 +39,5 @@ private:
     frc::SimpleMotorFeedforward<units::meters> feedForward{str::drive_pid::KS, str::drive_pid::KV, str::drive_pid::KA};
     units::second_t m_prevTime;
     frc::DifferentialDriveWheelSpeeds m_prevSpeeds;
+    void FlipTrajectory180();
 };
