@@ -10,6 +10,7 @@
 #include "commands/intake/IntakeABall.h"
 #include "commands/shooter/SetShooterToGoal.h"
 #include "commands/conveyor/FeedBalls.h"
+#include <frc2/command/ParallelRaceGroup.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -27,9 +28,9 @@ FourBallAuto::FourBallAuto(DrivetrainSubsystem* drivetrainSub, ShooterSubsystem*
     // clang-format off
     AddCommands(
         frc2::InstantCommand{[this]() { m_drivetrainSub->SetGyroOffset(90_deg); }},
-        HomeTurret{m_turretSub},
+        //HomeTurret{m_turretSub},
         SetShooterSpeed{[]() { return 3000_rpm; }, m_shooterSub}, 
-        frc2::ParallelCommandGroup{std::move(toSecondBallPath)/*, IntakeABall{m_intakeSub, m_conveyorSub, m_visionSub}, SetShooterToGoal{m_shooterSub, m_visionSub, m_hoodSub}*/},
+        frc2::ParallelCommandGroup{std::move(toSecondBallPath), IntakeABall{m_intakeSub, m_conveyorSub}.WithTimeout(2_s), SetShooterToGoal{m_shooterSub, m_visionSub, m_hoodSub, m_turretSub}},
         FeedBalls{m_conveyorSub, 1_s},
         std::move(toThirdAndFourthBallPath)
     );

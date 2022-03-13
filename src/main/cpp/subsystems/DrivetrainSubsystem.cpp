@@ -243,13 +243,13 @@ void DrivetrainSubsystem::ResetEncoders() {
 
 void DrivetrainSubsystem::DrawVisionTarget() {
     frc::FieldObject2d* upperHubOne = fieldSim.GetObject("upperHubOne");
-    // frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
-    // frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
-    // frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
+    frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
+    frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
+    frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
     upperHubOne->SetPose(str::vision_vars::TARGET_POSE_ONE);
-    // upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
-    // upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
-    // upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
+    upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
+    upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
+    upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
 }
 
 void DrivetrainSubsystem::DrawTurret(frc::Transform2d cam_to_robot) {

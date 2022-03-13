@@ -8,6 +8,7 @@
 #include <frc2/command/CommandBase.h>
 #include "subsystems/TurretSubsystem.h"
 #include "subsystems/VisionSubsystem.h"
+#include "subsystems/DrivetrainSubsystem.h"
 
 class AlignTurretToGoal : public frc2::CommandHelper<frc2::CommandBase, AlignTurretToGoal> {
 public:

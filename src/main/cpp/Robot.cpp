@@ -8,9 +8,11 @@
 #include <frc2/command/CommandScheduler.h>
 #include <frc/simulation/BatterySim.h>
 #include <frc/simulation/RoboRioSim.h>
+#include <frc/livewindow/LiveWindow.h>
 
 void Robot::RobotInit() {
     SetNetworkTablesFlushEnabled(true);
+    frc::LiveWindow::DisableAllTelemetry();
 }
 
 void Robot::RobotPeriodic() {

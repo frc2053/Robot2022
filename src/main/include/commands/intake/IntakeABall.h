@@ -19,7 +19,7 @@
 
 class IntakeABall : public frc2::CommandHelper<frc2::SequentialCommandGroup, IntakeABall> {
 public:
-    IntakeABall(IntakeSubsystem* intakeSubsystem, ConveyorSubsystem* conveyorSubsystem, VisionSubsystem* visionSub);
+    IntakeABall(IntakeSubsystem* intakeSubsystem, ConveyorSubsystem* conveyorSubsystem);
 
 private:
     IntakeSubsystem* intakeSubsystem;

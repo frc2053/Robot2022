@@ -38,6 +38,7 @@
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/ConveyorSubsystem": "Subsystem",
       "/LiveWindow/Ungrouped/DifferentialDrive[1]": "DifferentialDrive",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalInput[2]": "Digital Input",
       "/LiveWindow/Ungrouped/DrivetrainSubsystem": "Subsystem",
@@ -50,6 +51,7 @@
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Home Turret": "Command",
+      "/SmartDashboard/Hood PID": "PIDController",
       "/SmartDashboard/Pose Estimator Field": "Field2d",
       "/SmartDashboard/Reset Odom": "Command",
       "/SmartDashboard/SendableChooser[0]": "String Chooser",
@@ -84,11 +86,6 @@
         }
       },
       "/LiveWindow/Ungrouped/class frc2::SubsystemBase": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Auto Chooser": {
         "window": {
           "visible": true
         }
@@ -225,10 +222,13 @@
   },
   "NetworkTables": {
     "SmartDashboard": {
-      "Bottom Conveyor Sensor": {
+      "Field": {
         "open": true
       },
       "Top Conveyor Sensor": {
+        "open": true
+      },
+      "Turret PID": {
         "open": true
       },
       "open": true

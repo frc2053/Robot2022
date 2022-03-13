@@ -23,7 +23,7 @@
 #include "commands/shooter/SetShooterSpeed.h"
 #include "commands/shooter/SetSpeedAndWait.h"
 #include "commands/conveyor/FeedBalls.h"
-#include "commands/shooter/SetShooterToGoal.h"
+#include "commands/shooter/SetShooterToGoalTele.h"
 #include "wpi/PortForwarder.h"
 #include "commands/turret/HomeTurret.h"
 #include "commands/intake/IntakeBallTele.h"
@@ -67,12 +67,12 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
         .WhenReleased(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kBack)
     //     .WhenPressed(frc2::InstantCommand(
     //         [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() - 10_deg); },
     //         {&turretSubsystem}));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
+    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kStart)
     //     .WhenPressed(frc2::InstantCommand(
     //         [this] { turretSubsystem.SetTurretGoal(turretSubsystem.GetTurretSetpoint() + 10_deg); },
     //         {&turretSubsystem}));
@@ -86,25 +86,14 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
         .WhileHeld(FeedBalls(&conveyorSubsystem));
 
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
-        .WhileHeld(frc2::InstantCommand(
-            [this] {
-                if (visionSubsystem.SeesTarget()) {
-                    turretSubsystem.SetTurretGoal(visionSubsystem.GetYawToTarget());
-                } else {
-                    turretSubsystem.SetTurretGoal(drivetrainSubsystem.GetYawToCenterOfField());
-                }
-            },
-            {&turretSubsystem}));
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
+        .WhenHeld(SetShooterToGoalTele(&shooterSubsystem, &visionSubsystem, &hoodSubsystem, &turretSubsystem));
 
-    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
         .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
 
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-    //     .WhileHeld(SetShooterToGoal(&shooterSubsystem, &visionSubsystem, &hoodSubsystem));
-
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-    //     .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
+    frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
+        .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

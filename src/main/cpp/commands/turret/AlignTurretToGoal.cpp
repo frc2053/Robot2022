@@ -17,12 +17,7 @@ AlignTurretToGoal::AlignTurretToGoal(TurretSubsystem* turretSub, VisionSubsystem
 void AlignTurretToGoal::Initialize() {}
 
 void AlignTurretToGoal::Execute() {
-    if (visionSubsystem->SeesTarget()) {
-        turretSubsystem->SetTurretGoal(visionSubsystem->GetYawToTarget());
-    } else {
-        turretSubsystem->SetTurretGoal(visionSubsystem->GetYawToTarget());
-        // turretSubsystem->SetTurretGoal(drivetrainSubsystem->GetYawToCenterOfField());
-    }
+    turretSubsystem->SetTurretGoal(-visionSubsystem->GetYawToTarget() + turretSubsystem->GetCurrentTurretAngle());
 }
 
 void AlignTurretToGoal::End(bool interrupted) {
