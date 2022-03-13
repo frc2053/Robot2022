@@ -71,9 +71,7 @@ void TurretSubsystem::ConfigureMotors() {
         ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_NormallyOpen;
 
     turretMotor.ConfigAllSettings(baseConfig);
-    if (!frc::RobotBase::IsSimulation()) {
-        turretMotor.SetInverted(ctre::phoenix::motorcontrol::InvertType::InvertMotorOutput);
-    }
+    turretMotor.SetInverted(false);
 
     turretMotor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
 }
