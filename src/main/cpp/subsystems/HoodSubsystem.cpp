@@ -42,7 +42,7 @@ void HoodSubsystem::SetHoodToAngle(units::degree_t setpoint) {
 }
 
 void HoodSubsystem::SetServoSpeed(double percent) {
-    hoodServo.Set(std::clamp(percent, -1.0, 1.0));
+    hoodServo.Set(str::Units::map(percent, -1, 1, 0, 1));
 }
 
 units::degree_t HoodSubsystem::GetHoodAngleToGoTo() {

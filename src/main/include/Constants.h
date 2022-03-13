@@ -48,18 +48,18 @@ static constexpr int TURRET_LOCK_PORT2 = 0;
 }    // namespace pcm_ports
 
 namespace pwm_ports {
-static constexpr int HOOD_SERVO_PORT = 1;
+static constexpr int HOOD_SERVO_PORT = 0;
 }
 
 namespace dio_ports {
-static constexpr int HOOD_ENCODER_PORT_A = 1;
-static constexpr int HOOD_ENCODER_PORT_B = 2;
+static constexpr int HOOD_ENCODER_PORT_A = 0;
+static constexpr int HOOD_ENCODER_PORT_B = 1;
 }    // namespace dio_ports
 
 namespace intake_vars {
 static constexpr size_t FILTER_VALUE = 5;
-static constexpr units::millimeter_t DIST_THRESHOLD = 100_mm;
-static constexpr units::millimeter_t DIST_THRESHOLD_BOTTOM = 250_mm;
+static constexpr units::millimeter_t DIST_THRESHOLD = 40_mm;
+static constexpr units::millimeter_t DIST_THRESHOLD_BOTTOM = 40_mm;
 }    // namespace intake_vars
 
 namespace drive_pid {
