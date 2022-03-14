@@ -12,8 +12,9 @@
 ShooterSubsystem::ShooterSubsystem(VisionSubsystem* visionSub, str::ShooterLookupTable* shooterTable)
     : visionSubsystem(visionSub), lookupTable(shooterTable) {
     SetName("ShooterSubsystem");
-    loop.Reset(Eigen::Vector<double, 1>{});
     ConfigureMotors();
+    controller.SetTolerance(str::shooter_pid::FLYWHEEL_ALLOWABLE_ERROR.convert<units::rad_per_s>().value());
+    frc::SmartDashboard::PutNumber("Shooter Set RPM", 0);
 }
 
 // This method will be called once per scheduler run
@@ -21,7 +22,10 @@ void ShooterSubsystem::Periodic() {
     str::LookupValue goalTarget = lookupTable->Get(visionSubsystem->GetDistanceToTarget());
     shooterSpeedToGoTo = goalTarget.rpm;
 
-    loop.SetNextR(Eigen::Vector<double, 1>{currentShooterSpeedSetpoint.value()});
+    currentShooterSpeedSetpoint = units::revolutions_per_minute_t(frc::SmartDashboard::GetNumber("Shooter Set RPM", 0));
+
+    controller.SetSetpoint(currentShooterSpeedSetpoint.value());
+
     units::radians_per_second_t wheelAngularSpeed = GetCurrentShooterSpeed();
     units::meters_per_second_t wheelSurfaceSpeed = GetWheelSurfaceSpeed(wheelAngularSpeed);
     frc::SmartDashboard::PutNumber("Shooter Motor Angular Speed",
@@ -32,10 +36,12 @@ void ShooterSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber(
         "Shooter Motor Setpoint",
         units::convert<units::rad_per_s, units::rpm>(currentShooterSpeedSetpoint).to<double>());
-    loop.Correct(Eigen::Vector<double, 1>{wheelAngularSpeed.value()});
-    loop.Predict(20_ms);
-    auto finalVoltage = units::volt_t(loop.U(0)) + feedforward.Calculate(currentShooterSpeedSetpoint);
-    shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, finalVoltage / 12_V);
+
+    double output = controller.Calculate(wheelAngularSpeed.value());
+    frc::SmartDashboard::PutNumber("Shooter PID Output", output);
+
+    auto finalVoltage = units::volt_t(feedforward.Calculate(currentShooterSpeedSetpoint));
+    shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, ((finalVoltage) / 12_V) + output);
 }
 
 void ShooterSubsystem::SimulationPeriodic() {

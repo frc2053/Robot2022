@@ -20,9 +20,7 @@ void AlignTurretToGoal::Execute() {
     turretSubsystem->SetTurretGoal(-visionSubsystem->GetYawToTarget() + turretSubsystem->GetCurrentTurretAngle());
 }
 
-void AlignTurretToGoal::End(bool interrupted) {
-    turretSubsystem->SetTurretGoal(0_deg);
-}
+void AlignTurretToGoal::End(bool interrupted) {}
 
 bool AlignTurretToGoal::IsFinished() {
     return turretSubsystem->IsAtSetpoint();
