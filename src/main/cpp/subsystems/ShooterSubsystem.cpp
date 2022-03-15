@@ -41,7 +41,7 @@ void ShooterSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Shooter PID Output", output);
 
     auto finalVoltage = units::volt_t(feedforward.Calculate(currentShooterSpeedSetpoint));
-    shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, ((finalVoltage) / 12_V) + output);
+    shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, ((finalVoltage) / 12_V));
 }
 
 void ShooterSubsystem::SimulationPeriodic() {

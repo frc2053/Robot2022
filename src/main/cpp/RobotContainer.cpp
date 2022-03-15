@@ -63,10 +63,22 @@ RobotContainer::RobotContainer() {
 
 void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-        .WhenPressed(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(3200_rpm); }, {&shooterSubsystem}));
+        .WhenPressed(frc2::InstantCommand(
+            [this] {
+                shooterSubsystem.SetShooterSpeed(
+                    units::revolutions_per_minute_t(frc::SmartDashboard::GetNumber("Shooter Speed To Go To (RPM)", 0)));
+                hoodSubsystem.SetHoodToAngle(
+                    units::degree_t(frc::SmartDashboard::GetNumber("Shooter Hood Angle To Go To (Degrees)", 0)));
+            },
+            {&shooterSubsystem, &hoodSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-        .WhenReleased(frc2::InstantCommand([this] { shooterSubsystem.SetShooterSpeed(0_rpm); }, {&shooterSubsystem}));
+        .WhenReleased(frc2::InstantCommand(
+            [this] {
+                shooterSubsystem.SetShooterSpeed(0_rpm);
+                hoodSubsystem.SetHoodToAngle(0_deg);
+            },
+            {&shooterSubsystem, &hoodSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kX)
         .WhenHeld(IntakeBallTele(&intakeSubsystem, &conveyorSubsystem, &visionSubsystem));
