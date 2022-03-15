@@ -14,15 +14,12 @@ ShooterSubsystem::ShooterSubsystem(VisionSubsystem* visionSub, str::ShooterLooku
     SetName("ShooterSubsystem");
     ConfigureMotors();
     controller.SetTolerance(str::shooter_pid::FLYWHEEL_ALLOWABLE_ERROR.convert<units::rad_per_s>().value());
-    frc::SmartDashboard::PutNumber("Shooter Set RPM", 0);
 }
 
 // This method will be called once per scheduler run
 void ShooterSubsystem::Periodic() {
     str::LookupValue goalTarget = lookupTable->Get(visionSubsystem->GetDistanceToTarget());
     shooterSpeedToGoTo = goalTarget.rpm;
-
-    currentShooterSpeedSetpoint = units::revolutions_per_minute_t(frc::SmartDashboard::GetNumber("Shooter Set RPM", 0));
 
     controller.SetSetpoint(currentShooterSpeedSetpoint.value());
 
@@ -38,7 +35,6 @@ void ShooterSubsystem::Periodic() {
         units::convert<units::rad_per_s, units::rpm>(currentShooterSpeedSetpoint).to<double>());
 
     double output = controller.Calculate(wheelAngularSpeed.value());
-    frc::SmartDashboard::PutNumber("Shooter PID Output", output);
 
     auto finalVoltage = units::volt_t(feedforward.Calculate(currentShooterSpeedSetpoint));
     shooterMotorLeader.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, ((finalVoltage) / 12_V));

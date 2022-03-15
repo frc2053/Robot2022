@@ -29,7 +29,6 @@ void VisionSubsystem::Periodic() {
     auto cam_to_bot = turretSubsystem->GetCameraToRobotPose();
     gloworm_sim.MoveCamera(cam_to_bot.Inverse(), str::vision_vars::CAMERA_HEIGHT, str::vision_vars::CAMERA_PITCH);
     driveSubsystem->DrawTurret(cam_to_bot);
-    frc::SmartDashboard::PutNumber("cam_to_bot_rot", cam_to_bot.Rotation().Degrees().value());
     latestData = gloworm.GetLatestResult();
     if (latestData.HasTargets()) {
         seesATarget = true;
@@ -71,7 +70,6 @@ units::degree_t VisionSubsystem::GetYawToTarget() {
 
 units::degree_t VisionSubsystem::GetPitchToTarget() {
     auto pitch = bestTarget.GetPitch();
-    frc::SmartDashboard::PutNumber("Best Target Pitch", pitch);
     return units::degree_t(pitch);
 }
 
@@ -80,9 +78,10 @@ units::degree_t VisionSubsystem::GetSkewOfTarget() {
 }
 
 units::meter_t VisionSubsystem::GetDistanceToTarget() {
-    auto dist = photonlib::PhotonUtils::CalculateDistanceToTarget(str::vision_vars::CAMERA_HEIGHT,
-                                                                  str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND,
-                                                                  str::vision_vars::CAMERA_PITCH, GetPitchToTarget());
+    units::foot_t dist = photonlib::PhotonUtils::CalculateDistanceToTarget(
+        str::vision_vars::CAMERA_HEIGHT, str::vision_vars::TARGET_HEIGHT_ABOVE_GROUND, str::vision_vars::CAMERA_PITCH,
+        GetPitchToTarget());
+    frc::SmartDashboard::PutNumber("Distance To Vision Target", dist.value());
     return dist;
 }
 

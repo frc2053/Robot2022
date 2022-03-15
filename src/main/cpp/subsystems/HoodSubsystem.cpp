@@ -19,7 +19,6 @@ HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsys
 
 // This method will be called once per scheduler run
 void HoodSubsystem::Periodic() {
-    frc::SmartDashboard::PutNumber("Hood Value", hoodEncoder.Get());
     frc::SmartDashboard::PutNumber("Hood Angle", GetHoodAngle().value());
 
     str::LookupValue goalTarget = lookupTable->Get(visionSubsystem->GetDistanceToTarget());

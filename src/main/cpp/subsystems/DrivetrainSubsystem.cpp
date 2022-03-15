@@ -19,7 +19,6 @@ DrivetrainSubsystem::DrivetrainSubsystem() {
     ResetEncoders();
     drive.SetDeadband(.2);
     frc::SmartDashboard::PutData("Field", &fieldSim);
-    frc::SmartDashboard::PutData("Pose Estimator Field", &poseEstimatorSim);
     drive.SetSafetyEnabled(false);
     DrawVisionTarget();
 }
@@ -90,14 +89,10 @@ void DrivetrainSubsystem::SimulationPeriodic() {
 }
 
 void DrivetrainSubsystem::ArcadeDrive(double fwd, double rot) {
-    frc::SmartDashboard::PutNumber("Drive Joystick Forward", fwd);
-    frc::SmartDashboard::PutNumber("Drive Joystick Rotation", rot);
     drive.ArcadeDrive(fwd, rot, true);
 }
 
 void DrivetrainSubsystem::CurvatureDrive(double fwd, double rot, bool quickTurn) {
-    frc::SmartDashboard::PutNumber("Drive Joystick Forward", fwd);
-    frc::SmartDashboard::PutNumber("Drive Joystick Rotation", rot);
     drive.CurvatureDrive(fwd, rot, quickTurn);
 }
 
@@ -171,7 +166,6 @@ void DrivetrainSubsystem::ResetOdom(frc::Pose2d pose) {
     drivetrainSimulator.SetPose(pose);
     odom.ResetPosition(pose, gyro.GetYaw());
     poseEstimator.ResetPosition(pose, gyro.GetYaw());
-    std::cout << "Reset Odom on drivetrain!\n";
 }
 
 void DrivetrainSubsystem::SetGyroOffset(units::degree_t offset) {
@@ -242,14 +236,14 @@ void DrivetrainSubsystem::ResetEncoders() {
 }
 
 void DrivetrainSubsystem::DrawVisionTarget() {
-    frc::FieldObject2d* upperHubOne = fieldSim.GetObject("upperHubOne");
-    frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
-    frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
-    frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
-    upperHubOne->SetPose(str::vision_vars::TARGET_POSE_ONE);
-    upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
-    upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
-    upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
+    // frc::FieldObject2d* upperHubOne = fieldSim.GetObject("upperHubOne");
+    // frc::FieldObject2d* upperHubTwo = fieldSim.GetObject("upperHubTwo");
+    // frc::FieldObject2d* upperHubThree = fieldSim.GetObject("upperHubThree");
+    // frc::FieldObject2d* upperHubFour = fieldSim.GetObject("upperHubFour");
+    // upperHubOne->SetPose(str::vision_vars::TARGET_POSE_ONE);
+    // upperHubTwo->SetPose(str::vision_vars::TARGET_POSE_TWO);
+    // upperHubThree->SetPose(str::vision_vars::TARGET_POSE_THREE);
+    // upperHubFour->SetPose(str::vision_vars::TARGET_POSE_FOUR);
 }
 
 void DrivetrainSubsystem::DrawTurret(frc::Transform2d cam_to_robot) {

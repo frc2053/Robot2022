@@ -11,7 +11,6 @@
 
 TurretSubsystem::TurretSubsystem() {
     ConfigureMotors();
-    frc::SmartDashboard::PutData("Turret Sim", &turretViz);
     frc::SmartDashboard::PutData("Turret PID", &controller);
     UnlockTurret();
 }
