@@ -118,7 +118,12 @@ void RobotContainer::ConfigureButtonBindings() {
         .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.ExtendClimber(); }, {&climberSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
-        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.RetractClimber(); }, {&climberSubsystem}));
+        .WhenPressed(frc2::InstantCommand(
+            [this] {
+                climberSubsystem.RetractClimber();
+                turretSubsystem.LockTurret();
+            },
+            {&climberSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenHeld(SetShooterToGoalTele(&shooterSubsystem, &visionSubsystem, &hoodSubsystem, &turretSubsystem));
