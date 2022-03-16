@@ -31,6 +31,7 @@
 #include "commands/turret/AlignTurretToGoal.h"
 #include "commands/conveyor/FeedBallWait.h"
 #include "commands/conveyor/PukeBalls.h"
+#include "commands/climber/WinchClimber.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -64,6 +65,10 @@ RobotContainer::RobotContainer() {
                                        [this]() { return m_driverController.GetRightBumper(); }, &drivetrainSubsystem);
 
     drivetrainSubsystem.SetDefaultCommand(driveCmd);
+
+    WinchClimber winchCmd = WinchClimber([this]() { return m_operatorController.GetRightY(); }, &climberSubsystem);
+
+    climberSubsystem.SetDefaultCommand(winchCmd);
 
     frc::SmartDashboard::PutData("Zero Yaw", new frc2::InstantCommand([this] { drivetrainSubsystem.ResetGyro(); }));
 
@@ -108,6 +113,12 @@ void RobotContainer::ConfigureButtonBindings() {
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
         .WhileHeld(PukeBalls(&conveyorSubsystem, &intakeSubsystem));
+
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kStart)
+        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.ExtendClimber(); }, {&climberSubsystem}));
+
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kBack)
+        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.RetractClimber(); }, {&climberSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenHeld(SetShooterToGoalTele(&shooterSubsystem, &visionSubsystem, &hoodSubsystem, &turretSubsystem));
