@@ -29,6 +29,6 @@ public:
     bool IsFinished() override;
 
 private:
-    ConveyorSubsystem* conveyorSubsystem;
     std::function<bool()> shouldFire;
+    ConveyorSubsystem* conveyorSubsystem;
 };

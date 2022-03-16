@@ -28,6 +28,6 @@ public:
     bool IsFinished() override;
 
 private:
-    ClimberSubsystem* climberSubsystem;
     std::function<double()> winchSpeed;
+    ClimberSubsystem* climberSubsystem;
 };

@@ -27,6 +27,6 @@ public:
     bool IsFinished() override;
 
 private:
-    TurretSubsystem* turretSubsystem;
     std::function<units::degree_t()> angleToGoTo;
+    TurretSubsystem* turretSubsystem;
 };
