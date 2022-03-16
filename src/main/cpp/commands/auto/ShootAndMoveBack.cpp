@@ -23,8 +23,7 @@ ShootAndMoveBack::ShootAndMoveBack(DrivetrainSubsystem* drivetrainSub, ShooterSu
       hoodSubsystem(hoodSub),
       intakeSubsystem(intakeSub),
       conveyorSubsystem(conveyorSub) {
-    AddCommands(SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(5_s),
-                FeedBallWait{[shooterSub] { return shooterSub->IsFlywheelUpToSpeed(); }, conveyorSub},
-                std::move(moveBack));
+    AddCommands(std::move(moveBack), SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(5_s),
+                FeedBallWait{[shooterSub] { return shooterSub->IsFlywheelUpToSpeed(); }, conveyorSub});
     SetName("ShootAndMoveBack");
 }
