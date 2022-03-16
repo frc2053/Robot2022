@@ -13,7 +13,7 @@ HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsys
     hoodEncoder.SetDistancePerPulse(1);
     hoodEncoder.SetReverseDirection(true);
     hoodController.SetSetpoint(0);
-    hoodController.SetTolerance(str::shooter_pid::HOOD_TOLERANCE);
+    hoodController.SetTolerance(ConvertHoodAngleToTicks(units::degree_t(str::shooter_pid::HOOD_TOLERANCE)));
     frc::SmartDashboard::PutData("Hood PID", &hoodController);
 }
 

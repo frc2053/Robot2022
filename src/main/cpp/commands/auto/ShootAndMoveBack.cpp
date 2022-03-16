@@ -6,7 +6,7 @@
 #include "commands/auto/MoveBackAuto.h"
 #include <frc2/command/ParallelCommandGroup.h>
 #include "commands/shooter/SetShooterToGoal.h"
-#include "commands/conveyor/FeedBalls.h"
+#include "commands/conveyor/FeedBallWait.h"
 #include <frc2/command/ParallelRaceGroup.h>
 #include "commands/drive/FollowPath.h"
 
@@ -23,7 +23,8 @@ ShootAndMoveBack::ShootAndMoveBack(DrivetrainSubsystem* drivetrainSub, ShooterSu
       hoodSubsystem(hoodSub),
       intakeSubsystem(intakeSub),
       conveyorSubsystem(conveyorSub) {
-    AddCommands(SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(2_s),
-                FeedBalls{conveyorSub, 2_s}, std::move(moveBack));
+    AddCommands(SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(5_s),
+                FeedBallWait{[shooterSub] { return shooterSub->IsFlywheelUpToSpeed(); }, conveyorSub},
+                std::move(moveBack));
     SetName("ShootAndMoveBack");
 }
