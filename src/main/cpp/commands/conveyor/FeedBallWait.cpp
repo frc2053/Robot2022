@@ -4,15 +4,15 @@
 
 #include "commands/conveyor/FeedBallWait.h"
 
-FeedBallWait::FeedBallWait(ConveyorSubsystem* conveyorSub, ShooterSubsystem* shooterSub)
-    : conveyorSubsystem(conveyorSub), shooterSubsystem(shooterSub) {}
+FeedBallWait::FeedBallWait(std::function<bool()> fire, ConveyorSubsystem* conveyorSub)
+    : shouldFire(fire), conveyorSubsystem(conveyorSub) {}
 
 // Called when the command is initially scheduled.
 void FeedBallWait::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void FeedBallWait::Execute() {
-    if (shooterSubsystem->IsFlywheelUpToSpeed()) {
+    if (shouldFire()) {
         conveyorSubsystem->SetConveyorSpeed(1);
         conveyorSubsystem->SetFunnelSpeed(1);
     } else {

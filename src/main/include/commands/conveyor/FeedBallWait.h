@@ -18,7 +18,7 @@
  */
 class FeedBallWait : public frc2::CommandHelper<frc2::CommandBase, FeedBallWait> {
 public:
-    FeedBallWait(ConveyorSubsystem* conveyorSub, ShooterSubsystem* shooterSub);
+    FeedBallWait(std::function<bool()> fire, ConveyorSubsystem* conveyorSub);
 
     void Initialize() override;
 
@@ -30,5 +30,5 @@ public:
 
 private:
     ConveyorSubsystem* conveyorSubsystem;
-    ShooterSubsystem* shooterSubsystem;
+    std::function<bool()> shouldFire;
 };

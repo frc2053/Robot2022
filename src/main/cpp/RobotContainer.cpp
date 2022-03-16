@@ -103,7 +103,7 @@ void RobotContainer::ConfigureButtonBindings() {
         .WhenReleased(IntakeUpTele(&intakeSubsystem, &conveyorSubsystem));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
-        .WhenHeld(FeedBalls(&conveyorSubsystem));
+        .WhenHeld(FeedBallWait([this] { return shooterSubsystem.IsFlywheelUpToSpeed(); }, &conveyorSubsystem));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenHeld(SetShooterToGoalTele(&shooterSubsystem, &visionSubsystem, &hoodSubsystem, &turretSubsystem));
