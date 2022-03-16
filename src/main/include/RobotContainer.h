@@ -59,8 +59,8 @@ private:
     ShootAndMoveBack shootAndMoveBack{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
                                       &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
 
-    frc::SlewRateLimiter<units::scalar> speedLimiter{4 / 1_s};
-    frc::SlewRateLimiter<units::scalar> rotLimiter{4 / 1_s};
+    frc::SlewRateLimiter<units::scalar> speedLimiter{1 / 1_s};
+    frc::SlewRateLimiter<units::scalar> rotLimiter{1 / 1_s};
 
     frc::XboxController m_driverController{str::oi::DRIVER_CONTROLLER_PORT};
     frc::XboxController m_operatorController{str::oi::OPERATOR_CONTROLLER_PORT};

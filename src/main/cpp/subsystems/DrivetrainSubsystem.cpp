@@ -42,11 +42,11 @@ void DrivetrainSubsystem::Periodic() {
                                                           str::physical_dims::DRIVEBASE_GEARBOX_RATIO),
         str::physical_dims::DRIVE_WHEEL_DIAMETER / 2);
 
-    frc::SmartDashboard::PutNumber("Current Gyro Yaw", currentGyroYaw.Degrees().to<double>());
-    frc::SmartDashboard::PutNumber("LeftEncoderVelocity", leftEncoderVelocity.to<double>());
-    frc::SmartDashboard::PutNumber("LeftEncoderDistance", leftEncoderDistance.to<double>());
-    frc::SmartDashboard::PutNumber("RightEncoderVelocity", rightEncoderVelocity.to<double>());
-    frc::SmartDashboard::PutNumber("RightEncoderDistance", rightEncoderDistance.to<double>());
+    // frc::SmartDashboard::PutNumber("Current Gyro Yaw", currentGyroYaw.Degrees().to<double>());
+    // frc::SmartDashboard::PutNumber("LeftEncoderVelocity", leftEncoderVelocity.to<double>());
+    // frc::SmartDashboard::PutNumber("LeftEncoderDistance", leftEncoderDistance.to<double>());
+    // frc::SmartDashboard::PutNumber("RightEncoderVelocity", rightEncoderVelocity.to<double>());
+    // frc::SmartDashboard::PutNumber("RightEncoderDistance", rightEncoderDistance.to<double>());
 
     // poseEstimator.Update(currentGyroYaw, {leftEncoderVelocity, rightEncoderVelocity}, leftEncoderDistance,
     //                      rightEncoderDistance);

@@ -86,8 +86,7 @@ units::ampere_t ShooterSubsystem::GetCurrentDraw() const {
 }
 
 bool ShooterSubsystem::IsFlywheelUpToSpeed() {
-    return units::math::abs(GetCurrentShooterSpeed() - currentShooterSpeedSetpoint) <
-           str::shooter_pid::FLYWHEEL_ALLOWABLE_ERROR;
+    return units::math::abs(GetCurrentShooterSpeed() - currentShooterSpeedSetpoint) < 100_rpm;
 }
 
 void ShooterSubsystem::ResetEncoders() {
