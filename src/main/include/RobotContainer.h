@@ -8,7 +8,7 @@
 #include <frc/XboxController.h>
 #include <frc2/command/Command.h>
 
-#include "commands/auto/FourBallAuto.h"
+#include "commands/auto/ThreeBallAuto.h"
 #include "commands/auto/MoveForward5Ft.h"
 #include "Constants.h"
 #include <frc/filter/SlewRateLimiter.h>
@@ -23,6 +23,7 @@
 #include "subsystems/ClimberSubsystem.h"
 #include "commands/auto/MoveBackAuto.h"
 #include "commands/auto/ShootAndMoveBack.h"
+#include "commands/auto/TwoBallAuto.h"
 
 class RobotContainer {
 public:
@@ -52,12 +53,16 @@ private:
     ClimberSubsystem climberSubsystem{};
 
     frc::SendableChooser<frc2::Command*> m_chooser;
-    FourBallAuto fourBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
-                              &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
     MoveForward5Ft moveForwardAuto{&drivetrainSubsystem};
     MoveBackAuto moveBackAuto{&drivetrainSubsystem};
     ShootAndMoveBack shootAndMoveBack{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
                                       &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
+
+    TwoBallAuto twoBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
+                            &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
+
+    ThreeBallAuto threeBallAuto{&drivetrainSubsystem, &shooterSubsystem, &turretSubsystem,  &visionSubsystem,
+                                &hoodSubsystem,       &intakeSubsystem,  &conveyorSubsystem};
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{1 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{1 / 1_s};

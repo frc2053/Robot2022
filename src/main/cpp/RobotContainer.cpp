@@ -54,9 +54,10 @@ RobotContainer::RobotContainer() {
     lookupTable.AddLookupValue(21.6_ft, str::LookupValue{7000_rpm, 38.5_deg});
 
     m_chooser.SetDefaultOption("Move Forward 5ft", &moveForwardAuto);
-    m_chooser.AddOption("Four Ball Auto", &fourBallAuto);
     m_chooser.AddOption("Move Back Auto", &moveBackAuto);
     m_chooser.AddOption("Shoot And Move Back", &shootAndMoveBack);
+    m_chooser.AddOption("Two Ball Auto", &twoBallAuto);
+    m_chooser.AddOption("Three Ball Auto", &threeBallAuto);
 
     frc::SmartDashboard::PutData(&m_chooser);
 
