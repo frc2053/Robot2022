@@ -17,6 +17,10 @@ void IntakeSubsystem::PutIntakeDown() {
     intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
+void IntakeSubsystem::PutIntakeDownReverse() {
+    intakeMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -1);
+    intakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+}
 void IntakeSubsystem::PutIntakeUp() {
     intakeMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0);
     intakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);

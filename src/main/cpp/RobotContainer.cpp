@@ -30,6 +30,7 @@
 #include "commands/intake/IntakeUpTele.h"
 #include "commands/turret/AlignTurretToGoal.h"
 #include "commands/conveyor/FeedBallWait.h"
+#include "commands/conveyor/PukeBalls.h"
 
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
@@ -105,14 +106,11 @@ void RobotContainer::ConfigureButtonBindings() {
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kA)
         .WhenHeld(FeedBallWait([this] { return shooterSubsystem.IsFlywheelUpToSpeed(); }, &conveyorSubsystem));
 
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kY)
+        .WhileHeld(PukeBalls(&conveyorSubsystem, &intakeSubsystem));
+
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenHeld(SetShooterToGoalTele(&shooterSubsystem, &visionSubsystem, &hoodSubsystem, &turretSubsystem));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-    //     .WhileHeld(AlignTurretToGoal(&turretSubsystem, &visionSubsystem));
-
-    // frc2::JoystickButton(&m_driverController, frc::XboxController::Button::kLeftBumper)
-    //     .WhenReleased(frc2::InstantCommand([this] { turretSubsystem.SetTurretGoal(0_deg); }, {&turretSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
