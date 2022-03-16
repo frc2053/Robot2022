@@ -33,4 +33,5 @@ private:
                              frc::Encoder::EncodingType::k4X};
     units::degree_t hoodAngleToGoTo;
     frc::PIDController hoodController{str::shooter_pid::HOOD_KP, str::shooter_pid::HOOD_KI, str::shooter_pid::HOOD_KD};
+    int tickOffset{str::shooter_pid::SHOOTER_HOOD_MAX_TICKS};
 };

@@ -38,7 +38,7 @@ units::degree_t HoodSubsystem::ConvertHoodTicksToAngle(int ticks) {
 }
 
 units::degree_t HoodSubsystem::GetHoodAngle() {
-    return ConvertHoodTicksToAngle(hoodEncoder.Get());
+    return ConvertHoodTicksToAngle(hoodEncoder.Get() + tickOffset);
 }
 
 void HoodSubsystem::SetHoodToAngle(units::degree_t setpoint) {
