@@ -11,6 +11,7 @@
 #include <frc/Encoder.h>
 #include <frc/controller/PIDController.h>
 #include "subsystems/VisionSubsystem.h"
+#include <frc/Timer.h>
 #include "str/ShooterLookupTable.h"
 
 class HoodSubsystem : public frc2::SubsystemBase {
@@ -34,4 +35,10 @@ private:
     units::degree_t hoodAngleToGoTo;
     frc::PIDController hoodController{str::shooter_pid::HOOD_KP, str::shooter_pid::HOOD_KI, str::shooter_pid::HOOD_KD};
     int tickOffset{str::shooter_pid::SHOOTER_HOOD_MAX_TICKS};
+    bool stallBackwards{false};
+    bool stallForwards{false};
+    frc::Timer stallTimerF;
+    frc::Timer stallTimerB;
+    bool startedTimerF{false};
+    bool startedTimerB{false};
 };

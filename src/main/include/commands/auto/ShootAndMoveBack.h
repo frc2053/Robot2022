@@ -29,8 +29,8 @@ private:
     IntakeSubsystem* intakeSubsystem;
     ConveyorSubsystem* conveyorSubsystem;
 
-    FollowPath moveBack{str::auto_consts::K_MAX_SPEED,
-                        str::auto_consts::K_MAX_ACCEL,
+    FollowPath moveBack{6_fps,
+                        units::feet_per_second_squared_t(7),
                         frc::Pose2d{20_ft, 14.2_ft, frc::Rotation2d(0_deg)},
                         {frc::Translation2d(18_ft, 14.2_ft)},
                         frc::Pose2d(14_ft, 14.2_ft, frc::Rotation2d(0_deg)),

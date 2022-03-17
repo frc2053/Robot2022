@@ -6,9 +6,10 @@
 #include "commands/auto/MoveBackAuto.h"
 #include <frc2/command/ParallelCommandGroup.h>
 #include "commands/shooter/SetShooterToGoal.h"
-#include "commands/conveyor/FeedBallWait.h"
+#include "commands/conveyor/FeedBalls.h"
 #include <frc2/command/ParallelRaceGroup.h>
 #include "commands/drive/FollowPath.h"
+#include <frc2/command/WaitCommand.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -24,6 +25,6 @@ ShootAndMoveBack::ShootAndMoveBack(DrivetrainSubsystem* drivetrainSub, ShooterSu
       intakeSubsystem(intakeSub),
       conveyorSubsystem(conveyorSub) {
     AddCommands(std::move(moveBack), SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(5_s),
-                FeedBallWait{[shooterSub] { return shooterSub->IsFlywheelUpToSpeed(); }, conveyorSub});
+                frc2::WaitCommand(2_s), FeedBalls{conveyorSub});
     SetName("ShootAndMoveBack");
 }

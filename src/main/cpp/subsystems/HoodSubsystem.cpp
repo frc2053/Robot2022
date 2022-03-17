@@ -12,7 +12,7 @@ HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsys
     hoodEncoder.SetMinRate(1.0);
     hoodEncoder.SetDistancePerPulse(1);
     hoodEncoder.SetReverseDirection(true);
-    hoodController.SetSetpoint(0);
+    hoodController.SetSetpoint(str::shooter_pid::SHOOTER_HOOD_MAX_TICKS);
     hoodController.SetTolerance(ConvertHoodAngleToTicks(units::degree_t(str::shooter_pid::HOOD_TOLERANCE)));
     frc::SmartDashboard::PutData("Hood PID", &hoodController);
 }
@@ -23,8 +23,60 @@ void HoodSubsystem::Periodic() {
 
     str::LookupValue goalTarget = lookupTable->Get(visionSubsystem->GetDistanceToTarget());
     hoodAngleToGoTo = goalTarget.angle;
+
     double hoodOutputVal = hoodController.Calculate(GetHoodAngle().to<double>());
-    SetServoSpeed(hoodOutputVal);
+
+    double outputSpeed = hoodOutputVal;
+
+    if (hoodOutputVal < 0) {
+        stallForwards = false;
+        if (hoodEncoder.GetRate() < -5) {
+            stallBackwards = true;
+        } else {
+            stallBackwards = false;
+        }
+    } else if (hoodOutputVal > 0) {
+        stallBackwards = false;
+        if (hoodEncoder.GetRate() < 5) {
+            stallForwards = true;
+        } else {
+            stallForwards = false;
+        }
+    }
+
+    if (stallForwards) {
+        if (startedTimerF) {
+            if (stallTimerF.HasElapsed(.5_s)) {
+                outputSpeed = 0;
+                hoodEncoder.Reset();
+                hoodController.SetSetpoint(0);
+            }
+        } else {
+            startedTimerF = true;
+            stallTimerF.Start();
+        }
+    } else {
+        stallTimerF.Stop();
+        startedTimerF = false;
+        stallTimerF.Reset();
+    }
+
+    if (stallBackwards) {
+        if (startedTimerB) {
+            if (stallTimerB.HasElapsed(.5_s)) {
+                outputSpeed = 0;
+            }
+        } else {
+            startedTimerB = true;
+            stallTimerB.Start();
+        }
+    } else {
+        stallTimerB.Stop();
+        startedTimerB = false;
+        stallTimerB.Reset();
+    }
+
+    SetServoSpeed(outputSpeed);
 }
 
 int HoodSubsystem::ConvertHoodAngleToTicks(units::degree_t angle) {

@@ -86,8 +86,10 @@ units::ampere_t ShooterSubsystem::GetCurrentDraw() const {
 }
 
 bool ShooterSubsystem::IsFlywheelUpToSpeed() {
-    auto error = units::math::abs(GetCurrentShooterSpeed() - currentShooterSpeedSetpoint - 300_rpm);
-    bool retVal = error < 50_rpm;
+    units::revolutions_per_minute_t error =
+        units::math::fabs(GetCurrentShooterSpeed() - currentShooterSpeedSetpoint - 600_rpm);
+    std::cout << "Error = " << error.value() << "\n";
+    bool retVal = error < 500_rpm;
     if (retVal) {
         std::cout << "we are up to speed!\n";
     } else {
