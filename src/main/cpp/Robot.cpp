@@ -40,7 +40,7 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
     m_container.GetTurretSubsystem().UnlockTurret();
-    m_container.GetClimberSubsystem().UnlockClimber();
+    m_container.GetClimberSubsystem().LockClimber();
     frc::SmartDashboard::PutNumber("Shooter Speed To Go To (RPM)", 0);
     frc::SmartDashboard::PutNumber("Shooter Hood Angle To Go To (Degrees)", 0);
     if (m_autonomousCommand != nullptr) {

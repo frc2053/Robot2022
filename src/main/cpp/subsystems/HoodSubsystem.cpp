@@ -5,67 +5,26 @@
 #include "subsystems/HoodSubsystem.h"
 #include "str/Units.h"
 #include "frc/smartdashboard/SmartDashboard.h"
-#include <iostream>
 
 HoodSubsystem::HoodSubsystem(str::ShooterLookupTable* shooterTable, VisionSubsystem* visionSub)
     : lookupTable(shooterTable), visionSubsystem(visionSub) {
     hoodEncoder.SetSamplesToAverage(50);
     hoodEncoder.SetMinRate(1.0);
-    hoodEncoder.SetMaxPeriod(.5_s);
-    hoodEncoder.SetDistancePerPulse(0.023162583518931);
+    hoodEncoder.SetDistancePerPulse(1);
     hoodEncoder.SetReverseDirection(true);
-    hoodController.SetSetpoint(str::shooter_pid::SHOOTER_HOOD_MAX_ANGLE.value());
-    hoodController.SetTolerance(str::shooter_pid::HOOD_TOLERANCE);
+    hoodController.SetSetpoint(str::shooter_pid::SHOOTER_HOOD_MAX_TICKS);
+    hoodController.SetTolerance(ConvertHoodAngleToTicks(units::degree_t(str::shooter_pid::HOOD_TOLERANCE)));
     frc::SmartDashboard::PutData("Hood PID", &hoodController);
 }
 
 // This method will be called once per scheduler run
 void HoodSubsystem::Periodic() {
     frc::SmartDashboard::PutNumber("Hood Angle", GetHoodAngle().value());
-    double servoSetSpeed = hoodController.Calculate(GetHoodAngle().to<double>());
 
-    if (servoSetSpeed > 0 && hoodEncoder.GetStopped()) {
-        std::cout << "The hood is commanded forward but we are stopped!\n";
-        if (!startedTimerF) {
-            std::cout << "The forward stall timer is started!\n";
-            stallTimerF.Reset();
-            stallTimerF.Start();
-            startedTimerF = true;
-        } else {
-            if (stallTimerF.HasElapsed(.5_s)) {
-                std::cout << "Timer elapsed for forward, stopping motor!\n";
-                servoSetSpeed = 0;
-                stallTimerF.Stop();
-                stallTimerF.Reset();
-                startedTimerF = false;
-                hoodEncoder.Reset();
-                hoodOffset = 52_deg;
-                hoodController.Reset();
-            }
-        }
-    }
-    if (servoSetSpeed < 0 && hoodEncoder.GetStopped()) {
-        std::cout << "The hood is commanded backwards but we are stopped!\n";
-        if (!startedTimerB) {
-            std::cout << "The backwards stall timer is started!\n";
-            stallTimerB.Reset();
-            stallTimerB.Start();
-            startedTimerB = true;
-        } else {
-            if (stallTimerB.HasElapsed(.5_s)) {
-                std::cout << "Timer elapsed for backwards, stopping motor!\n";
-                servoSetSpeed = 0;
-                stallTimerB.Stop();
-                stallTimerB.Reset();
-                startedTimerB = false;
-                hoodEncoder.Reset();
-                hoodOffset = 0_deg;
-                hoodController.Reset();
-            }
-        }
-    }
+    str::LookupValue goalTarget = lookupTable->Get(visionSubsystem->GetDistanceToTarget());
+    hoodAngleToGoTo = goalTarget.angle;
 
-    SetServoSpeed(std::clamp(servoSetSpeed, -1.0, 1.0));
+    double hoodOutputVal = hoodController.Calculate(GetHoodAngle().to<double>());
 
     // double outputSpeed = hoodOutputVal;
 
@@ -116,6 +75,8 @@ void HoodSubsystem::Periodic() {
     //     startedTimerB = false;
     //     stallTimerB.Reset();
     // }
+
+    SetServoSpeed(std::clamp(hoodOutputVal, -1.0, 1.0));
 }
 
 int HoodSubsystem::ConvertHoodAngleToTicks(units::degree_t angle) {
@@ -129,7 +90,7 @@ units::degree_t HoodSubsystem::ConvertHoodTicksToAngle(int ticks) {
 }
 
 units::degree_t HoodSubsystem::GetHoodAngle() {
-    return units::degree_t(hoodEncoder.Get()) + hoodOffset;
+    return ConvertHoodTicksToAngle(hoodEncoder.Get() + tickOffset);
 }
 
 void HoodSubsystem::SetHoodToAngle(units::degree_t setpoint) {
