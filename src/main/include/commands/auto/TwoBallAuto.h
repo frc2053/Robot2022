@@ -29,11 +29,11 @@ private:
     IntakeSubsystem* m_intakeSub;
     ConveyorSubsystem* m_conveyorSub;
 
-    FollowPath toSecondBallPath{6_fps,
-                                str::auto_consts::K_MAX_ACCEL,
-                                frc::Pose2d(20.553_ft, 17.448_ft, frc::Rotation2d(135_deg)),
-                                {},
-                                frc::Pose2d(14.944_ft, 17.292_ft, frc::Rotation2d(-90_deg)),
+    FollowPath toSecondBallPath{10_fps,
+                                units::feet_per_second_squared_t(10),
+                                frc::Pose2d(20.527_ft, 17.379_ft, frc::Rotation2d(135_deg)),
+                                {frc::Translation2d(16.107_ft, 20.420_ft)},
+                                frc::Pose2d(14.021_ft, 15.122_ft, frc::Rotation2d(-30_deg)),
                                 false,
                                 m_drivetrainSub};
 };
