@@ -11,8 +11,6 @@ ConveyorSubsystem::ConveyorSubsystem() {
     ConfigureMotors();
     bottomConveyorSensor.SetRangingMode(frc::TimeOfFlight::RangingMode::kShort, 24);
     topConveyorSensor.SetRangingMode(frc::TimeOfFlight::RangingMode::kShort, 24);
-    frc::SmartDashboard::PutData("Top Conveyor Sensor", &topConveyorSensor);
-    frc::SmartDashboard::PutData("Bottom Conveyor Sensor", &bottomConveyorSensor);
     std::cout << std::boolalpha;
 }
 
@@ -22,10 +20,8 @@ void ConveyorSubsystem::Periodic() {
     double rawTopDist = topConveyorSensor.GetRange();
     bottomDistFiltered = units::millimeter_t(bottomFilter.Calculate(rawBottomDist));
     topDistFiltered = units::millimeter_t(topFilter.Calculate(rawTopDist));
-    frc::SmartDashboard::PutNumber("top distance raw", rawTopDist);
-    frc::SmartDashboard::PutNumber("bottom distance raw", rawBottomDist);
-    frc::SmartDashboard::PutNumber("top distance filtered", topDistFiltered.value());
-    frc::SmartDashboard::PutNumber("bottom distance filtered", bottomDistFiltered.value());
+    frc::SmartDashboard::PutNumber("Top Conveyor Sensor Distance (mm)", topDistFiltered.value());
+    frc::SmartDashboard::PutNumber("Bottom Conveyor Sensor Distance (mm)", bottomDistFiltered.value());
 }
 
 void ConveyorSubsystem::SetFunnelSpeed(double speed) {

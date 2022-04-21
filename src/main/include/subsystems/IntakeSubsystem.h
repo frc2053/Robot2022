@@ -19,6 +19,7 @@ public:
     void Periodic() override;
     void PutIntakeDown();
     void PutIntakeUp();
+    void PutIntakeDownReverse();
 
 private:
     void ConfigureMotors();

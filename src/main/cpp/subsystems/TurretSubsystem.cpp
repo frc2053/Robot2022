@@ -11,7 +11,6 @@
 
 TurretSubsystem::TurretSubsystem() {
     ConfigureMotors();
-    frc::SmartDashboard::PutData("Turret Sim", &turretViz);
     frc::SmartDashboard::PutData("Turret PID", &controller);
     UnlockTurret();
 }
@@ -24,6 +23,12 @@ void TurretSubsystem::Periodic() {
                                    units::convert<units::radian, units::degree>(turretSetpointGoal).to<double>());
     frc::SmartDashboard::PutNumber("Turret Current Angle",
                                    units::convert<units::radian, units::degree>(currentAngle).to<double>());
+    if (turretSetpointGoal > 30_deg) {
+        turretSetpointGoal = 30_deg;
+    }
+    if (turretSetpointGoal < -30_deg) {
+        turretSetpointGoal = -30_deg;
+    }
     controller.SetGoal(turretSetpointGoal);
     double controllerOutput = controller.Calculate(currentAngle);
     if (!homing) {
@@ -64,6 +69,11 @@ void TurretSubsystem::ConfigureMotors() {
 
     turretMotor.ConfigAllSettings(baseConfig);
     turretMotor.SetInverted(false);
+
+    turretMotor.ConfigForwardSoftLimitEnable(true);
+    turretMotor.ConfigReverseSoftLimitEnable(true);
+    turretMotor.ConfigForwardSoftLimitThreshold(15000);
+    turretMotor.ConfigReverseSoftLimitThreshold(-16000);
 
     turretMotor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
 }

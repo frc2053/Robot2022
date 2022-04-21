@@ -11,15 +11,14 @@ void ClimberSubsystem::Periodic() {}
 
 void ClimberSubsystem::ConfigureMotors() {
     ctre::phoenix::motorcontrol::can::TalonFXConfiguration baseConfig;
-    baseConfig.forwardLimitSwitchSource =
-        ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_Deactivated;
-    baseConfig.reverseLimitSwitchSource =
-        ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_Deactivated;
-    baseConfig.forwardLimitSwitchNormal =
-        ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_Disabled;
-    baseConfig.reverseLimitSwitchNormal =
-        ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_Disabled;
+    baseConfig.forwardLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_Deactivated;
+    baseConfig.reverseLimitSwitchSource = ctre::phoenix::motorcontrol::LimitSwitchSource::LimitSwitchSource_Deactivated;
+    baseConfig.forwardLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_Disabled;
+    baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_Disabled;
     climberMotor.ConfigAllSettings(baseConfig);
+
+    climberMotor.ConfigReverseSoftLimitEnable(true);
+    climberMotor.ConfigReverseSoftLimitThreshold(-175119);
 }
 
 void ClimberSubsystem::ExtendClimber() {

@@ -9,6 +9,7 @@
 #include "commands/conveyor/FeedBalls.h"
 #include <frc2/command/ParallelRaceGroup.h>
 #include "commands/drive/FollowPath.h"
+#include <frc2/command/WaitCommand.h>
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.
 // For more information, see:
@@ -23,7 +24,7 @@ ShootAndMoveBack::ShootAndMoveBack(DrivetrainSubsystem* drivetrainSub, ShooterSu
       hoodSubsystem(hoodSub),
       intakeSubsystem(intakeSub),
       conveyorSubsystem(conveyorSub) {
-    AddCommands(SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(2_s),
-                FeedBalls{conveyorSub, 2_s}, std::move(moveBack));
+    AddCommands(std::move(moveBack), SetShooterToGoal{shooterSub, visionSub, hoodSub, turretSub}.WithTimeout(5_s),
+                frc2::WaitCommand(2_s), FeedBalls{conveyorSub});
     SetName("ShootAndMoveBack");
 }
