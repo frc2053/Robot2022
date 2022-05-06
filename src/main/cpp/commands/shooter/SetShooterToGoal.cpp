@@ -16,7 +16,7 @@ SetShooterToGoal::SetShooterToGoal(ShooterSubsystem* shooterSub, VisionSubsystem
     // clang-format off
     AddCommands(
       SetHoodToAngleAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).angle; }, hoodSub},
-      SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm; }, shooterSubsystem},
+      SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm + 50_rpm; }, shooterSubsystem},
       AlignTurretToGoal{turretSub, visionSub}
     );
     // clang-format on

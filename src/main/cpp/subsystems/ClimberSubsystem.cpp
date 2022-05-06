@@ -17,6 +17,9 @@ void ClimberSubsystem::ConfigureMotors() {
     baseConfig.reverseLimitSwitchNormal = ctre::phoenix::motorcontrol::LimitSwitchNormal::LimitSwitchNormal_Disabled;
     climberMotor.ConfigAllSettings(baseConfig);
 
+    climberMotor.ConfigVoltageCompSaturation(13);
+    climberMotor.EnableVoltageCompensation(true);
+
     climberMotor.ConfigReverseSoftLimitEnable(true);
     climberMotor.ConfigReverseSoftLimitThreshold(-175119);
 }

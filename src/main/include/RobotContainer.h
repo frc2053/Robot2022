@@ -38,6 +38,9 @@ public:
     HoodSubsystem& GetHoodSubsystem();
     ClimberSubsystem& GetClimberSubsystem();
 
+    frc::XboxController m_driverController{str::oi::DRIVER_CONTROLLER_PORT};
+    frc::XboxController m_operatorController{str::oi::OPERATOR_CONTROLLER_PORT};
+
 private:
     void ConfigureButtonBindings();
 
@@ -66,7 +69,4 @@ private:
 
     frc::SlewRateLimiter<units::scalar> speedLimiter{1 / 1_s};
     frc::SlewRateLimiter<units::scalar> rotLimiter{1 / 1_s};
-
-    frc::XboxController m_driverController{str::oi::DRIVER_CONTROLLER_PORT};
-    frc::XboxController m_operatorController{str::oi::OPERATOR_CONTROLLER_PORT};
 };

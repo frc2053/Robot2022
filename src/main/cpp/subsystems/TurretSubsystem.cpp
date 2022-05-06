@@ -23,11 +23,11 @@ void TurretSubsystem::Periodic() {
                                    units::convert<units::radian, units::degree>(turretSetpointGoal).to<double>());
     frc::SmartDashboard::PutNumber("Turret Current Angle",
                                    units::convert<units::radian, units::degree>(currentAngle).to<double>());
-    if (turretSetpointGoal > 30_deg) {
-        turretSetpointGoal = 30_deg;
+    if (turretSetpointGoal > 60_deg) {
+        turretSetpointGoal = 60_deg;
     }
-    if (turretSetpointGoal < -30_deg) {
-        turretSetpointGoal = -30_deg;
+    if (turretSetpointGoal < -60_deg) {
+        turretSetpointGoal = -60_deg;
     }
     controller.SetGoal(turretSetpointGoal);
     double controllerOutput = controller.Calculate(currentAngle);

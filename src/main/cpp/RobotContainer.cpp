@@ -36,22 +36,24 @@
 RobotContainer::RobotContainer() {
     ConfigureButtonBindings();
 
-    lookupTable.AddLookupValue(5.8_ft, str::LookupValue{4500_rpm, 10_deg});
-    lookupTable.AddLookupValue(6.8_ft, str::LookupValue{4500_rpm, 10_deg});
-    lookupTable.AddLookupValue(7.6_ft, str::LookupValue{4500_rpm, 10_deg});
-    lookupTable.AddLookupValue(8.8_ft, str::LookupValue{4800_rpm, 10_deg});
-    lookupTable.AddLookupValue(9.7_ft, str::LookupValue{5000_rpm, 12_deg});
-    lookupTable.AddLookupValue(10.5_ft, str::LookupValue{5100_rpm, 14_deg});
-    lookupTable.AddLookupValue(11.7_ft, str::LookupValue{5100_rpm, 14_deg});
-    lookupTable.AddLookupValue(12.7_ft, str::LookupValue{5500_rpm, 17_deg});
-    lookupTable.AddLookupValue(13.9_ft, str::LookupValue{6000_rpm, 20_deg});
-    lookupTable.AddLookupValue(15.1_ft, str::LookupValue{6200_rpm, 29_deg});
-    lookupTable.AddLookupValue(16_ft, str::LookupValue{6200_rpm, 29_deg});
-    lookupTable.AddLookupValue(17.7_ft, str::LookupValue{7000_rpm, 29_deg});
-    lookupTable.AddLookupValue(18.9_ft, str::LookupValue{7000_rpm, 33_deg});
-    lookupTable.AddLookupValue(19.8_ft, str::LookupValue{6900_rpm, 37_deg});
-    lookupTable.AddLookupValue(20.7_ft, str::LookupValue{6950_rpm, 38_deg});
-    lookupTable.AddLookupValue(21.6_ft, str::LookupValue{7000_rpm, 38.5_deg});
+    lookupTable.AddLookupValue(5.4_ft, str::LookupValue{4100_rpm, 0_deg});    // new
+    lookupTable.AddLookupValue(6.8_ft, str::LookupValue{4350_rpm, 0_deg});
+    lookupTable.AddLookupValue(7.0_ft, str::LookupValue{4000_rpm, 0_deg});    // new
+    lookupTable.AddLookupValue(7.6_ft, str::LookupValue{4475_rpm, 0_deg});
+    lookupTable.AddLookupValue(8.8_ft, str::LookupValue{4800_rpm, 0_deg});
+    lookupTable.AddLookupValue(9.6_ft, str::LookupValue{4775_rpm, 0_deg});    // new
+    lookupTable.AddLookupValue(10.5_ft, str::LookupValue{5100_rpm, 0_deg});
+    lookupTable.AddLookupValue(11.7_ft, str::LookupValue{5100_rpm, 0_deg});
+    lookupTable.AddLookupValue(12_ft, str::LookupValue{5200_rpm, 0_deg});
+    lookupTable.AddLookupValue(12.7_ft, str::LookupValue{5400_rpm, 0_deg});
+    lookupTable.AddLookupValue(13.9_ft, str::LookupValue{5900_rpm, 0_deg});
+    lookupTable.AddLookupValue(15.0_ft, str::LookupValue{5200_rpm, 0_deg});    // new
+    lookupTable.AddLookupValue(16_ft, str::LookupValue{6100_rpm, 0_deg});
+    lookupTable.AddLookupValue(17.7_ft, str::LookupValue{6900_rpm, 0_deg});
+    lookupTable.AddLookupValue(18.9_ft, str::LookupValue{6950_rpm, 0_deg});
+    lookupTable.AddLookupValue(19.8_ft, str::LookupValue{6850_rpm, 0_deg});
+    lookupTable.AddLookupValue(20.7_ft, str::LookupValue{6900_rpm, 0_deg});
+    lookupTable.AddLookupValue(21.6_ft, str::LookupValue{6950_rpm, 0_deg});
 
     m_chooser.SetDefaultOption("Move Forward 5ft", &moveForwardAuto);
     m_chooser.AddOption("Move Back Auto", &moveBackAuto);
@@ -67,7 +69,9 @@ RobotContainer::RobotContainer() {
 
     drivetrainSubsystem.SetDefaultCommand(driveCmd);
 
-    WinchClimber winchCmd = WinchClimber([this]() { return m_operatorController.GetRightY(); }, &climberSubsystem);
+    WinchClimber winchCmd =
+        WinchClimber([this]() { return m_operatorController.GetRightY(); },
+                     [this]() { return m_operatorController.GetRightBumperPressed(); }, &climberSubsystem);
 
     climberSubsystem.SetDefaultCommand(winchCmd);
 
@@ -84,16 +88,15 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureButtonBindings() {
-    // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
-    //     .WhenPressed(frc2::InstantCommand(
-    //         [this] {
-    //             shooterSubsystem.SetShooterSpeed(
-    //                 units::revolutions_per_minute_t(frc::SmartDashboard::GetNumber("Shooter Speed To Go To (RPM)",
-    //                 0)));
-    //             hoodSubsystem.SetHoodToAngle(
-    //                 units::degree_t(frc::SmartDashboard::GetNumber("Shooter Hood Angle To Go To (Degrees)", 0)));
-    //         },
-    //         {&shooterSubsystem, &hoodSubsystem}));
+    frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
+        .WhenPressed(frc2::InstantCommand(
+            [this] {
+                shooterSubsystem.SetShooterSpeed(
+                    units::revolutions_per_minute_t(frc::SmartDashboard::GetNumber("Shooter Speed To Go To (RPM)", 0)));
+                hoodSubsystem.SetHoodToAngle(
+                    units::degree_t(frc::SmartDashboard::GetNumber("Shooter Hood Angle To Go To (Degrees)", 0)));
+            },
+            {&shooterSubsystem, &hoodSubsystem}));
 
     // frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightBumper)
     //     .WhenReleased(frc2::InstantCommand(
@@ -127,16 +130,32 @@ void RobotContainer::ConfigureButtonBindings() {
             {&climberSubsystem}));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftStick)
-        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.LockClimber(); }));
+        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.LockClimber(); }));    // unlock
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kRightStick)
-        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.UnlockClimber(); }));
+        .WhenPressed(frc2::InstantCommand([this] { climberSubsystem.UnlockClimber(); }));    // lock
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenHeld(SetShooterToGoalTele(&shooterSubsystem, &visionSubsystem, &hoodSubsystem, &turretSubsystem));
 
     frc2::JoystickButton(&m_operatorController, frc::XboxController::Button::kLeftBumper)
         .WhenReleased(SetShooterSpeed([] { return 0_rpm; }, &shooterSubsystem));
+
+    auto dumpBallButton = frc2::Trigger([this]() { return m_operatorController.GetLeftTriggerAxis() > .2; });
+
+    dumpBallButton.WhileActiveOnce(frc2::InstantCommand(
+        [this] {
+            shooterSubsystem.SetShooterSpeed(1200_rpm);
+            hoodSubsystem.SetHoodToAngle(45_deg);
+        },
+        {&shooterSubsystem, &hoodSubsystem}));
+
+    dumpBallButton.WhenInactive(frc2::InstantCommand(
+        [this] {
+            shooterSubsystem.SetShooterSpeed(0_rpm);
+            hoodSubsystem.SetHoodToAngle(0_deg);
+        },
+        {&shooterSubsystem, &hoodSubsystem}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

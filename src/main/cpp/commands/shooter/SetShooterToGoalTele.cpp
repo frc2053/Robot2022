@@ -15,7 +15,7 @@ SetShooterToGoalTele::SetShooterToGoalTele(ShooterSubsystem* shooterSub, VisionS
     // clang-format off
     AddCommands(
       frc2::PerpetualCommand{SetHoodToAngleAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).angle; }, hoodSub}},
-      frc2::PerpetualCommand{SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm; }, shooterSubsystem}},
+      frc2::PerpetualCommand{SetSpeedAndWait{[hoodSub, visionSub](){ return hoodSub->lookupTable->Get(visionSub->GetDistanceToTarget()).rpm + 50_rpm; }, shooterSubsystem}},
       frc2::PerpetualCommand{AlignTurretToGoal{turretSub, visionSub}}
     );
     // clang-format on

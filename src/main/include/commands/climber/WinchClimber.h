@@ -17,7 +17,7 @@
  */
 class WinchClimber : public frc2::CommandHelper<frc2::CommandBase, WinchClimber> {
 public:
-    WinchClimber(std::function<double()> speed, ClimberSubsystem* climberSub);
+    WinchClimber(std::function<double()> speed, std::function<bool()> autoLock, ClimberSubsystem* climberSub);
 
     void Initialize() override;
 
@@ -29,5 +29,6 @@ public:
 
 private:
     std::function<double()> winchSpeed;
+    std::function<bool()> autoLockPressed;
     ClimberSubsystem* climberSubsystem;
 };

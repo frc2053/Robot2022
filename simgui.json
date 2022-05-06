@@ -5,9 +5,6 @@
         "header": {
           "open": true
         }
-      },
-      "window": {
-        "visible": true
       }
     },
     "Other Devices": {
@@ -60,36 +57,6 @@
       "/SmartDashboard/class frc2::CommandBase": "Command"
     },
     "windows": {
-      "/LiveWindow/Ungrouped/ConveyorSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Ungrouped/DrivetrainSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Ungrouped/IntakeSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Ungrouped/ShooterSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Ungrouped/VisionSubsystem": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Ungrouped/class frc2::SubsystemBase": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Field": {
         "Robot": {
           "arrowColor": [
@@ -101,12 +68,8 @@
           "arrowSize": 13,
           "arrowWeight": 2.0
         },
-        "bottom": 900,
         "height": 8.229599952697754,
-        "image": "C:\\Users\\willi\\dev\\Robot2022\\2022-field.png",
-        "left": 74,
-        "right": 1774,
-        "top": 50,
+        "image": "C:\\Users\\SouthernTierRobotics\\Documents\\dev\\Robot2022\\2022-field.png",
         "traj": {
           "arrows": false,
           "color": [
@@ -171,15 +134,9 @@
           "visible": true
         }
       },
-      "/SmartDashboard/Home Turret": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Pose Estimator Field": {
         "bottom": 900,
         "height": 8.229599952697754,
-        "image": "C:\\Users\\willi\\dev\\Robot2022\\2022-field.png",
         "left": 74,
         "right": 1774,
         "top": 50,
@@ -212,17 +169,15 @@
         "window": {
           "visible": true
         }
-      },
-      "/SmartDashboard/Turret Sim": {
-        "window": {
-          "visible": true
-        }
       }
     }
   },
   "NetworkTables": {
     "SmartDashboard": {
       "Field": {
+        "open": true
+      },
+      "Hood PID": {
         "open": true
       },
       "Top Conveyor Sensor": {
@@ -354,7 +309,7 @@
               "autoFit": true
             }
           ],
-          "height": 338,
+          "height": 243,
           "series": [
             {
               "color": [
@@ -386,7 +341,7 @@
               "autoFit": true
             }
           ],
-          "height": 337,
+          "height": 192,
           "series": [
             {
               "color": [
@@ -418,7 +373,7 @@
               "autoFit": true
             }
           ],
-          "height": 338,
+          "height": 243,
           "series": [
             {
               "color": [
@@ -455,6 +410,36 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/top distance raw"
+            }
+          ]
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    },
+    "Plot <5>": {
+      "plots": [
+        {
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Hood PID/setpoint"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Hood Angle"
             }
           ]
         }

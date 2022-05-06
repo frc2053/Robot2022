@@ -4,8 +4,8 @@
 
 #include "commands/climber/WinchClimber.h"
 
-WinchClimber::WinchClimber(std::function<double()> speed, ClimberSubsystem* climberSub)
-    : winchSpeed(speed), climberSubsystem(climberSub) {
+WinchClimber::WinchClimber(std::function<double()> speed, std::function<bool()> autoLock, ClimberSubsystem* climberSub)
+    : winchSpeed(speed), autoLockPressed(autoLock), climberSubsystem(climberSub) {
     AddRequirements(climberSubsystem);
 }
 
@@ -15,9 +15,13 @@ void WinchClimber::Initialize() {}
 // Called repeatedly when this Command is scheduled to run
 void WinchClimber::Execute() {
     double speed = winchSpeed();
-    if (std::abs(speed) < .1) {
-        speed = 0;
+
+    if (autoLockPressed()) {
+        if (climberSubsystem->climberMotor.GetSelectedSensorVelocity() < 0) {
+            climberSubsystem->UnlockClimber();
+        }
     }
+
     climberSubsystem->SetClimberSpeed(speed);
 }
 
