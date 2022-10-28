@@ -44,7 +44,6 @@ private:
     bool seesATarget;
     photonlib::SimVisionSystem gloworm_sim{"gloworm-cam",
                                            str::vision_vars::CAMERA_DIAG_FOV,
-                                           str::vision_vars::CAMERA_PITCH,
                                            str::vision_vars::CAMERA_TO_ROBOT,
                                            str::vision_vars::CAMERA_HEIGHT,
                                            str::vision_vars::MAX_LED_RANGE,

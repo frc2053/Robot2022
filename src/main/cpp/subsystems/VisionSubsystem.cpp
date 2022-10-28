@@ -27,7 +27,7 @@ VisionSubsystem::VisionSubsystem(DrivetrainSubsystem* driveSub, TurretSubsystem*
 // This method will be called once per scheduler run
 void VisionSubsystem::Periodic() {
     auto cam_to_bot = turretSubsystem->GetCameraToRobotPose();
-    gloworm_sim.MoveCamera(cam_to_bot.Inverse(), str::vision_vars::CAMERA_HEIGHT, str::vision_vars::CAMERA_PITCH);
+    gloworm_sim.MoveCamera(cam_to_bot.Inverse(), str::vision_vars::CAMERA_HEIGHT);
     driveSubsystem->DrawTurret(cam_to_bot);
     latestData = gloworm.GetLatestResult();
     if (latestData.HasTargets()) {
